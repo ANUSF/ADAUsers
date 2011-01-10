@@ -1,5 +1,3 @@
-require 'pathname'
-
 require "openid"
 require "openid/consumer/discovery"
 require 'openid/extensions/sreg'
@@ -175,7 +173,7 @@ EOS
   def server
     if @server.nil?
       server_url = url_for :action => 'index', :only_path => false
-      dir = Pathname.new(Rails.root).join('db').join('openid-store')
+      dir = File.join(Rails.root, 'db', 'openid-store')
       store = OpenID::Store::Filesystem.new(dir)
       @server = Server.new(store, server_url)
     end
