@@ -164,6 +164,11 @@ EOS
     end
   end
 
+  def logout
+    session[:username] = nil
+    redirect_to params[:return_url]
+  end
+
   protected
 
   def url_for_user

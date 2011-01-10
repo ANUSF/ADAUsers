@@ -4,4 +4,5 @@ OpenidServer::Application.routes.draw do
   match 'server/decision',     :to => 'identities#decision'
   match 'user/*username',      :to => 'identities#user_page', :format => false
   match 'user/*username/xrds', :to => 'identities#user_xrds', :format => false
+  match 'logout',              :to => 'identities#logout'
 end
