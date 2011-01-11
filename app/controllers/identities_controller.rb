@@ -54,15 +54,11 @@ class IdentitiesController < ApplicationController
     render_response(oidresp)
   end
 
-  def show_decision_page(oidreq, message="Do you trust this site with your identity?")
-    session[:last_oidreq] = oidreq
-    @oidreq = oidreq
-
-    if message
-      flash[:notice] = message
-    end
-
-    render :template => 'identities/decide', :layout => 'identities'
+  def show_decision_page(oidreq,
+                         message = "Do you trust this site with your identity?")
+    @oidreq = session[:last_oidreq] = oidreq
+    flash[:notice] = message unless message.blank?
+    render 'decide', :layout => 'identities'
   end
 
   def user_page
@@ -74,41 +70,28 @@ class IdentitiesController < ApplicationController
     # 99% of the time.
     if accept and accept.include?('application/xrds+xml')
       user_xrds
-      return
-    end
-
-    # content negotiation failed, so just render the user page
-    xrds_url = user_xrds_url :username => params[:username]
-    identity_page = <<EOS
+    else
+      # content negotiation failed, so just render the user page
+      response.headers['X-XRDS-Location'] =
+        user_xrds_url :username => params[:username]
+      render :text => <<EOF
 <html><head>
 <meta http-equiv="X-XRDS-Location" content="#{xrds_url}" />
 <link rel="openid.server" href="#{index_url}" />
 </head><body><p>OpenID identity page for #{params[:username]}</p>
 </body></html>
-EOS
-
-    # Also add the Yadis location header, so that they don't have
-    # to parse the html unless absolutely necessary.
-    response.headers['X-XRDS-Location'] = xrds_url
-    render :text => identity_page
+EOF
+    end
   end
 
   def user_xrds
-    types = [
-             OpenID::OPENID_2_0_TYPE,
-             OpenID::OPENID_1_0_TYPE,
-             OpenID::SREG_URI,
-            ]
-
-    render_xrds(types)
+    render_xrds [ OpenID::OPENID_2_0_TYPE,
+                  OpenID::OPENID_1_0_TYPE,
+                  OpenID::SREG_URI        ]
   end
 
   def idp_xrds
-    types = [
-             OpenID::OPENID_IDP_2_0_TYPE,
-            ]
-
-    render_xrds(types)
+    render_xrds [ OpenID::OPENID_IDP_2_0_TYPE ]
   end
 
   def decision
@@ -117,33 +100,25 @@ EOS
 
     if params[:yes].nil?
       redirect_to oidreq.cancel_url
-      return
+    elsif oidreq.id_select and params[:id_to_send].blank?
+      show_decision_page oidreq,
+        "You must enter a username to in order to send " +
+        "an identifier to the Relying Party."
     else
-      id_to_send = params[:id_to_send]
-
-      identity = oidreq.identity
       if oidreq.id_select
-        if id_to_send and id_to_send != ""
-          session[:username] = id_to_send
-          session[:approvals] = []
-          identity = url_for_user
-        else
-          msg = "You must enter a username to in order to send " +
-            "an identifier to the Relying Party."
-          show_decision_page(oidreq, msg)
-          return
-        end
+        session[:username] = params[:id_to_send]
+        session[:approvals] = []
+        identity = url_for_user
+      else
+        identity = oidreq.identity
       end
 
-      if session[:approvals]
-        session[:approvals] << oidreq.trust_root
-      else
-        session[:approvals] = [oidreq.trust_root]
-      end
+      (session[:approvals] ||= []) << oidreq.trust_root
+
       oidresp = oidreq.answer(true, nil, identity)
       add_sreg(oidreq, oidresp)
       add_pape(oidreq, oidresp)
-      return render_response(oidresp)
+      render_response(oidresp)
     end
   end
 
@@ -164,86 +139,69 @@ EOS
       store = OpenID::Store::Filesystem.new(dir)
       @server = Server.new(store, index_url)
     end
-    return @server
+    @server
   end
 
   def approved(trust_root)
-    return false if session[:approvals].nil?
-    return session[:approvals].member?(trust_root)
+    (session[:approvals] || []).include? trust_root
   end
 
   def is_authorized(identity_url, trust_root)
-    return (session[:username] and (identity_url == url_for_user) and approved(trust_root))
+    session[:username] and identity_url == url_for_user and approved trust_root
   end
 
   def render_xrds(types)
-    type_str = ""
-
-    types.each { |uri|
-      type_str += "<Type>#{uri}</Type>\n      "
-    }
-
-    yadis = <<EOS
+    response.headers['content-type'] = 'application/xrds+xml'
+    render :text => <<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xrds:XRDS
     xmlns:xrds="xri://$xrds"
     xmlns="xri://$xrd*($v*2.0)">
   <XRD>
     <Service priority="0">
-      #{type_str}
+      #{types.map { |uri| "<Type>#{uri}</Type>" }.join "\n      "}
       <URI>#{index_url}</URI>
     </Service>
   </XRD>
 </xrds:XRDS>
 EOS
-
-    response.headers['content-type'] = 'application/xrds+xml'
-    render :text => yadis
   end
 
   def add_sreg(oidreq, oidresp)
-    # check for Simple Registration arguments and respond
     sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
 
-    return if sregreq.nil?
-    # In a real application, this data would be user-specific,
-    # and the user should be asked for permission to release
-    # it.
-    sreg_data = {
-      'nickname' => session[:username],
-      'fullname' => 'Mayor McCheese',
-      'email' => 'mayor@example.com'
-    }
+    unless sregreq.nil?
+      # In a real application, this data would be user-specific,
+      # and the user should be asked for permission to release it.
+      sreg_data = {
+        'nickname' => session[:username],
+        'fullname' => 'Mayor McCheese',
+        'email' => 'mayor@example.com'
+      }
 
-    sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)
-    oidresp.add_extension(sregresp)
+      sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)
+      oidresp.add_extension(sregresp)
+    end
   end
 
   def add_pape(oidreq, oidresp)
-    papereq = OpenID::PAPE::Request.from_openid_request(oidreq)
-    return if papereq.nil?
-    paperesp = OpenID::PAPE::Response.new
-    paperesp.nist_auth_level = 0 # we don't even do auth at all!
-    oidresp.add_extension(paperesp)
+    papereq = OpenID::PAPE::Request.from_openid_request(oidreq).nil?
+
+    unless papereq.nil?
+      paperesp = OpenID::PAPE::Response.new
+      paperesp.nist_auth_level = 0 # we don't even do auth at all!
+      oidresp.add_extension(paperesp)
+    end
   end
 
   def render_response(oidresp)
-    if oidresp.needs_signing
-      signed_response = server.signatory.sign(oidresp)
-    end
+    server.signatory.sign(oidresp) if oidresp.needs_signing
     web_response = server.encode_response(oidresp)
 
-    case web_response.code
-    when HTTP_OK
-      render :text => web_response.body, :status => 200
-
-    when HTTP_REDIRECT
+    if web_response.code == HTTP_REDIRECT
       redirect_to web_response.headers['location']
-
     else
-      render :text => web_response.body, :status => 400
+      render :text => web_response.body, :status => web_response.code
     end
   end
-
-
 end
