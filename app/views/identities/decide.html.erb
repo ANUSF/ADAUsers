@@ -1,45 +1,6 @@
 <html>
   <head><title>OpenID Server Example</title></head>
-  <style type="text/css">
-    * {
-    font-family: verdana,sans-serif;
-    }
-    body {
-    width: 50em;
-    margin: 1em;
-    }
-    div {
-    padding: .5em;
-    }
-    table {
-    margin: none;
-    padding: none;
-    }
-    .notice {
-    border: 1px solid #60964f;
-    background: #b3dca7;
-    }
-    .error {
-    border: 1px solid #ff0000;
-    background: #ffaaaa;
-    }
-    #login-form {
-    border: 1px solid #777777;
-    background: #dddddd;
-    margin-top: 1em;
-    padding-bottom: 0em;
-    }
-    table {
-    padding: 1em;
-    }
-    li {margin-bottom: .5em;}
-    span.openid:before {
-    content: url(<%= @base_url %>images/openid_login_bg.gif) ;
-    }
-    span.openid {
-    font-size: smaller;
-    }
-  </style>
+  <%= stylesheet_link_tag 'application' %>
   <body>
     <% if session[:username] %>
     <div style="float:right;">

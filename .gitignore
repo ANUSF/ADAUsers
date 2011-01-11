@@ -5,3 +5,4 @@ tmp/**/*
 .rvmrc
 Gemfile.lock
 db/openid-store
+*~
