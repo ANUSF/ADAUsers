@@ -17,47 +17,29 @@ class IdentitiesController < ApplicationController
       return
     end
 
-    oidresp = nil
-
-    if oidreq.kind_of?(CheckIDRequest)
-      identity = oidreq.identity
-
-      if oidreq.id_select
+    oidresp =
+      if oidreq.kind_of?(CheckIDRequest)
         if oidreq.immediate
-          oidresp = oidreq.answer(false)
-        elsif session[:username].nil?
-          show_decision_page(oidreq)
-          return
+          oidreq.answer(false, index_url)
         else
-          # Else, set the identity to the one the user is using.
-          identity = url_for_user
+          identity = oidreq.id_select ? url_for_user : oidreq.identity
+          is_authorized(identity, oidreq.trust_root) and
+            positive_response(oidreq, identity)
         end
-      end
-
-      if oidresp
-        nil
-      elsif is_authorized(identity, oidreq.trust_root)
-        oidresp = oidreq.answer(true, nil, identity)
-        add_sreg(oidreq, oidresp)
-        add_pape(oidreq, oidresp)
-      elsif oidreq.immediate
-        oidresp = oidreq.answer(false, index_url)
       else
-        show_decision_page(oidreq)
-        return
+        server.handle_request(oidreq)
       end
 
+    if oidresp
+      render_response(oidresp)
     else
-      oidresp = server.handle_request(oidreq)
+      flash[:notice] = "Do you trust this site with your identity?"
+      show_decision_page(oidreq)
     end
-
-    render_response(oidresp)
   end
 
-  def show_decision_page(oidreq,
-                         message = "Do you trust this site with your identity?")
+  def show_decision_page(oidreq)
     @oidreq = session[:last_oidreq] = oidreq
-    flash[:notice] = message unless message.blank?
     render 'decide', :layout => 'identities'
   end
 
@@ -101,9 +83,10 @@ EOF
     if params[:yes].nil?
       redirect_to oidreq.cancel_url
     elsif oidreq.id_select and params[:id_to_send].blank?
-      show_decision_page oidreq,
-        "You must enter a username to in order to send " +
+      flash[:notice] = 
+        "You must enter a username in order to send " +
         "an identifier to the Relying Party."
+      show_decision_page(oidreq)
     else
       if oidreq.id_select
         session[:username] = params[:id_to_send]
@@ -114,17 +97,17 @@ EOF
       end
 
       (session[:approvals] ||= []) << oidreq.trust_root
-
-      oidresp = oidreq.answer(true, nil, identity)
-      add_sreg(oidreq, oidresp)
-      add_pape(oidreq, oidresp)
-      render_response(oidresp)
+      render_response positive_response(oidreq, identity)
     end
   end
 
   def logout
     session[:username] = nil
-    redirect_to params[:return_url]
+    if params[:return_url]
+      redirect_to params[:return_url]
+    else
+      render :text => "Successfully logged out."
+    end
   end
 
   protected
@@ -192,6 +175,13 @@ EOS
       paperesp.nist_auth_level = 0 # we don't even do auth at all!
       oidresp.add_extension(paperesp)
     end
+  end
+
+  def positive_response(oidreq, identity)
+    oidresp = oidreq.answer(true, nil, identity)
+    add_sreg(oidreq, oidresp)
+    add_pape(oidreq, oidresp)
+    oidresp
   end
 
   def render_response(oidresp)
