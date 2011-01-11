@@ -40,7 +40,7 @@ class IdentitiesController < ApplicationController
 
   def show_decision_page(oidreq)
     @oidreq = session[:last_oidreq] = oidreq
-    render 'decide', :layout => 'identities'
+    render 'decide'
   end
 
   def user_page

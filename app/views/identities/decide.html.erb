@@ -1,26 +1,85 @@
-<form method="post" action="<%= url_for :controller => 'identities', :action => 'decision' %>">
+<html>
+  <head><title>OpenID Server Example</title></head>
+  <style type="text/css">
+    * {
+    font-family: verdana,sans-serif;
+    }
+    body {
+    width: 50em;
+    margin: 1em;
+    }
+    div {
+    padding: .5em;
+    }
+    table {
+    margin: none;
+    padding: none;
+    }
+    .notice {
+    border: 1px solid #60964f;
+    background: #b3dca7;
+    }
+    .error {
+    border: 1px solid #ff0000;
+    background: #ffaaaa;
+    }
+    #login-form {
+    border: 1px solid #777777;
+    background: #dddddd;
+    margin-top: 1em;
+    padding-bottom: 0em;
+    }
+    table {
+    padding: 1em;
+    }
+    li {margin-bottom: .5em;}
+    span.openid:before {
+    content: url(<%= @base_url %>images/openid_login_bg.gif) ;
+    }
+    span.openid {
+    font-size: smaller;
+    }
+  </style>
+  <body>
+    <% if session[:username] %>
+    <div style="float:right;">
+      Welcome, <%= session[:username] %> | <%= link_to 'Log out', logout_url %>
+      <br/>
+      <span class="openid"><%= @base_url %>user/<%= session[:username] %></span>
+    </div>
+    <% end %>
 
-<table>
-  <tr><td>Site:</td><td><%= @oidreq.trust_root %></td></tr>
+    <h3>Ruby OpenID Server Example</h3>
+    <hr/>
 
-  <% if @oidreq.id_select %>
-    <tr>
-      <td colspan="2">
-        You entered the server identifier at the relying party.
-        You'll need to send an identifier of your choosing.  Enter a
-        username below.
-      </td>
-    </tr>
-    <tr>
-      <td>Identity to send:</td>
-      <td><input type="text" name="id_to_send" size="25" /></td>
-    </tr>
-  <% else %>
-    <tr><td>Identity:</td><td><%= @oidreq.identity %></td></tr>
-  <% end %>
-</table>
+    <% if flash[:notice] or flash[:error] %>
+    <div class="<%= flash[:notice].nil? ? 'error' : 'notice' %>">
+      <%= flash[:error] or flash[:notice] %>
+    </div>
+    <% end %>
 
-<input type="submit" name="yes" value="yes" />
-<input type="submit" name="no" value="no" />
+    <form method="post" action="<%= decision_url %>">
+      <table>
+	<tr><td>Site:</td><td><%= @oidreq.trust_root %></td></tr>
+	<% if @oidreq.id_select %>
+	<tr>
+	  <td colspan="2">
+            You entered the server identifier at the relying party.
+            You'll need to send an identifier of your choosing.  Enter a
+            username below.
+	  </td>
+	</tr>
+	<tr>
+	  <td>Identity to send:</td>
+	  <td><input type="text" name="id_to_send" size="25" /></td>
+	</tr>
+	<% else %>
+	<tr><td>Identity:</td><td><%= @oidreq.identity %></td></tr>
+	<% end %>
+      </table>
 
-</form>
+      <input type="submit" name="yes" value="yes" />
+      <input type="submit" name="no" value="no" />
+    </form>
+  </body>
+</html>
