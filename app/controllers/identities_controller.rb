@@ -13,28 +13,19 @@ class IdentitiesController < ApplicationController
     begin
       oidreq = server.decode_request(params)
     rescue ProtocolError => e
-      # invalid openid request, so just display a page with an error message
-      render :text => e.to_s, :status => 500
-      return
-    end
-
-    # no openid.mode was given
-    unless oidreq
-      render :text => "This is an OpenID server endpoint."
+      render :text => "Invalid OpenID request: #{e.to_s}", :status => 500
       return
     end
 
     oidresp = nil
 
     if oidreq.kind_of?(CheckIDRequest)
-
       identity = oidreq.identity
 
       if oidreq.id_select
         if oidreq.immediate
           oidresp = oidreq.answer(false)
         elsif session[:username].nil?
-          # The user hasn't logged in.
           show_decision_page(oidreq)
           return
         else
@@ -45,18 +36,12 @@ class IdentitiesController < ApplicationController
 
       if oidresp
         nil
-      elsif self.is_authorized(identity, oidreq.trust_root)
+      elsif is_authorized(identity, oidreq.trust_root)
         oidresp = oidreq.answer(true, nil, identity)
-
-        # add the sreg response if requested
         add_sreg(oidreq, oidresp)
-        # ditto pape
         add_pape(oidreq, oidresp)
-
       elsif oidreq.immediate
-        server_url = url_for :action => 'index'
-        oidresp = oidreq.answer(false, server_url)
-
+        oidresp = oidreq.answer(false, index_url)
       else
         show_decision_page(oidreq)
         return
@@ -66,7 +51,7 @@ class IdentitiesController < ApplicationController
       oidresp = server.handle_request(oidreq)
     end
 
-    self.render_response(oidresp)
+    render_response(oidresp)
   end
 
   def show_decision_page(oidreq, message="Do you trust this site with your identity?")
@@ -93,13 +78,11 @@ class IdentitiesController < ApplicationController
     end
 
     # content negotiation failed, so just render the user page
-    xrds_url = url_for(:controller => 'identities',
-                       :action     => 'user_xrds',
-                       :params     => { :username => params[:username] })
+    xrds_url = user_xrds_url :username => params[:username]
     identity_page = <<EOS
 <html><head>
 <meta http-equiv="X-XRDS-Location" content="#{xrds_url}" />
-<link rel="openid.server" href="#{url_for :action => 'index'}" />
+<link rel="openid.server" href="#{index_url}" />
 </head><body><p>OpenID identity page for #{params[:username]}</p>
 </body></html>
 EOS
@@ -160,7 +143,7 @@ EOS
       oidresp = oidreq.answer(true, nil, identity)
       add_sreg(oidreq, oidresp)
       add_pape(oidreq, oidresp)
-      return self.render_response(oidresp)
+      return render_response(oidresp)
     end
   end
 
@@ -172,15 +155,14 @@ EOS
   protected
 
   def url_for_user
-    url_for :controller => 'user', :action => session[:username]
+    user_url :username => session[:username]
   end
 
   def server
     if @server.nil?
-      server_url = url_for :action => 'index', :only_path => false
       dir = File.join(Rails.root, 'db', 'openid-store')
       store = OpenID::Store::Filesystem.new(dir)
-      @server = Server.new(store, server_url)
+      @server = Server.new(store, index_url)
     end
     return @server
   end
@@ -191,7 +173,7 @@ EOS
   end
 
   def is_authorized(identity_url, trust_root)
-    return (session[:username] and (identity_url == url_for_user) and self.approved(trust_root))
+    return (session[:username] and (identity_url == url_for_user) and approved(trust_root))
   end
 
   def render_xrds(types)
@@ -209,8 +191,7 @@ EOS
   <XRD>
     <Service priority="0">
       #{type_str}
-      <URI>#{url_for(:controller => 'identities', :action => :index,
-                     :only_path => false)}</URI>
+      <URI>#{index_url}</URI>
     </Service>
   </XRD>
 </xrds:XRDS>
