@@ -44,16 +44,9 @@ class IdentitiesController < ApplicationController
   end
 
   def user_page
-    # Yadis content-negotiation: we want to return the xrds if asked for.
-    accept = request.env['HTTP_ACCEPT']
-
-    # This is not technically correct, and should eventually be updated
-    # to do real Accept header parsing and logic.  Though I expect it will work
-    # 99% of the time.
-    if accept and accept.include?('application/xrds+xml')
+    if (request.env['HTTP_ACCEPT'] || []).include?('application/xrds+xml')
       user_xrds
     else
-      # content negotiation failed, so just render the user page
       response.headers['X-XRDS-Location'] =
         user_xrds_url :username => params[:username]
       render :text => <<EOF
@@ -125,12 +118,9 @@ EOF
     @server
   end
 
-  def approved(trust_root)
-    (session[:approvals] || []).include? trust_root
-  end
-
   def is_authorized(identity_url, trust_root)
-    session[:username] and identity_url == url_for_user and approved trust_root
+    session[:username] and identity_url == url_for_user and
+      (session[:approvals] || []).include? trust_root
   end
 
   def render_xrds(types)
@@ -154,8 +144,7 @@ EOS
     sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
 
     unless sregreq.nil?
-      # In a real application, this data would be user-specific,
-      # and the user should be asked for permission to release it.
+      # TODO return the real data
       sreg_data = {
         'nickname' => session[:username],
         'fullname' => 'Mayor McCheese',
