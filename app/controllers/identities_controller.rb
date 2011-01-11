@@ -34,12 +34,13 @@ class IdentitiesController < ApplicationController
       render_response(oidresp)
     else
       flash[:notice] = "Do you trust this site with your identity?"
-      show_decision_page(oidreq)
+      session[:last_oidreq] = oidreq
+      redirect_to :decide
     end
   end
 
-  def show_decision_page(oidreq)
-    @oidreq = session[:last_oidreq] = oidreq
+  def decide
+    @oidreq = session[:last_oidreq]
     render 'decide'
   end
 
@@ -71,15 +72,15 @@ EOF
 
   def decision
     oidreq = session[:last_oidreq]
-    session[:last_oidreq] = nil
 
     if params[:yes].nil?
+      session[:last_oidreq] = nil
       redirect_to oidreq.cancel_url
     elsif oidreq.id_select and params[:id_to_send].blank?
       flash[:notice] = 
         "You must enter a username in order to send " +
         "an identifier to the Relying Party."
-      show_decision_page(oidreq)
+      redirect_to :decide
     else
       if oidreq.id_select
         session[:username] = params[:id_to_send]
@@ -90,6 +91,7 @@ EOF
       end
 
       (session[:approvals] ||= []) << oidreq.trust_root
+      session[:last_oidreq] = nil
       render_response positive_response(oidreq, identity)
     end
   end
