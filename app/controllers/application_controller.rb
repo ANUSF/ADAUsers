@@ -6,16 +6,23 @@ require 'openid/store/filesystem'
 
 class ApplicationController < ActionController::Base
   #protect_from_forgery
+  layout nil
 
-  protected
+  helper_method :current_identity, :username_for
 
-  def is_logged_in_as(identity)
-    session[:username] and user_url(:username => session[:username]) == identity
+  def current_identity
+    url_for :username => session[:username]
   end
 
   def username_for(identity)
     name = identity.sub /.*\/user\/(.*)/, '\\1'
     name if user_url(:username => name) == identity
+  end
+
+  protected
+
+  def is_logged_in_as(identity)
+    session[:username] and user_url(:username => session[:username]) == identity
   end
 
   def server

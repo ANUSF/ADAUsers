@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenidDemo</title>
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+    <% flash.each do |name, msg| %>
+    <div id='flash_<%=name%>'><%=h(msg).gsub(/\n/, '<br/>')%></div>
+    <% end %>
+
+    <div id='main'>
+      <%= yield %>
+    </div>
+
+    <div class='status'>
+      <dl>
+	<dt>Requesting Site:</dt><dd><%= @oidreq.trust_root %></dd>
+	<dt>Identity to Check:</dt><dd><%= @oidreq.identity %></dd>
+      </dl>
+    </div>
+
+  </body>
+</html>

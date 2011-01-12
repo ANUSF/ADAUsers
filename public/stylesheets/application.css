@@ -1,40 +1,52 @@
-* {
-    font-family: verdana,sans-serif;
+.navigation ul {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1em;
 }
-body {
-    width: 50em;
-    margin: 1em;
+
+.navigation li {
+    float: left;
+    padding: 5px;
+    border: 1px solid gray;
+    background-color: #ccc;
+    margin-right: 1em;
 }
-div {
-    padding: .5em;
+
+#main {
+    clear: both;
+    margin: 2em 0;
 }
-table {
-    margin: none;
-    padding: none;
+
+#flash_notice {
+    padding: 5px;
+    border: 1px solid gray;
+    background-color: yellow;
+    margin: 1em 0;
 }
-.notice {
-    border: 1px solid #60964f;
-    background: #b3dca7;
+
+#flash_alert {
+    padding: 5px;
+    border: 1px solid gray;
+    background-color: red;
+    margin: 1em 0;
 }
-.error {
-    border: 1px solid #ff0000;
-    background: #ffaaaa;
+
+.status {
+    border: 1px solid gray;
+    background-color: #eee;
 }
-#login-form {
-    border: 1px solid #777777;
-    background: #dddddd;
-    margin-top: 1em;
-    padding-bottom: 0em;
+
+.status dl dd {
+    margin: 5px;
 }
-table {
-    padding: 1em;
-}
-li {
-    margin-bottom: .5em;
-}
-span.openid:before {
-    content: url(<%= @base_url %>images/openid_login_bg.gif);
-}
-span.openid {
-    font-size: smaller;
+
+.status dl dt {
+    display: inline-block;
+    float: left;
+    clear: both;
+    width: 20em;
+    font-weight: bolder;
+    text-align: right;
+    margin-right: 1em;
 }

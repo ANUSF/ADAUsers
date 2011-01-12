@@ -1,14 +1,5 @@
 <h3>Ruby OpenID Server Example</h3>
 
-<% flash.each do |name, msg| %>
-<div class="<%= name %>"><%= msg %></div>
-<% end %>
-
-<dl>
-  <dt>Site</dt><dd><%= @oidreq.trust_root %></dd>
-  <dt>Identity</dt><dd><%= @oidreq.identity %></dd>
-</dl>
-
 <form method="post" action="<%= decision_url %>">
   <input type="submit" name="result" value="yes" />
   <input type="submit" name="result" value="no" />

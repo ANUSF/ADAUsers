@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  layout "session"
+
   def new
     # TODO handle oidreq.id_select == true
     @oidreq = session[:last_oidreq]
