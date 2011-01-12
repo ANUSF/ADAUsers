@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    # TODO handle oidreq.id_select == true
     @username = username_for session[:last_oidreq].identity
   end
 
@@ -12,7 +13,7 @@ class SessionsController < ApplicationController
     else
       session[:username] = username_for oidreq.identity
       session[:approvals] = [oidreq.trust_root]
-      render_response positive_response(oidreq, oidreq.identity)
+      render_response(positive_response(oidreq, oidreq.identity))
     end
   end
 
