@@ -23,8 +23,9 @@ class IdentitiesController < ApplicationController
           oidreq.answer(false, index_url)
         else
           identity = oidreq.id_select ? url_for_user : oidreq.identity
-          is_authorized(identity, oidreq.trust_root) and
+          if is_authorized(identity, oidreq.trust_root)
             positive_response(oidreq, identity)
+          end
         end
       else
         server.handle_request(oidreq)
@@ -42,6 +43,32 @@ class IdentitiesController < ApplicationController
   def decide
     @oidreq = session[:last_oidreq]
     render 'decide'
+  end
+
+  def decision
+    oidreq = session[:last_oidreq]
+
+    if params[:result] != 'yes'
+      session[:last_oidreq] = nil
+      redirect_to oidreq.cancel_url
+    elsif oidreq.id_select and params[:id_to_send].blank?
+      flash[:notice] = 
+        "You must enter a username in order to send " +
+        "an identifier to the Relying Party."
+      redirect_to :decide
+    else
+      if oidreq.id_select
+        session[:username] = params[:id_to_send]
+        session[:approvals] = []
+        identity = url_for_user
+      else
+        identity = oidreq.identity
+      end
+
+      (session[:approvals] ||= []) << oidreq.trust_root
+      session[:last_oidreq] = nil
+      render_response positive_response(oidreq, identity)
+    end
   end
 
   def user_page
@@ -70,32 +97,6 @@ EOF
     render_xrds [ OpenID::OPENID_IDP_2_0_TYPE ]
   end
 
-  def decision
-    oidreq = session[:last_oidreq]
-
-    if params[:yes].nil?
-      session[:last_oidreq] = nil
-      redirect_to oidreq.cancel_url
-    elsif oidreq.id_select and params[:id_to_send].blank?
-      flash[:notice] = 
-        "You must enter a username in order to send " +
-        "an identifier to the Relying Party."
-      redirect_to :decide
-    else
-      if oidreq.id_select
-        session[:username] = params[:id_to_send]
-        session[:approvals] = []
-        identity = url_for_user
-      else
-        identity = oidreq.identity
-      end
-
-      (session[:approvals] ||= []) << oidreq.trust_root
-      session[:last_oidreq] = nil
-      render_response positive_response(oidreq, identity)
-    end
-  end
-
   def logout
     session[:username] = nil
     if params[:return_url]
@@ -112,7 +113,7 @@ EOF
   end
 
   def server
-    if @server.nil?
+    unless defined? @server
       dir = File.join(Rails.root, 'db', 'openid-store')
       store = OpenID::Store::Filesystem.new(dir)
       @server = Server.new(store, index_url)
