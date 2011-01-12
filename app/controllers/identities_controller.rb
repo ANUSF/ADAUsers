@@ -17,21 +17,7 @@ class IdentitiesController < ApplicationController
       return
     end
 
-    oidresp =
-      if oidreq.kind_of?(CheckIDRequest)
-        if oidreq.immediate
-          oidreq.answer(false, index_url)
-        else
-          identity = oidreq.id_select ? url_for_user : oidreq.identity
-          if is_authorized(identity, oidreq.trust_root)
-            positive_response(oidreq, identity)
-          end
-        end
-      else
-        server.handle_request(oidreq)
-      end
-
-    if oidresp
+    if oidresp = automatic_response_to(oidreq)
       render_response(oidresp)
     else
       flash[:notice] = "Do you trust this site with your identity?"
@@ -121,11 +107,6 @@ EOF
     @server
   end
 
-  def is_authorized(identity_url, trust_root)
-    session[:username] and identity_url == url_for_user and
-      (session[:approvals] || []).include? trust_root
-  end
-
   def render_xrds(types)
     response.headers['content-type'] = 'application/xrds+xml'
     render :text => <<EOS
@@ -166,6 +147,21 @@ EOS
       paperesp = OpenID::PAPE::Response.new
       paperesp.nist_auth_level = 0 # we don't even do auth at all!
       oidresp.add_extension(paperesp)
+    end
+  end
+
+  def automatic_response_to(oidreq)
+    if oidreq.kind_of?(CheckIDRequest)
+      if oidreq.immediate
+        oidreq.answer(false, index_url)
+      else
+        identity = oidreq.id_select ? url_for_user : oidreq.identity
+        authorized = session[:username] and identity == url_for_user and
+          (session[:approvals] || []).include? oidreq.trust_root
+        positive_response(oidreq, identity) if authorized
+      end
+    else
+      server.handle_request(oidreq)
     end
   end
 
