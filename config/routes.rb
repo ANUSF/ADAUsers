@@ -7,6 +7,6 @@ OpenidServer::Application.routes.draw do
   %w{index decide decision}.each do |action|
     match action, :to => "identities##{action}"
   end
-  match 'user/*username', :to => 'identities#user_page', :as => 'user',
-                          :format => false
+
+  match 'user/*username', :to => 'users#show', :as => 'user', :format => false
 end

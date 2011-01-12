@@ -45,9 +45,6 @@ class IdentitiesController < ApplicationController
     end
   end
 
-  def user_page
-  end
-
   protected
 
   def url_for_user
