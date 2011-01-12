@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def new
     # TODO handle oidreq.id_select == true
-    @username = username_for session[:last_oidreq].identity
+    @oidreq = session[:last_oidreq]
   end
 
   def create

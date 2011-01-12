@@ -1,46 +1,15 @@
-<html>
-  <head><title>OpenID Server Example</title></head>
-  <%= stylesheet_link_tag 'application' %>
-  <body>
-    <% if session[:username] %>
-    <div style="float:right;">
-      Welcome, <%= session[:username] %> | <%= link_to 'Log out', logout_url %>
-      <br/>
-      <span class="openid"><%= @base_url %>user/<%= session[:username] %></span>
-    </div>
-    <% end %>
+<h3>Ruby OpenID Server Example</h3>
 
-    <h3>Ruby OpenID Server Example</h3>
-    <hr/>
+<% flash.each do |name, msg| %>
+<div class="<%= name %>"><%= msg %></div>
+<% end %>
 
-    <% if flash[:notice] or flash[:error] %>
-    <div class="<%= flash[:notice].nil? ? 'error' : 'notice' %>">
-      <%= flash[:error] or flash[:notice] %>
-    </div>
-    <% end %>
+<dl>
+  <dt>Site</dt><dd><%= @oidreq.trust_root %></dd>
+  <dt>Identity</dt><dd><%= @oidreq.identity %></dd>
+</dl>
 
-    <form method="post" action="<%= decision_url %>">
-      <table>
-	<tr><td>Site:</td><td><%= @oidreq.trust_root %></td></tr>
-	<% if @oidreq.id_select %>
-	<tr>
-	  <td colspan="2">
-            You entered the server identifier at the relying party.
-            You'll need to send an identifier of your choosing.  Enter a
-            username below.
-	  </td>
-	</tr>
-	<tr>
-	  <td>Identity to send:</td>
-	  <td><input type="text" name="id_to_send" size="25" /></td>
-	</tr>
-	<% else %>
-	<tr><td>Identity:</td><td><%= @oidreq.identity %></td></tr>
-	<% end %>
-      </table>
-
-      <input type="submit" name="result" value="yes" />
-      <input type="submit" name="result" value="no" />
-    </form>
-  </body>
-</html>
+<form method="post" action="<%= decision_url %>">
+  <input type="submit" name="result" value="yes" />
+  <input type="submit" name="result" value="no" />
+</form>
