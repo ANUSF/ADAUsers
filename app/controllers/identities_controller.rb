@@ -58,29 +58,6 @@ class IdentitiesController < ApplicationController
   end
 
   def user_page
-    if (request.env['HTTP_ACCEPT'] || []).include?('application/xrds+xml')
-      user_xrds
-    else
-      response.headers['X-XRDS-Location'] =
-        user_xrds_url :username => params[:username]
-      render :text => <<EOF
-<html><head>
-<meta http-equiv="X-XRDS-Location" content="#{xrds_url}" />
-<link rel="openid.server" href="#{index_url}" />
-</head><body><p>OpenID identity page for #{params[:username]}</p>
-</body></html>
-EOF
-    end
-  end
-
-  def user_xrds
-    render_xrds [ OpenID::OPENID_2_0_TYPE,
-                  OpenID::OPENID_1_0_TYPE,
-                  OpenID::SREG_URI        ]
-  end
-
-  def idp_xrds
-    render_xrds [ OpenID::OPENID_IDP_2_0_TYPE ]
   end
 
   def logout
@@ -105,23 +82,6 @@ EOF
       @server = Server.new(store, index_url)
     end
     @server
-  end
-
-  def render_xrds(types)
-    response.headers['content-type'] = 'application/xrds+xml'
-    render :text => <<EOS
-<?xml version="1.0" encoding="UTF-8"?>
-<xrds:XRDS
-    xmlns:xrds="xri://$xrds"
-    xmlns="xri://$xrd*($v*2.0)">
-  <XRD>
-    <Service priority="0">
-      #{types.map { |uri| "<Type>#{uri}</Type>" }.join "\n      "}
-      <URI>#{index_url}</URI>
-    </Service>
-  </XRD>
-</xrds:XRDS>
-EOS
   end
 
   def add_sreg(oidreq, oidresp)
