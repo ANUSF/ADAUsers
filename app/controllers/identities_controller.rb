@@ -43,17 +43,21 @@ class IdentitiesController < ApplicationController
         "an identifier to the Relying Party."
       redirect_to :decide
     else
-      if oidreq.id_select
-        session[:username] = params[:id_to_send]
-        session[:approvals] = []
-        identity = url_for_user
-      else
-        identity = oidreq.identity
-      end
+      username =
+        if oidreq.id_select
+          params[:id_to_send]
+        else
+          oidreq.identity.sub /.*\/user\/(.*)/, '\\1'
+        end
+      session[:approvals] = [] if username != session[:username]
+      session[:username] = username
 
-      (session[:approvals] ||= []) << oidreq.trust_root
+      session[:approvals] ||= []
+      unless session[:approvals].include? oidreq.trust_root
+        session[:approvals] << oidreq.trust_root
+      end
       session[:last_oidreq] = nil
-      render_response positive_response(oidreq, identity)
+      render_response positive_response(oidreq, url_for_user)
     end
   end
 
@@ -62,6 +66,7 @@ class IdentitiesController < ApplicationController
 
   def logout
     session[:username] = nil
+    session[:approvals] = []
     if params[:return_url]
       redirect_to params[:return_url]
     else
@@ -72,7 +77,11 @@ class IdentitiesController < ApplicationController
   protected
 
   def url_for_user
-    user_url :username => session[:username]
+    if session[:username].blank?
+      nil
+    else
+      user_url :username => session[:username]
+    end
   end
 
   def server
@@ -82,6 +91,21 @@ class IdentitiesController < ApplicationController
       @server = Server.new(store, index_url)
     end
     @server
+  end
+
+  def automatic_response_to(oidreq)
+    if oidreq.kind_of?(CheckIDRequest)
+      if oidreq.immediate
+        oidreq.answer(false, index_url)
+      else
+        identity = oidreq.id_select ? url_for_user : oidreq.identity
+        authorized = (identity == url_for_user) and
+          (session[:approvals] || []).include? oidreq.trust_root
+        positive_response(oidreq, identity) if authorized
+      end
+    else
+      server.handle_request(oidreq)
+    end
   end
 
   def add_sreg(oidreq, oidresp)
@@ -107,21 +131,6 @@ class IdentitiesController < ApplicationController
       paperesp = OpenID::PAPE::Response.new
       paperesp.nist_auth_level = 0 # we don't even do auth at all!
       oidresp.add_extension(paperesp)
-    end
-  end
-
-  def automatic_response_to(oidreq)
-    if oidreq.kind_of?(CheckIDRequest)
-      if oidreq.immediate
-        oidreq.answer(false, index_url)
-      else
-        identity = oidreq.id_select ? url_for_user : oidreq.identity
-        authorized = session[:username] and identity == url_for_user and
-          (session[:approvals] || []).include? oidreq.trust_root
-        positive_response(oidreq, identity) if authorized
-      end
-    else
-      server.handle_request(oidreq)
     end
   end
 
