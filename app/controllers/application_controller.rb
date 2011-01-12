@@ -6,7 +6,6 @@ require 'openid/store/filesystem'
 
 class ApplicationController < ActionController::Base
   #protect_from_forgery
-  include OpenID::Server
 
   protected
 
@@ -23,7 +22,7 @@ class ApplicationController < ActionController::Base
     unless defined? @server
       dir = File.join(Rails.root, 'db', 'openid-store')
       store = OpenID::Store::Filesystem.new(dir)
-      @server = Server.new(store, index_url)
+      @server = OpenID::Server::Server.new(store, index_url)
     end
     @server
   end
@@ -65,7 +64,7 @@ class ApplicationController < ActionController::Base
     server.signatory.sign(oidresp) if oidresp.needs_signing
     web_response = server.encode_response(oidresp)
 
-    if web_response.code == HTTP_REDIRECT
+    if web_response.code == OpenID::Server::HTTP_REDIRECT
       redirect_to web_response.headers['location']
     else
       render :text => web_response.body, :status => web_response.code

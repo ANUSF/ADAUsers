@@ -1,20 +1,13 @@
-require "openid"
-require "openid/consumer/discovery"
-
-
 class IdentitiesController < ApplicationController
-  include OpenID::Server
-  layout nil
-
   def index
     begin
       oidreq = server.decode_request(params)
-    rescue ProtocolError => e
+    rescue OpenID::Server::ProtocolError => e
       render :text => "Invalid OpenID request: #{e.to_s}", :status => 500
       return
     end
 
-    if not oidreq.kind_of?(CheckIDRequest)
+    if not oidreq.kind_of?(OpenID::Server::CheckIDRequest)
       render_response(server.handle_request(oidreq))
     elsif oidreq.immediate
       render_response(oidreq.answer(false, index_url))
@@ -27,6 +20,10 @@ class IdentitiesController < ApplicationController
         redirect_to :decide
       end
     else
+      if session[:username]
+        flash[:notice] = "You are already logged in as #{session[:username]}." +
+          " Do not press 'Login' unless you want to end that session."
+      end
       session[:last_oidreq] = oidreq
       redirect_to new_session_url
     end
