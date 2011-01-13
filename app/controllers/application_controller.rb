@@ -38,11 +38,13 @@ class ApplicationController < ActionController::Base
     sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
 
     unless sregreq.nil?
-      # TODO return the real data
+      username = username_for oidreq.identity
+      user = User.find_by_user username
+
       sreg_data = {
-        'nickname' => session[:username],
-        'fullname' => 'Mayor McCheese',
-        'email' => 'mayor@example.com'
+        'nickname' => user.user,
+        'fullname' => [user.title, user.fname, user.sname].compact.join(' '),
+        'email' => user.email
       }
 
       sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)

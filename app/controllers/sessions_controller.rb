@@ -8,14 +8,21 @@ class SessionsController < ApplicationController
 
   def create
     oidreq = session[:last_oidreq]
-    reset_session
 
     if params[:result] != 'Login'
+      reset_session
       redirect_to oidreq.cancel_url
     else
-      session[:username] = username_for oidreq.identity
-      session[:approvals] = [oidreq.trust_root]
-      render_response(positive_response(oidreq))
+      username = username_for oidreq.identity
+      user = User.find_by_user username
+      if user.nil? or user.password != params[:password]
+        redirect_to new_session_url, :alert => 'Incorrect password or identity'
+      else
+        reset_session
+        session[:username] = username_for oidreq.identity
+        session[:approvals] = [oidreq.trust_root]
+        render_response(positive_response(oidreq))
+      end
     end
   end
 
