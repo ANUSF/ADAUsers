@@ -4,7 +4,7 @@ OpenidServer::Application.routes.draw do
   match 'login',  :to => 'sessions#new'
   match 'logout', :to => 'sessions#destroy'
 
-  %w{index decide decision}.each do |action|
+  %w{decide decision}.each do |action|
     match action, :to => "identities##{action}"
   end
 
@@ -21,7 +21,7 @@ OpenidServer::Application.routes.draw do
                 OpenID::SREG_URI         ]
             end
     type_str = types.map { |uri| "<TYPE>#{uri}</TYPE>" }.join "\n      "
-    server = env['REQUEST_URI'].sub(/#{env['PATH_INFO']}$/, '/index')
+    server = env['REQUEST_URI'].sub(/#{env['PATH_INFO']}$/, '')
 
     %Q!<?xml version="1.0" encoding="UTF-8"?>
 <xrds:XRDS
@@ -50,4 +50,6 @@ OpenidServer::Application.routes.draw do
       [xrds_text env, 'idp']
     ]
   }
+
+  root :to => 'identities#index'
 end

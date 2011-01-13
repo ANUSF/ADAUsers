@@ -16,7 +16,7 @@ class IdentitiesController < ApplicationController
     if not oidreq.kind_of?(OpenID::Server::CheckIDRequest)
       render_response(server.handle_request(oidreq))
     elsif oidreq.immediate
-      render_response(oidreq.answer(false, index_url))
+      render_response(oidreq.answer(false, root_url))
     elsif is_logged_in_as(oidreq.identity) and not oidreq.id_select
       if (session[:approvals] || []).include? oidreq.trust_root
         render_response(positive_response(oidreq))

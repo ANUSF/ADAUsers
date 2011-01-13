@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     unless defined? @server
       dir = File.join(Rails.root, 'db', 'openid-store')
       store = OpenID::Store::Filesystem.new(dir)
-      @server = OpenID::Server::Server.new(store, index_url)
+      @server = OpenID::Server::Server.new(store, root_url)
     end
     @server
   end
