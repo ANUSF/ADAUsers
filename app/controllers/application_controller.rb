@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_identity, :username_for
 
+  protected
+
   def current_identity
     url_for :username => session[:username]
   end
@@ -18,8 +20,6 @@ class ApplicationController < ActionController::Base
     name = identity.sub /.*\/user\/(.*)/, '\\1'
     name if user_url(:username => name) == identity
   end
-
-  protected
 
   def is_logged_in_as(identity)
     session[:username] and user_url(:username => session[:username]) == identity

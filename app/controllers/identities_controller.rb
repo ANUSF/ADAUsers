@@ -1,9 +1,15 @@
 class IdentitiesController < ApplicationController
+ 
   def index
     begin
       oidreq = server.decode_request(params)
     rescue OpenID::Server::ProtocolError => e
       render :text => "Invalid OpenID request: #{e.to_s}", :status => 500
+      return
+    end
+
+    unless oidreq
+      redirect_to xrds_idp_url
       return
     end
 
