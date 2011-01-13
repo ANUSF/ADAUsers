@@ -1,5 +1,4 @@
 class IdentitiesController < ApplicationController
- 
   def index
     begin
       oidreq = server.decode_request(params)
@@ -21,9 +20,8 @@ class IdentitiesController < ApplicationController
       if (session[:approvals] || []).include? oidreq.trust_root
         render_response(positive_response(oidreq))
       else
-        flash[:notice] = "Do you trust this site with your identity?"
         session[:last_oidreq] = oidreq
-        redirect_to :decide
+        redirect_to new_decision_url
       end
     else
       if session[:username]
@@ -32,22 +30,6 @@ class IdentitiesController < ApplicationController
       end
       session[:last_oidreq] = oidreq
       redirect_to new_session_url
-    end
-  end
-
-  def decide
-    @oidreq = session[:last_oidreq]
-  end
-
-  def decision
-    oidreq = session[:last_oidreq]
-    session[:last_oidreq] = nil
-
-    if params[:result] == 'yes'
-      (session[:approvals] << oidreq.trust_root).uniq!
-      render_response(positive_response(oidreq))
-    else
-      redirect_to oidreq.cancel_url
     end
   end
 end
