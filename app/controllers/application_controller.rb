@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
 
     unless papereq.nil?
       paperesp = OpenID::PAPE::Response.new
-      paperesp.nist_auth_level = 0 # we don't even do auth at all!
+      paperesp.nist_auth_level = 0 # bump to 2 when we have HTTPS
       oidresp.add_extension(paperesp)
     end
   end

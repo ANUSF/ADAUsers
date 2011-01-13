@@ -1,5 +1,12 @@
 <%
-  file  = File.join(ENV['HOME'], 'etc', 'assda', 'dbconfig.yml')
+  require 'java' if defined?(JRUBY_VERSION)
+
+  file = ENV['OID_DBCONFIG'] ||
+    ( defined?(JRUBY_VERSION) && java.lang.System.getProperty('oid.dbconfig')) ||
+    ( defined?(JRUBY_VERSION) && defined?($servlet_context) &&
+      $servlet_context.get_init_parameter('oid.dbconfig') ) ||
+    File.join(ENV['HOME'], 'etc', 'assda', 'dbconfig.yml')
+
   @conf = File.exist?(file) && YAML::load(File.open(file))['production'] || {}
 %>
 template: &template
