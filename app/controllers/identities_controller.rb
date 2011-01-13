@@ -13,7 +13,7 @@ class IdentitiesController < ApplicationController
       render_response(oidreq.answer(false, index_url))
     elsif is_logged_in_as(oidreq.identity) and not oidreq.id_select
       if (session[:approvals] || []).include? oidreq.trust_root
-        render_response(positive_response(oidreq, oidreq.identity))
+        render_response(positive_response(oidreq))
       else
         flash[:notice] = "Do you trust this site with your identity?"
         session[:last_oidreq] = oidreq
@@ -39,19 +39,9 @@ class IdentitiesController < ApplicationController
 
     if params[:result] == 'yes'
       (session[:approvals] << oidreq.trust_root).uniq!
-      render_response positive_response(oidreq, url_for_user)
+      render_response(positive_response(oidreq))
     else
       redirect_to oidreq.cancel_url
-    end
-  end
-
-  protected
-
-  def url_for_user
-    if session[:username].blank?
-      nil
-    else
-      user_url :username => session[:username]
     end
   end
 end
