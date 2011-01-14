@@ -2,8 +2,12 @@ class SessionsController < ApplicationController
   layout "session"
 
   def new
-    # TODO handle oidreq.id_select == true
     @oidreq = session[:last_oidreq]
+    if @oidreq.id_select
+      Rails.logger.error "@@@ got an id_select request"
+    elsif username_for(@oidreq.identity).blank?
+      Rails.logger.error "@@@ no username given"
+    end
   end
 
   def create

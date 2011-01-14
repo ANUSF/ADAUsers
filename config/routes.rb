@@ -5,9 +5,12 @@ OpenidServer::Application.routes.draw do
   match 'login',  :to => 'sessions#new'
   match 'logout', :to => 'sessions#destroy'
 
+  match 'server', :to => 'identities#index', :as => 'server'
+
   match 'user/*username', :to => 'users#show', :as => 'user', :format => false
 
-  # Handle XRDS requests via Rack so that the content type is set correctly
+
+  # Handle some XRDS requests via Rack so that the content type is set correctly
 
   def xrds_text(env, mode)
     types = if mode == 'idp'
@@ -17,8 +20,8 @@ OpenidServer::Application.routes.draw do
                 OpenID::OPENID_1_0_TYPE,
                 OpenID::SREG_URI         ]
             end
-    type_str = types.map { |uri| "<TYPE>#{uri}</TYPE>" }.join "\n      "
-    server = env['REQUEST_URI'].sub(/#{env['PATH_INFO']}$/, '')
+    type_str = types.map { |uri| "<Type>#{uri}</Type>" }.join "\n      "
+    server = env['REQUEST_URI'].sub(/#{env['PATH_INFO']}$/, '/server')
 
     %Q!<?xml version="1.0" encoding="UTF-8"?>
 <xrds:XRDS
@@ -35,18 +38,12 @@ OpenidServer::Application.routes.draw do
   end
 
   match 'xrds/user', :to => lambda { |env|
-    [ 200,
-      { "Content-Type" => "application/xrds+xml" },
-      [xrds_text env, 'user']
-    ]
+    [200, { "Content-Type" => "application/xrds+xml" }, [xrds_text env, 'user']]
   }
 
   match 'xrds/idp', :to => lambda { |env|
-    [ 200,
-      { "Content-Type" => "application/xrds+xml" },
-      [xrds_text env, 'idp']
-    ]
+    [ 200, { "Content-Type" => "application/xrds+xml" }, [xrds_text env, 'idp']]
   }
 
-  root :to => 'identities#index'
+  root :to => 'identities#root'
 end
