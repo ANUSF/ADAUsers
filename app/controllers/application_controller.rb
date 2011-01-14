@@ -80,8 +80,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  private
-
   def render_xrds(*types)
     type_str = types.map { |uri| "<Type>#{uri}</Type>" }.join "\n      "
 
