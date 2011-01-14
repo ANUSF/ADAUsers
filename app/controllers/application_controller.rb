@@ -79,4 +79,23 @@ class ApplicationController < ActionController::Base
       render :text => web_response.body, :status => web_response.code
     end
   end
+
+  private
+
+  def render_xrds(*types)
+    type_str = types.map { |uri| "<Type>#{uri}</Type>" }.join "\n      "
+
+    %Q!<?xml version="1.0" encoding="UTF-8"?>
+<xrds:XRDS
+    xmlns:xrds="xri://$xrds"
+    xmlns="xri://$xrd*($v*2.0)">
+  <XRD>
+    <Service priority="0">
+      #{type_str}
+      <URI priority="0">#{server_url}</URI>
+    </Service>
+  </XRD>
+</xrds:XRDS>
+!
+  end
 end

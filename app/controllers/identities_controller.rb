@@ -5,18 +5,7 @@ class IdentitiesController < ApplicationController
         response.headers['X-XRDS-Location'] = xrds_idp_url
       end
       format.xrds do
-        render :text => %Q!<?xml version="1.0" encoding="UTF-8"?>
-<xrds:XRDS
-    xmlns:xrds="xri://$xrds"
-    xmlns="xri://$xrd*($v*2.0)">
-  <XRD>
-    <Service priority="0">
-      <Type>#{OpenID::OPENID_IDP_2_0_TYPE}</Type>
-      <URI priority="0">#{server_url}</URI>
-    </Service>
-  </XRD>
-</xrds:XRDS>
-!
+        render :text => render_xrds(OpenID::OPENID_IDP_2_0_TYPE)
       end
     end
   end
