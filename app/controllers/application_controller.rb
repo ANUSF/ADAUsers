@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
   end
 
   def positive_response(oidreq)
-    oidresp = oidreq.answer(true, nil, oidreq.identity)
+    oidresp = oidreq.answer(true, server_url, oidreq.identity)
     add_sreg(oidreq, oidresp)
     add_pape(oidreq, oidresp)
     oidresp
