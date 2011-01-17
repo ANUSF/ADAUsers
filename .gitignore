@@ -6,3 +6,4 @@ tmp/**/*
 Gemfile.lock
 db/openid-store
 *~
+*.war

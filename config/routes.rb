@@ -12,7 +12,7 @@ OpenidServer::Application.routes.draw do
 
   # A bit of trickery to serve XRDS from bare URLs
 
-  match 'xrds/user/*username', :to => lambda { |env|
+  match 'xrds/user/*username', :as => 'xrds_user', :to => lambda { |env|
     env['HTTP_ACCEPT'] = 'application/xrds+xml'
     UsersController.action(:show).call(env)
   }
