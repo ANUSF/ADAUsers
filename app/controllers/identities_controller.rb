@@ -28,7 +28,7 @@ class IdentitiesController < ApplicationController
       render_response(oidreq.answer(false, root_url))
     elsif is_logged_in_as(oidreq.identity) and not oidreq.id_select
       if (session[:approvals] || []).include? oidreq.trust_root
-        render_response(positive_response(oidreq))
+        render_response(positive_response(oidreq, session[:username]))
       else
         session[:last_oidreq] = oidreq
         redirect_to new_decision_url

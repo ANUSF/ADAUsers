@@ -3,9 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     @oidreq = session[:last_oidreq]
-    if @oidreq.id_select
-      nil
-    end
+    @username = username_for @oidreq.identity unless @oidreq.id_select
   end
 
   def create
@@ -15,15 +13,19 @@ class SessionsController < ApplicationController
       reset_session
       redirect_to oidreq.cancel_url
     else
-      username = username_for oidreq.identity
+      username = if oidreq.id_select
+                   params[:username]
+                 else
+                   username_for oidreq.identity
+                 end
       user = User.find_by_user username
       if user.nil? or user.password != params[:password]
         redirect_to new_session_url, :alert => 'Incorrect password or identity'
       else
         reset_session
-        session[:username] = username_for oidreq.identity
+        session[:username] = username
         session[:approvals] = [oidreq.trust_root]
-        render_response(positive_response(oidreq))
+        render_response(positive_response(oidreq, username))
       end
     end
   end

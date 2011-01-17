@@ -2,12 +2,16 @@
 
 <form method="post" action="<%= sessions_url %>">
   <label for="username">
-    Username: <%= username_for @oidreq.identity %>
-    <!-- <input type="password" name="password" size="15" /><br/> -->
+    Username:
+    <% if @username.nil? %>
+      <input type="username" name="username" size="20" /><br/>
+    <% else %>
+      <%= @username %>
+    <% end %>
   </label><br/>
   <label for="password">
     Password:
-    <input type="password" name="password" size="15" /><br/>
+    <input type="password" name="password" size="20" /><br/>
   </label>
   <input type="submit" name="result" value="Login" />
   <input type="submit" name="result" value="Cancel" />

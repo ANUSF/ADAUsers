@@ -12,7 +12,7 @@ class DecisionsController < ApplicationController
 
     if params[:result] == 'yes'
       (session[:approvals] << oidreq.trust_root).uniq!
-      render_response(positive_response(oidreq))
+      render_response(positive_response(oidreq, session[:username]))
     else
       redirect_to oidreq.cancel_url
     end

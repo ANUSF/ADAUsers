@@ -34,11 +34,10 @@ class ApplicationController < ActionController::Base
     @server
   end
 
-  def add_sreg(oidreq, oidresp)
+  def add_sreg(oidreq, oidresp, username)
     sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
 
     unless sregreq.nil?
-      username = username_for oidreq.identity
       user = User.find_by_user username
 
       sreg_data = {
@@ -52,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def add_pape(oidreq, oidresp)
+  def add_pape(oidreq, oidresp, username)
     papereq = OpenID::PAPE::Request.from_openid_request(oidreq).nil?
 
     unless papereq.nil?
@@ -62,10 +61,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def positive_response(oidreq)
-    oidresp = oidreq.answer(true, server_url, oidreq.identity)
-    add_sreg(oidreq, oidresp)
-    add_pape(oidreq, oidresp)
+  def positive_response(oidreq, username)
+    oidresp = oidreq.answer(true, server_url, user_url(username))
+    add_sreg(oidreq, oidresp, username)
+    add_pape(oidreq, oidresp, username)
     oidresp
   end
 
