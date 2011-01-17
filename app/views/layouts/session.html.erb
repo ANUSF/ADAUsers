@@ -18,7 +18,9 @@
     <div class='status'>
       <dl>
 	<dt>Requesting Site:</dt><dd><%= @oidreq.trust_root %></dd>
-	<dt>Identity to Check:</dt><dd><%= @oidreq.identity %></dd>
+	<% if not @oidreq.id_select %>
+	  <dt>Identity to Check:</dt><dd><%= @oidreq.identity %></dd>
+	<% end %>
       </dl>
     </div>
 

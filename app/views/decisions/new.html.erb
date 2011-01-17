@@ -1,6 +1,6 @@
 <h3>Confirm ID Request</h3>
 
-<form method="post" action="<%= decisions_url %>">
-  <input type="submit" name="result" value="yes" />
-  <input type="submit" name="result" value="no" />
-</form>
+<%= form_tag decisions_path do %>
+  <%= submit_tag "yes" %>
+  <%= submit_tag "no" %>
+<% end %>

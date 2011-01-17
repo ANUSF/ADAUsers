@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   def create
     oidreq = session[:last_oidreq]
 
-    if params[:result] != 'Login'
+    if params[:commit] != 'Login'
       reset_session
       redirect_to oidreq.cancel_url
     else

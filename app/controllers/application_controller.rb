@@ -5,7 +5,8 @@ require 'openid/store/filesystem'
 
 
 class ApplicationController < ActionController::Base
-  #protect_from_forgery
+  protect_from_forgery :except => :index
+
   layout nil
 
   helper_method :current_identity, :username_for

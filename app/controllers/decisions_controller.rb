@@ -10,7 +10,7 @@ class DecisionsController < ApplicationController
     oidreq = session[:last_oidreq]
     session[:last_oidreq] = nil
 
-    if params[:result] == 'yes'
+    if params[:commit] == 'yes'
       (session[:approvals] << oidreq.trust_root).uniq!
       render_response(positive_response(oidreq, session[:username]))
     else
