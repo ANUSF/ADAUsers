@@ -1,0 +1,9 @@
+<Context path="/openid"
+	 docBase="/home/olaf/Ruby-Rails/openid-server/openid.war">
+  <Parameter name="oid.dbconfig"
+	     value="/usr/share/tomcat6/webapps/openid/config/dbconfig.yml"
+	     override="false"/>
+  <Parameter name="rails.env"
+	     value="production"
+	     override="false"/>
+</Context>
