@@ -13,3 +13,4 @@ else
 end
 
 gem 'ruby-openid',  :require => 'openid'
+gem 'formtastic'

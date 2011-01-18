@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  layout 'registration'
+
   def show
     respond_to do |format|
       format.html do
@@ -10,5 +12,12 @@ class UsersController < ApplicationController
                                     OpenID::SREG_URI        )
       end
     end
+  end
+
+  def new
+    @user = User.new
+  end
+
+  def create
   end
 end

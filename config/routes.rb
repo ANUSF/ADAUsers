@@ -1,6 +1,7 @@
 OpenidServer::Application.routes.draw do
   resources :sessions
   resources :decisions
+  resources :users
 
   match 'login',  :to => 'sessions#new'
   match 'logout', :to => 'sessions#destroy'

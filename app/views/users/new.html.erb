@@ -1,0 +1,32 @@
+<% if Rails.env.production? %>
+  <p>
+    Registration gives you access to analyse all of ASSDA's
+    unrestricted holdings online for free.  The information collected
+    will only be used to understand who is using our holdings and why.
+    By submitting the form, you agree to use the data for statistical
+    purposes only and not for commercial or financial gain.  Where
+    statistical tables, graphs etc. obtained from analysis of these
+    data are included in any published work, you agree to provide
+    ASSDA with the bibliographic details and, where available, online
+    links to the published work and to use the form of citation
+    provided in the relevant online catalogue record.
+  </p>
+  <p>
+    Please fill out and submit the form below.  Upon submission you
+    will receive an automated email with your login details.  All
+    fields are required:
+  </p>
+<% end %>
+
+<%= semantic_form_for @user do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :user, :label => 'Username', :hint => 'Use to login.' %>
+    <%= f.input :title, :as => :select,
+                        :collection => ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr' ] %>
+    <%= f.input :fname, :label => 'First Name' %>
+    <%= f.input :sname, :label => 'Last Name' %>
+    <%= f.input :email, :label => 'Email Address' %>
+    <%= f.input :email_verify, :label => 'Re-type Email Address' %>
+    <%= f.commit_button 'Submit' %>
+  <% end %>
+<% end %>
