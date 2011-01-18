@@ -3,7 +3,6 @@ class DecisionsController < ApplicationController
 
   def new
     flash[:notice] = "Do you trust this site with your identity?"
-    @oidreq = session[:last_oidreq]
   end
 
   def create

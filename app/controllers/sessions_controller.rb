@@ -2,8 +2,13 @@ class SessionsController < ApplicationController
   layout "session"
 
   def new
-    @oidreq = session[:last_oidreq]
-    @username = username_for @oidreq.identity unless @oidreq.id_select
+    oidreq = session[:last_oidreq]
+    @username = username_for oidreq.identity if oidreq and not oidreq.id_select
+    if session[:username]
+      flash[:notice] =
+        "You are already logged in as #{session[:username]}." +
+        " Do not press 'Login' unless you want to end that session."
+    end
   end
 
   def create
@@ -11,21 +16,25 @@ class SessionsController < ApplicationController
 
     if params[:commit] != 'Login'
       reset_session
-      redirect_to oidreq.cancel_url
+      if oidreq
+        redirect_to oidreq.cancel_url
+      else
+        redirect_to new_session_url :notice => 'Login cancelled'
+      end
     else
-      username = if oidreq.id_select
-                   params[:username]
-                 else
-                   username_for oidreq.identity
-                 end
+      username = session[:claimed_id] || params[:username]
       user = User.find_by_user username
       if user.nil? or user.password != params[:password]
         redirect_to new_session_url, :alert => 'Incorrect password or identity'
       else
         reset_session
         session[:username] = username
-        session[:approvals] = [oidreq.trust_root]
-        render_response(positive_response(oidreq, username))
+        if oidreq
+          session[:approvals] = [oidreq.trust_root]
+          render_response(positive_response(oidreq, username))
+        else
+          redirect_to user_url(username), :notice => 'Login successful'
+        end
       end
     end
   end

@@ -34,11 +34,6 @@ class IdentitiesController < ApplicationController
         redirect_to new_decision_url
       end
     else
-      if session[:username]
-        flash[:notice] =
-          "You are already logged in as #{session[:username]}." +
-          " Do not press 'Login' unless you want to end that session."
-      end
       session[:last_oidreq] = oidreq
       redirect_to new_session_url
     end

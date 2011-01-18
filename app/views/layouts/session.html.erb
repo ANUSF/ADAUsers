@@ -15,14 +15,16 @@
       <%= yield %>
     </div>
 
+    <% if oidreq = session[:last_oidreq] %>
     <div class='status'>
       <dl>
-	<dt>Requesting Site:</dt><dd><%= @oidreq.trust_root %></dd>
-	<% if not @oidreq.id_select %>
-	  <dt>Identity to Check:</dt><dd><%= @oidreq.identity %></dd>
+	<dt>Requesting Site:</dt><dd><%= oidreq.trust_root %></dd>
+	<% if not oidreq.id_select %>
+	  <dt>Identity to Check:</dt><dd><%= oidreq.identity %></dd>
 	<% end %>
       </dl>
     </div>
+    <% end %>
 
   </body>
 </html>
