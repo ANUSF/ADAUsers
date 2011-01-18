@@ -22,7 +22,11 @@ class SessionsController < ApplicationController
         redirect_to new_session_url :notice => 'Login cancelled'
       end
     else
-      username = session[:claimed_id] || params[:username]
+      username = if oidreq and not oidreq.id_select
+                   username_for oidreq.identity
+                 else 
+                   params[:username]
+                 end
       user = User.find_by_user username
       if user.nil? or user.password != params[:password]
         redirect_to new_session_url, :alert => 'Incorrect password or identity'

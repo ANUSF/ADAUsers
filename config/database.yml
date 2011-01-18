@@ -7,10 +7,10 @@
       $servlet_context.get_init_parameter('oid.dbconfig') ) ||
     File.join(ENV['HOME'], 'etc', 'assda', 'dbconfig.yml')
 
-  @conf = File.exist?(file) && YAML::load(File.open(file))['production'] || {}
+  @conf = File.exist?(file) && YAML::load(File.open(file))[Rails.env] || {}
 %>
 template: &template
-  adapter:  <%= defined?(JRUBY_VERSION) ? 'jdbcmysql' : 'mysql2' %>
+  adapter:  <%= (defined?(JRUBY_VERSION) && @conf['jdbc']) || @conf['adapter'] %>
   pool:     5
   timeout:  5000
   database: <%= @conf['database'] %>
@@ -22,4 +22,7 @@ production:
   <<: *template
 
 development:
+  <<: *template
+
+test:
   <<: *template
