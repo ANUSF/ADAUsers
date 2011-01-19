@@ -7,6 +7,13 @@ class User < ActiveRecord::Base
 
   # def after_find; readonly! end
 
+  def self.defaults
+    {
+      :country => Country.find_by_Countryname('Australia'),
+      :austinstitution => 'Uni'
+    }
+  end
+
   attr_accessor (:email_confirmation,
                  :other_australian_affiliation, :other_australian_type,
                  :non_australian_affiliation, :non_australian_type)
@@ -49,6 +56,19 @@ class User < ActiveRecord::Base
     :presence => {
       :message => 'please enter your position',
       :if => lambda { |rec| rec.position == "Other" }}}
+
+  validates :action, {
+    :presence => {
+      :message => 'please select one' }}
+
+  validates :otherwt, {
+    :presence => {
+      :message => 'please enter your type of work',
+      :if => lambda { |rec| rec.action == "Other" }}}
+
+  validates :country, {
+    :presence => {
+      :message => 'please select your country' }}
 
   # -- Option lists to use in the registration form
 
