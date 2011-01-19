@@ -8,8 +8,9 @@ class User < ActiveRecord::Base
 
   # def after_find; readonly! end
 
-  attr_accessor :email_verify, :other_australian_affiliation,
-                :other_australian_type
+  attr_accessor (:email_verify,
+                 :other_australian_affiliation, :other_australian_type,
+                 :non_australian_affiliation, :non_australian_type)
 
   def title_options
     ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr' ]
@@ -48,11 +49,22 @@ class User < ActiveRecord::Base
     [ "Educational institution",
       "Federal government department",
       "Federal government agency",
-      "State Government",
+      "State government",
       "Media",
       "Not for profit organization",
       "Private company",
       "None - personal user"
+    ]
+  end
+
+  def non_aust_inst_types
+    [ "Non-Australian educational institution",
+      "Central or local government",
+      "Media",
+      "Not for profit organization",
+      "Private company",
+      "None - personal user",
+      "Other"
     ]
   end
 end

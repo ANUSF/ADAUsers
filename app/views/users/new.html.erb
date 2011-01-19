@@ -48,6 +48,11 @@
     <%= f.input :other_australian_type,
                 :label => "Other Australian Institution Type",
                 :as => :select, :collection => @user.other_aust_inst_types %>
+    <%= f.input :non_australian_affiliation,
+                :label => "Non-Australian Institution" %>
+    <%= f.input :non_australian_type,
+                :label => "Non-Australian Institution Type",
+                :as => :select, :collection => @user.non_aust_inst_types %>
 
     <%= f.commit_button 'Submit' %>
   <% end %>
