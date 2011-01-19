@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   set_primary_key 'user'
 
   belongs_to :country, :foreign_key => 'countryid'
+  belongs_to :australian_uni, :foreign_key => 'uniid'
 
   # def after_find; readonly! end
 

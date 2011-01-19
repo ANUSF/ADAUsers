@@ -1,3 +1,5 @@
+<h2>User Registration</h2>
+
 <% if Rails.env.production? %>
   <p>
     Registration gives you access to analyse all of ASSDA's
@@ -36,6 +38,8 @@
     <%= f.input :country, :label_method => :Countryname %>
     <%= f.input :austinstitution, :label => 'Australian Institution',
                 :as => :radio, :collection => @user.austinstitution_options %>
+    <%= f.input :australian_uni, :label => 'Australian University',
+                :label_method => :Longuniname %>
 
     <%= f.commit_button 'Submit' %>
   <% end %>
