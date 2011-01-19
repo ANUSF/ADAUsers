@@ -20,13 +20,23 @@
 
 <%= semantic_form_for @user do |f| %>
   <%= f.inputs do %>
-    <%= f.input :user, :label => 'Username', :hint => 'Use to login.' %>
+    <%= f.input :user, :label => 'Username' %>
     <%= f.input :title, :as => :select,
-                        :collection => ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr' ] %>
+                :collection => @user.title_options %>
     <%= f.input :fname, :label => 'First Name' %>
     <%= f.input :sname, :label => 'Last Name' %>
     <%= f.input :email, :label => 'Email Address' %>
     <%= f.input :email_verify, :label => 'Re-type Email Address' %>
+    <%= f.input :position, :as => :select,
+                :collection => @user.position_options %>
+    <%= f.input :otherpd, :label => 'Specify other position' %>
+    <%= f.input :action, :label => 'Type of Work', :as => :select,
+                :collection => @user.action_options %>
+    <%= f.input :otherwt, :label => 'Specify other type of work' %>
+    <%= f.input :country, :label_method => :Countryname %>
+    <%= f.input :austinstitution, :label => 'Australian Institution',
+                :as => :radio, :collection => @user.austinstitution_options %>
+
     <%= f.commit_button 'Submit' %>
   <% end %>
 <% end %>

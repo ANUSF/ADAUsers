@@ -1,3 +1,7 @@
+body {
+    font: 11px/16px Arial, Helvetica, sans-serif;
+    background: #E8E8E8!important;
+}
 .navigation ul {
     display: inline-block;
     list-style: none;
