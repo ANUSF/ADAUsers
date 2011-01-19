@@ -31,15 +31,23 @@
     <%= f.input :email_verify, :label => 'Re-type Email Address' %>
     <%= f.input :position, :as => :select,
                 :collection => @user.position_options %>
-    <%= f.input :otherpd, :label => 'Specify other position' %>
+    <%= f.input :otherpd, :label => 'Other Position' %>
     <%= f.input :action, :label => 'Type of Work', :as => :select,
                 :collection => @user.action_options %>
-    <%= f.input :otherwt, :label => 'Specify other type of work' %>
+    <%= f.input :otherwt, :label => 'Other Type of Work' %>
     <%= f.input :country, :label_method => :Countryname %>
-    <%= f.input :austinstitution, :label => 'Australian Institution',
+    <%= f.input :austinstitution, :label => 'Australian Institution Type',
                 :as => :radio, :collection => @user.austinstitution_options %>
     <%= f.input :australian_uni, :label => 'Australian University',
                 :label_method => :Longuniname %>
+    <%= f.input :australian_gov, :label =>
+                'Australian Government Department/Agency or Research Centre',
+                :label_method => :name %>
+    <%= f.input :other_australian_affiliation,
+                :label => "Other Australian Institution" %>
+    <%= f.input :other_australian_type,
+                :label => "Other Australian Institution Type",
+                :as => :select, :collection => @user.other_aust_inst_types %>
 
     <%= f.commit_button 'Submit' %>
   <% end %>
