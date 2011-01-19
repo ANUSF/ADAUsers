@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   set_table_name 'userdetails'
-  set_primary_key 'user'
 
   belongs_to :country, :foreign_key => 'countryid'
   belongs_to :australian_uni, :foreign_key => 'uniid'
@@ -8,9 +7,50 @@ class User < ActiveRecord::Base
 
   # def after_find; readonly! end
 
-  attr_accessor (:email_verify,
+  attr_accessor (:email_confirmation,
                  :other_australian_affiliation, :other_australian_type,
                  :non_australian_affiliation, :non_australian_type)
+
+  validates :user, {
+    :presence => {
+      :message => 'please enter a user name' },
+    :uniqueness => {
+      :message => 'this user name already exists' },
+    :format => {
+      :with => /\A([a-z0-9.-]*)?\Z/i,
+      :message =>
+      'user names may only contain letters, digits, hyphens and dots' }}
+
+  validates :fname, {
+    :presence => {
+      :message => 'please enter your first name' }}
+
+  validates :sname, {
+    :presence => {
+      :message => 'please enter your last name' }}
+
+  validates :email, {
+    :presence => {
+      :message => 'please enter an email address' },
+    :uniqueness => {
+      :message => 'this email address is already being used' },
+    :format => {
+      :with => /\A([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})?\Z/i,
+      :message => 'this email address does not look valid' },
+    :confirmation => {
+      :message => 'please ensure this email address matches the one below ' }
+    }
+
+  validates :position, {
+    :presence => {
+      :message => 'please select one' }}
+
+  validates :otherpd, {
+    :presence => {
+      :message => 'please enter your position',
+      :if => lambda { |rec| rec.position == "Other" }}}
+
+  # -- Option lists to use in the registration form
 
   def title_options
     ['Mr', 'Mrs', 'Miss', 'Ms', 'Dr' ]
