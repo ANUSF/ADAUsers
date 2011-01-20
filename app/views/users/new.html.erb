@@ -40,9 +40,17 @@
                 :as => :radio, :collection => @user.austinstitution_options %>
     <%= f.input :australian_uni, :label => 'Australian University',
                 :label_method => :Longuniname %>
-    <%= f.input :australian_gov, :label =>
+    <!-- TODO Make this work somehow: -->
+    <!-- %= f.input :australian_gov, :label =>
                 'Australian Government Department/Agency or Research Centre',
-                :label_method => :name %>
+                :label_method => :name, :group_by => :type % -->
+    <!-- TODO ...or make this behave more like formtastic: -->
+    <li id='user_departmentid_input' class='select'>
+      <%= f.label :departmentid,
+                  'Australian Government Department/Agency or Research Centre' %>
+      <%= grouped_collection_select :user, :departmentid,
+                  AustralianGov.types, :members, :name, :id, :name %>
+    </li>
     <%= f.input :other_australian_affiliation,
                 :label => "Other Australian Institution" %>
     <%= f.input :other_australian_type,

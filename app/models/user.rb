@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  AUSTRALIA = Country.find_by_Countryname('Australia')
+
   set_table_name 'userdetails'
 
   belongs_to :country, :foreign_key => 'countryid'
@@ -9,7 +11,7 @@ class User < ActiveRecord::Base
 
   def self.defaults
     {
-      :country => Country.find_by_Countryname('Australia'),
+      :country => AUSTRALIA,
       :austinstitution => 'Uni'
     }
   end
@@ -24,9 +26,9 @@ class User < ActiveRecord::Base
     :uniqueness => {
       :message => 'this user name already exists' },
     :format => {
-      :with => /\A([a-z0-9.-]*)?\Z/i,
+      :with => /\A[\w\.-]*\z/,
       :message =>
-      'user names may only contain letters, digits, hyphens and dots' }}
+      'please use only letters, digits, hyphens, underscores and dots' }}
 
   validates :fname, {
     :presence => {
@@ -40,7 +42,8 @@ class User < ActiveRecord::Base
     :presence => {
       :message => 'please enter an email address' },
     :uniqueness => {
-      :message => 'this email address is already being used' },
+      :message => 'this email address is already being used',
+      :unless => lambda { |rec| rec.email.blank? }},
     :format => {
       :with => /\A([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})?\Z/i,
       :message => 'this email address does not look valid' },
@@ -69,6 +72,23 @@ class User < ActiveRecord::Base
   validates :country, {
     :presence => {
       :message => 'please select your country' }}
+
+  validates :austinstitution, {
+    :presence => {
+      :message => 'please select one',
+      :if => lambda { |rec| rec.country == AUSTRALIA }}}
+
+  validates :australian_uni, {
+    :presence => {
+      :message => 'please select one',
+      :if => lambda { |rec|
+        rec.country == AUSTRALIA and rec.austinstitution == 'Uni' }}}
+
+  validates :australian_gov, {
+    :presence => {
+      :message => 'please select one',
+      :if => lambda { |rec|
+        rec.country == AUSTRALIA and rec.austinstitution == 'Dept' }}}
 
   # -- Option lists to use in the registration form
 
