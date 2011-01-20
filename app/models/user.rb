@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   belongs_to :australian_uni, :foreign_key => 'uniid'
   belongs_to :australian_gov, :foreign_key => 'departmentid'
 
-  # def after_find; readonly! end
+  # -- Default attributes to use in the registration form
 
   def self.defaults
     {
@@ -16,9 +16,13 @@ class User < ActiveRecord::Base
     }
   end
 
+  # -- We use some non-database attributes in the registration form
+
   attr_accessor (:email_confirmation,
                  :other_australian_affiliation, :other_australian_type,
                  :non_australian_affiliation, :non_australian_type)
+
+  # -- Validations go here:
 
   validates :user, {
     :presence => {
@@ -40,7 +44,7 @@ class User < ActiveRecord::Base
 
   validates :email, {
     :presence => {
-      :message => 'please enter an email address' },
+      :message => 'please enter your email address' },
     :uniqueness => {
       :message => 'this email address is already being used',
       :unless => lambda { |rec| rec.email.blank? }},
@@ -89,6 +93,29 @@ class User < ActiveRecord::Base
       :message => 'please select one',
       :if => lambda { |rec|
         rec.country == AUSTRALIA and rec.austinstitution == 'Dept' }}}
+
+  validates :other_australian_affiliation, {
+    :presence => {
+      :message => 'please enter an institution',
+      :if => lambda { |rec|
+        rec.country == AUSTRALIA and rec.austinstitution == 'Other' }}}
+
+  validates :other_australian_type, {
+    :presence => {
+      :message => 'please select one',
+      :if => lambda { |rec|
+        rec.country == AUSTRALIA and rec.austinstitution == 'Other' }}}
+
+  validates :non_australian_affiliation, {
+    :presence => {
+      :message => 'please enter an institution',
+      :if => lambda { |rec| rec.country != AUSTRALIA }}}
+
+  validates :non_australian_type, {
+    :presence => {
+      :message => 'please select one',
+      :if => lambda { |rec| rec.country != AUSTRALIA }}}
+
 
   # -- Option lists to use in the registration form
 
