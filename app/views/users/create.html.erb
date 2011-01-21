@@ -1,8 +1,8 @@
-<h2>Data posted via user registration page:</h2>
+<h2>User attributes:</h2>
 
 <div>
   <dl>
-    <% params[:user].each do |k, v| %>
+    <% @user.attributes.each do |k, v| %>
       <dt><%= "#{k}:" %></dt>
       <dd><%= v %></dd>
     <% end %>

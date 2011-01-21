@@ -20,6 +20,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
+    @user.user = params[:user][:user] # primary key, needs to be set manually
     if @user.save
       flash[:notice] = 'Registration successful!'
     else

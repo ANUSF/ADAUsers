@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
   set_table_name 'userdetails'
+  set_primary_key 'user'
 
   belongs_to :country, :foreign_key => 'countryid'
   belongs_to :australian_uni, :foreign_key => 'uniid'
@@ -27,22 +28,28 @@ class User < ActiveRecord::Base
   before_create :complete_user_data
 
   def complete_user_data
-    self.institution, self.institutiontype, self.uniid, self.departmentid =
+    self.institution, self.institutiontype, self.uniid, self.departmentid,
+    self.acsprimember =
       if country == AUSTRALIA
         case austinstitution
         when 'Uni'
-          [ AustralianUni.find(uniid).Longuniname,
-            "Australian University", uniid, nil    ]
+          uni = AustralianUni.find(uniid)
+          [ uni.Longuniname,
+            "Australian University", uni.id, nil, uni.acsprimember ]
         when 'Dept'
           dept = AustralianGov.find(departmentid)
-          [dept.name, dept.type, nil, departmentid]
+          [dept.name, dept.type, nil, dept.id, dept.acsprimember]
         else
-          [other_australian_affiliation, other_australian_type, nil, nil]
+          [other_australian_affiliation, other_australian_type, nil, nil, 0]
         end
       else
-        [non_australian_affiliation, non_australian_type, nil, nil]
+        [non_australian_affiliation, non_australian_type, nil, nil, 0]
       end
+
+    self.dateregistered = Date.today.to_s
   end
+
+  # -- Created associated records
 
   # -- Validations for attributes available in the registration form go here:
 
