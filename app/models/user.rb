@@ -18,11 +18,33 @@ class User < ActiveRecord::Base
 
   # -- We use some non-database attributes in the registration form
 
-  attr_accessor (:email_confirmation,
-                 :other_australian_affiliation, :other_australian_type,
-                 :non_australian_affiliation, :non_australian_type)
+  attr_accessor(:email_confirmation,
+                :other_australian_affiliation, :other_australian_type,
+                :non_australian_affiliation, :non_australian_type)
 
-  # -- Validations go here:
+  # -- Clean up and set derived attributes before creating the user record
+
+  before_create :complete_user_data
+
+  def complete_user_data
+    self.institution, self.institutiontype, self.uniid, self.departmentid =
+      if country == AUSTRALIA
+        case austinstitution
+        when 'Uni'
+          [ AustralianUni.find(uniid).Longuniname,
+            "Australian University", uniid, nil    ]
+        when 'Dept'
+          dept = AustralianGov.find(departmentid)
+          [dept.name, dept.type, nil, departmentid]
+        else
+          [other_australian_affiliation, other_australian_type, nil, nil]
+        end
+      else
+        [non_australian_affiliation, non_australian_type, nil, nil]
+      end
+  end
+
+  # -- Validations for attributes available in the registration form go here:
 
   validates :user, {
     :presence => {

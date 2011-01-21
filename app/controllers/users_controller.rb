@@ -20,8 +20,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
-    if @user.valid?
-      flash[:notice] = 'User registration is not yet functional.'
+    if @user.save
+      flash[:notice] = 'Registration successful!'
     else
       flash.now[:alert] = 'Please check the values you filled in.'
       render :new
