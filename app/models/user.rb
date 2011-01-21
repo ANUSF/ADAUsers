@@ -4,9 +4,19 @@ class User < ActiveRecord::Base
   set_table_name 'userdetails'
   set_primary_key 'user'
 
-  belongs_to :country, :foreign_key => 'countryid'
+  belongs_to :country,        :foreign_key => 'countryid'
   belongs_to :australian_uni, :foreign_key => 'uniid'
   belongs_to :australian_gov, :foreign_key => 'departmentid'
+
+  has_one :user_ejb, {
+    :primary_key => :user,
+    :foreign_key => :id,
+    :dependent => :destroy }
+
+  has_many :user_roles, {
+    :primary_key => :user,
+    :foreign_key => :id,
+    :dependent => :destroy }
 
   # -- Default attributes to use in the registration form
 
@@ -30,6 +40,18 @@ class User < ActiveRecord::Base
   def complete_user_data
     self.dateregistered = Date.today.to_s
 
+    self.user_roles << UserRole.new(
+      :roleID => 'affiliateusers',
+      :rolegroup => '')
+
+    self.user_ejb = UserEjb.new(
+      :comment => 'registered user',
+      :creationDate => dateregistered,
+      :label => 'registered user',
+      :modificationDate => dateregistered,
+      :password => password,
+      :active => 1)
+
     self.institution, self.institutiontype, self.uniid, self.departmentid,
     self.acsprimember =
       if country == AUSTRALIA
@@ -47,32 +69,6 @@ class User < ActiveRecord::Base
       else
         [non_australian_affiliation, non_australian_type, nil, nil, 0]
       end
-  end
-
-  # -- Create and destroy associated records
-  # TODO can we use associations despite the 'shared' primary key?
-
-  after_create :add_associated
-
-  def add_associated
-    ur = UserRole.new :roleID => 'affiliateusers', :rolegroup => ''
-    ur.id = user
-    ur.save!
-
-    uj = UserEjb.new(
-      :comment => 'registered user',
-      :creationDate => dateregistered,
-      :label => 'registered user',
-      :modificationDate => dateregistered,
-      :password => password,
-      :active => 1)
-    uj.id = user
-    uj.save!
-  end
-
-  before_destroy do |rec|
-    UserRole.destroy rec.user
-    UserEjb.destroy  rec.user
   end
 
   # -- Validations for attributes available in the registration form go here:
