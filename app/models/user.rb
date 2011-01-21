@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   before_create :complete_user_data
 
   def complete_user_data
+    self.dateregistered = Date.today.to_s
+
     self.institution, self.institutiontype, self.uniid, self.departmentid,
     self.acsprimember =
       if country == AUSTRALIA
@@ -45,11 +47,33 @@ class User < ActiveRecord::Base
       else
         [non_australian_affiliation, non_australian_type, nil, nil, 0]
       end
-
-    self.dateregistered = Date.today.to_s
   end
 
-  # -- Created associated records
+  # -- Create and destroy associated records
+  # TODO can we use associations despite the 'shared' primary key?
+
+  after_create :add_associated
+
+  def add_associated
+    ur = UserRole.new :roleID => 'affiliateusers', :rolegroup => ''
+    ur.id = user
+    ur.save!
+
+    uj = UserEjb.new(
+      :comment => 'registered user',
+      :creationDate => dateregistered,
+      :label => 'registered user',
+      :modificationDate => dateregistered,
+      :password => password,
+      :active => 1)
+    uj.id = user
+    uj.save!
+  end
+
+  before_destroy do |rec|
+    UserRole.destroy rec.user
+    UserEjb.destroy  rec.user
+  end
 
   # -- Validations for attributes available in the registration form go here:
 
