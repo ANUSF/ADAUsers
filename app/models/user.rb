@@ -29,8 +29,7 @@ class User < ActiveRecord::Base
 
   # -- We use some non-database attributes in the registration form
 
-  attr_accessor(:email_confirmation,
-                :other_australian_affiliation, :other_australian_type,
+  attr_accessor(:other_australian_affiliation, :other_australian_type,
                 :non_australian_affiliation, :non_australian_type)
 
   # -- Clean up and set derived attributes before creating the user record
@@ -83,6 +82,16 @@ class User < ActiveRecord::Base
       :message =>
       'please use only letters, digits, hyphens, underscores and dots' }}
 
+  validates :password, {
+    :presence => {
+      :message => 'please enter a password' },
+    :length => {
+      :minimum => 6,
+      :unless => lambda { |rec| rec.password.blank? },
+      :message => 'your password must contain at least 6 characters' },
+    :confirmation => {
+      :message => 'please ensure passwords match' }}
+
   validates :fname, {
     :presence => {
       :message => 'please enter your first name' }}
@@ -101,7 +110,7 @@ class User < ActiveRecord::Base
       :with => /\A([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})?\Z/i,
       :message => 'this email address does not look valid' },
     :confirmation => {
-      :message => 'please ensure this email address matches the one below ' }
+      :message => 'please ensure email addresses match' }
     }
 
   validates :position, {

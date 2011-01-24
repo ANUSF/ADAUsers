@@ -14,15 +14,16 @@
     provided in the relevant online catalogue record.
   </p>
   <p>
-    Please fill out and submit the form below.  Upon submission you
-    will receive an automated email with your login details.  All
-    fields are required:
+    Please fill out and submit the form below.  All fields are
+    required:
   </p>
 <% end %>
 
 <%= semantic_form_for @user do |f| %>
   <%= f.inputs do %>
     <%= f.input :user, :label => 'Username' %>
+    <%= f.input :password, :label => 'Password' %>
+    <%= f.input :password_confirmation, :label => 'Re-type Password' %>
     <%= f.input :title, :as => :select,
                 :collection => @user.title_options %>
     <%= f.input :fname, :label => 'First Name' %>
