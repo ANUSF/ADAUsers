@@ -1,9 +1,9 @@
-/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 05:07:30 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 05:13:51 GMT from
  * /home/olaf/Ruby-Rails/openid-server/app/coffeescripts/application.coffee
  */
 
 (function() {
-  var $, action_change, country_change, institution_change, patterns, position_change;
+  var $, action_change, country_change, institution_change, patterns, position_change, process_registration_form;
   $ = jQuery;
   patterns = {
     form: 'form#new_user',
@@ -66,28 +66,32 @@
     }
     return _results;
   };
-  $(document).ready(function() {
+  process_registration_form = function() {
     var form;
-    form = $(patterns.form);
-    form.find(patterns.position_selection).each(function() {
-      return position_change($(this));
-    }).change(function() {
-      return position_change($(this));
-    });
-    form.find(patterns.action_selection).each(function() {
-      return action_change($(this));
-    }).change(function() {
-      return action_change($(this));
-    });
-    form.find(patterns.country_selection).each(function() {
-      return country_change($(this));
-    }).change(function() {
-      return country_change($(this));
-    });
-    return form.find(patterns.inst_type_container).each(function() {
-      return institution_change($(this));
-    }).find('input').click(function() {
-      return institution_change($(this));
-    });
+    if ((form = $(patterns.form)) != null) {
+      form.find(patterns.position_selection).each(function() {
+        return position_change($(this));
+      }).change(function() {
+        return position_change($(this));
+      });
+      form.find(patterns.action_selection).each(function() {
+        return action_change($(this));
+      }).change(function() {
+        return action_change($(this));
+      });
+      form.find(patterns.country_selection).each(function() {
+        return country_change($(this));
+      }).change(function() {
+        return country_change($(this));
+      });
+      return form.find(patterns.inst_type_container).each(function() {
+        return institution_change($(this));
+      }).find('input').click(function() {
+        return institution_change($(this));
+      });
+    }
+  };
+  $(document).ready(function() {
+    return process_registration_form();
   });
 }).call(this);

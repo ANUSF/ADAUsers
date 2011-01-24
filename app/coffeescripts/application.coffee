@@ -56,21 +56,24 @@ institution_change = (item) ->
     form.find(v)[if k == value then 'show' else 'hide']()
 
 
+process_registration_form = ->
+  if (form = $ patterns.form)?
+    form.find(patterns.position_selection)
+      .each(-> position_change $ this)
+      .change(-> position_change $ this)
+
+    form.find(patterns.action_selection)
+      .each(-> action_change $ this)
+      .change(-> action_change $ this)
+
+    form.find(patterns.country_selection)
+      .each(-> country_change $ this)
+      .change(-> country_change $ this)
+
+    form.find(patterns.inst_type_container)
+      .each(-> institution_change $ this)
+      .find('input').click(-> institution_change $ this)
+
+
 $(document).ready ->
-  form = $ patterns.form
-
-  form.find(patterns.position_selection)
-    .each(-> position_change $ this)
-    .change(-> position_change $ this)
-
-  form.find(patterns.action_selection)
-    .each(-> action_change $ this)
-    .change(-> action_change $ this)
-
-  form.find(patterns.country_selection)
-    .each(-> country_change $ this)
-    .change(-> country_change $ this)
-
-  form.find(patterns.inst_type_container)
-    .each(-> institution_change $ this)
-    .find('input').click(-> institution_change $ this)
+  process_registration_form()
