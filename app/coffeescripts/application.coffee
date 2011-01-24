@@ -5,6 +5,12 @@ $ = jQuery
 patterns =
   form:                'form#new_user'
 
+  position_selection:  '#user_position_input select'
+  other_position:      '#user_otherpd_input'
+
+  action_selection:    '#user_action_input select'
+  other_action:        '#user_otherwt_input'
+
   country_selection:   '#user_country_input select'
   affiliation_aus:     '#affiliation-aus'
   affiliation_non_aus: '#affiliation-non-aus'
@@ -18,8 +24,14 @@ patterns =
     Other: '#user_australian_other_inputs'
 
 
-checked_radio_button = (scope, name) ->
-  scope.find("input[@name='#{name}']:checked")
+position_change = (item) ->
+  other = item.closest(patterns.form).find(patterns.other_position)
+  if item.val() == 'Other' then other.show() else other.hide()
+
+
+action_change = (item) ->
+  other = item.closest(patterns.form).find(patterns.other_action)
+  if item.val() == 'Other' then other.show() else other.hide()
 
 
 country_change = (item) ->
@@ -37,16 +49,28 @@ country_change = (item) ->
 
 institution_change = (item) ->
   form = item.closest patterns.form
-  value = checked_radio_button(form, patterns.inst_buttons_name).val()
+  pattern = "input[@name='#{patterns.inst_buttons_name}']:checked"
+  value = form.find(pattern).val()
 
   for k, v of patterns.inst_type_conditional_fields
     form.find(v)[if k == value then 'show' else 'hide']()
 
 
 $(document).ready ->
-  $(patterns.form).find(patterns.country_selection)
+  form = $ patterns.form
+
+  form.find(patterns.position_selection)
+    .each(-> position_change $ this)
+    .change(-> position_change $ this)
+
+  form.find(patterns.action_selection)
+    .each(-> action_change $ this)
+    .change(-> action_change $ this)
+
+  form.find(patterns.country_selection)
     .each(-> country_change $ this)
     .change(-> country_change $ this)
-  $(patterns.form).find(patterns.inst_type_container)
+
+  form.find(patterns.inst_type_container)
     .each(-> institution_change $ this)
     .find('input').click(-> institution_change $ this)

@@ -1,12 +1,16 @@
-/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 04:39:11 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 05:07:30 GMT from
  * /home/olaf/Ruby-Rails/openid-server/app/coffeescripts/application.coffee
  */
 
 (function() {
-  var $, checked_radio_button, country_change, institution_change, patterns;
+  var $, action_change, country_change, institution_change, patterns, position_change;
   $ = jQuery;
   patterns = {
     form: 'form#new_user',
+    position_selection: '#user_position_input select',
+    other_position: '#user_otherpd_input',
+    action_selection: '#user_action_input select',
+    other_action: '#user_otherwt_input',
     country_selection: '#user_country_input select',
     affiliation_aus: '#affiliation-aus',
     affiliation_non_aus: '#affiliation-non-aus',
@@ -18,8 +22,23 @@
       Other: '#user_australian_other_inputs'
     }
   };
-  checked_radio_button = function(scope, name) {
-    return scope.find("input[@name='" + name + "']:checked");
+  position_change = function(item) {
+    var other;
+    other = item.closest(patterns.form).find(patterns.other_position);
+    if (item.val() === 'Other') {
+      return other.show();
+    } else {
+      return other.hide();
+    }
+  };
+  action_change = function(item) {
+    var other;
+    other = item.closest(patterns.form).find(patterns.other_action);
+    if (item.val() === 'Other') {
+      return other.show();
+    } else {
+      return other.hide();
+    }
   };
   country_change = function(item) {
     var aus, form, other;
@@ -35,9 +54,10 @@
     }
   };
   institution_change = function(item) {
-    var form, k, v, value, _ref, _results;
+    var form, k, pattern, v, value, _ref, _results;
     form = item.closest(patterns.form);
-    value = checked_radio_button(form, patterns.inst_buttons_name).val();
+    pattern = "input[@name='" + patterns.inst_buttons_name + "']:checked";
+    value = form.find(pattern).val();
     _ref = patterns.inst_type_conditional_fields;
     _results = [];
     for (k in _ref) {
@@ -47,12 +67,24 @@
     return _results;
   };
   $(document).ready(function() {
-    $(patterns.form).find(patterns.country_selection).each(function() {
+    var form;
+    form = $(patterns.form);
+    form.find(patterns.position_selection).each(function() {
+      return position_change($(this));
+    }).change(function() {
+      return position_change($(this));
+    });
+    form.find(patterns.action_selection).each(function() {
+      return action_change($(this));
+    }).change(function() {
+      return action_change($(this));
+    });
+    form.find(patterns.country_selection).each(function() {
       return country_change($(this));
     }).change(function() {
       return country_change($(this));
     });
-    return $(patterns.form).find(patterns.inst_type_container).each(function() {
+    return form.find(patterns.inst_type_container).each(function() {
       return institution_change($(this));
     }).find('input').click(function() {
       return institution_change($(this));
