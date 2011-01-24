@@ -2,6 +2,7 @@ body {
     font: 11px/16px Arial, Helvetica, sans-serif;
     background: #E8E8E8!important;
 }
+
 .navigation ul {
     display: inline-block;
     list-style: none;
@@ -53,4 +54,9 @@ body {
     font-weight: bolder;
     text-align: right;
     margin-right: 1em;
+}
+
+form.formtastic fieldset ol li.radio fieldset ol li {
+    float: left;
+    padding-right: 2em;
 }
