@@ -68,7 +68,8 @@
     <%= f.input :non_australian_type,
                 :label => "Non-Australian Institution Type",
                 :as => :select, :collection => @user.non_aust_inst_types %>
-
+  <% end %>
+  <%= f.buttons do %>
     <%= f.commit_button 'Submit' %>
   <% end %>
 <% end %>

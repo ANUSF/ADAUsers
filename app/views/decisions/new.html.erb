@@ -1,6 +1,8 @@
 <h3>Confirm ID Request</h3>
 
-<%= form_tag decisions_path do %>
-  <%= submit_tag "yes" %>
-  <%= submit_tag "no" %>
+<%= semantic_form_for :decision, :url => decisions_path do |f| %>
+  <%= f.buttons do %>
+    <%= f.commit_button "yes" %>
+    <%= f.commit_button "no" %>
+  <% end %>
 <% end %>

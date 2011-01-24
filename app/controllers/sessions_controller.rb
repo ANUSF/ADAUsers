@@ -25,10 +25,10 @@ class SessionsController < ApplicationController
       username = if oidreq and not oidreq.id_select
                    username_for oidreq.identity
                  else 
-                   params[:username]
+                   params[:session][:username]
                  end
       user = User.find_by_user username
-      if user.nil? or user.password != params[:password]
+      if user.nil? or user.password != params[:session][:password]
         redirect_to new_session_url, :alert => 'Incorrect password or identity'
       else
         reset_session

@@ -1,22 +1,19 @@
 <h3>Sign In</h3>
 
-<%= form_tag sessions_url do %>
-  <ul>
-    <li>
-      <%= label_tag :username, "Username:" %>
-      <% if @username.nil? %>
-        <%= text_field_tag :username %>
-      <% else %>
+<%= semantic_form_for :session, :url => sessions_path do |f| %>
+  <%= f.inputs do %>
+    <% if @username.nil? %>
+      <%= f.input :username %>
+    <% else %>
+      <li>
+        <%= f.label :username %>
         <%= @username %>
-      <% end %>
-    </li>
-    <li>
-      <%= label_tag :password, "Password:" %>
-      <%= password_field_tag :password %>
-    </li>
-    <li>
-      <%= submit_tag "Login" %>
-      <%= submit_tag "Cancel" %>
-    </li>
-  </ul>
+      </li>
+    <% end %>
+    <%= f.input :password %>
+  <% end %>
+  <%= f.buttons do %>
+    <%= f.commit_button 'Login' %>
+    <%= f.commit_button 'Cancel' %>
+  <% end %>
 <% end %>
