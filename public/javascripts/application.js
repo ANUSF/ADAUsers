@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 05:13:51 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 05:29:29 GMT from
  * /home/olaf/Ruby-Rails/openid-server/app/coffeescripts/application.coffee
  */
 
@@ -6,7 +6,7 @@
   var $, action_change, country_change, institution_change, patterns, position_change, process_registration_form;
   $ = jQuery;
   patterns = {
-    form: 'form#new_user',
+    form: 'form.user',
     position_selection: '#user_position_input select',
     other_position: '#user_otherpd_input',
     action_selection: '#user_action_input select',
