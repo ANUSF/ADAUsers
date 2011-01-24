@@ -38,10 +38,10 @@
     <%= f.input :otherwt, :label => 'Other Type of Work' %>
     <%= f.input :country, :label_method => :Countryname %>
 
-    <%= f.inputs :id => 'australia-inputs' do %>
-      <%= f.input :austinstitution, :label => 'Australian Institution Type',
+    <%= f.inputs :id => 'affiliation-aus' do %>
+      <%= f.input :austinstitution, :label => 'Australian Institution',
                   :as => :radio, :collection => @user.austinstitution_options %>
-      <%= f.input :australian_uni, :label => 'Australian University',
+      <%= f.input :australian_uni, :label => 'University',
                   :label_method => :Longuniname %>
       <!-- TODO make this work instead of the hand-knit version below -->
       <!-- %= f.input :australian_gov, :label =>
@@ -52,26 +52,28 @@
          # SemanticFormBuilder.method_required?() is protected, unfortunately
          required = f.instance_eval { method_required? :australian_gov } 
          html_class.push 'required' if required %>
-      <li id='user_departmentid_input' class="<%= html_class.join ' ' %>">
+      <li id='user_australian_gov_input' class="<%= html_class.join ' ' %>">
         <%= f.label :departmentid,
-                    'Australian Government Department/Agency or Research Centre',
+                    'Government Department/Agency or Research Centre',
                     :required => required %>
         <%= grouped_collection_select :user, :departmentid,
                     AustralianGov.types, :members, :name, :id, :name %>
         <%= f.inline_errors_for :australian_gov %>
       </li>
-      <%= f.input :other_australian_affiliation,
-                  :label => "Other Australian Institution" %>
-      <%= f.input :other_australian_type,
-                  :label => "Other Australian Institution Type",
-                  :as => :select, :collection => @user.other_aust_inst_types %>
+      <%= f.inputs :id => 'user_australian_other_inputs' do %>
+        <%= f.input :other_australian_affiliation,
+                    :label => "Other Institution" %>
+        <%= f.input :other_australian_type,
+                    :label => "Other Institution Type",
+                    :as => :select, :collection => @user.other_aust_inst_types %>
+      <% end %>
     <% end %>
 
-    <%= f.inputs :id => 'not-australia-inputs' do %>
+    <%= f.inputs :id => 'affiliation-non-aus' do %>
       <%= f.input :non_australian_affiliation,
-                  :label => "Non-Australian Institution" %>
+                  :label => "Institution" %>
       <%= f.input :non_australian_type,
-                  :label => "Non-Australian Institution Type",
+                  :label => "Institution Type",
                   :as => :select, :collection => @user.non_aust_inst_types %>
     <% end %>
 
