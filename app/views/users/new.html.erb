@@ -37,37 +37,44 @@
                 :collection => @user.action_options %>
     <%= f.input :otherwt, :label => 'Other Type of Work' %>
     <%= f.input :country, :label_method => :Countryname %>
-    <%= f.input :austinstitution, :label => 'Australian Institution Type',
-                :as => :radio, :collection => @user.austinstitution_options %>
-    <%= f.input :australian_uni, :label => 'Australian University',
-                :label_method => :Longuniname %>
-    <!-- TODO instead of the hand-knit version below, make this work somehow: -->
-    <!-- %= f.input :australian_gov, :label =>
-                'Australian Government Department/Agency or Research Centre',
-                :label_method => :name, :group_by => :type % -->
-    <% html_class = ['select']
-       html_class.push 'error' unless @user.errors[:australian_gov].empty?
-       # SemanticFormBuilder.method_required?() is protected, unfortunately
-       required = f.instance_eval { method_required? :australian_gov } 
-       html_class.push 'required' if required %>
-    <li id='user_departmentid_input' class="<%= html_class.join ' ' %>">
-      <%= f.label :departmentid,
+
+    <%= f.inputs :id => 'australia-inputs' do %>
+      <%= f.input :austinstitution, :label => 'Australian Institution Type',
+                  :as => :radio, :collection => @user.austinstitution_options %>
+      <%= f.input :australian_uni, :label => 'Australian University',
+                  :label_method => :Longuniname %>
+      <!-- TODO make this work instead of the hand-knit version below -->
+      <!-- %= f.input :australian_gov, :label =>
                   'Australian Government Department/Agency or Research Centre',
-                  :required => required %>
-      <%= grouped_collection_select :user, :departmentid,
-                  AustralianGov.types, :members, :name, :id, :name %>
-      <%= f.inline_errors_for :australian_gov %>
-    </li>
-    <%= f.input :other_australian_affiliation,
-                :label => "Other Australian Institution" %>
-    <%= f.input :other_australian_type,
-                :label => "Other Australian Institution Type",
-                :as => :select, :collection => @user.other_aust_inst_types %>
-    <%= f.input :non_australian_affiliation,
-                :label => "Non-Australian Institution" %>
-    <%= f.input :non_australian_type,
-                :label => "Non-Australian Institution Type",
-                :as => :select, :collection => @user.non_aust_inst_types %>
+                  :label_method => :name, :group_by => :type % -->
+      <% html_class = ['select']
+         html_class.push 'error' unless @user.errors[:australian_gov].empty?
+         # SemanticFormBuilder.method_required?() is protected, unfortunately
+         required = f.instance_eval { method_required? :australian_gov } 
+         html_class.push 'required' if required %>
+      <li id='user_departmentid_input' class="<%= html_class.join ' ' %>">
+        <%= f.label :departmentid,
+                    'Australian Government Department/Agency or Research Centre',
+                    :required => required %>
+        <%= grouped_collection_select :user, :departmentid,
+                    AustralianGov.types, :members, :name, :id, :name %>
+        <%= f.inline_errors_for :australian_gov %>
+      </li>
+      <%= f.input :other_australian_affiliation,
+                  :label => "Other Australian Institution" %>
+      <%= f.input :other_australian_type,
+                  :label => "Other Australian Institution Type",
+                  :as => :select, :collection => @user.other_aust_inst_types %>
+    <% end %>
+
+    <%= f.inputs :id => 'not-australia-inputs' do %>
+      <%= f.input :non_australian_affiliation,
+                  :label => "Non-Australian Institution" %>
+      <%= f.input :non_australian_type,
+                  :label => "Non-Australian Institution Type",
+                  :as => :select, :collection => @user.non_aust_inst_types %>
+    <% end %>
+
   <% end %>
   <%= f.buttons do %>
     <%= f.commit_button 'Submit' %>

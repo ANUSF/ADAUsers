@@ -14,3 +14,5 @@ end
 
 gem 'ruby-openid',  :require => 'openid'
 gem 'formtastic'
+gem 'json_pure', :require => 'json'
+gem 'barista'
