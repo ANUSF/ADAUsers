@@ -43,23 +43,9 @@
                   :as => :radio, :collection => @user.austinstitution_options %>
       <%= f.input :australian_uni, :label => 'University',
                   :label_method => :Longuniname %>
-      <!-- TODO make this work instead of the hand-knit version below -->
-      <!-- %= f.input :australian_gov, :label =>
-                  'Australian Government Department/Agency or Research Centre',
-                  :label_method => :name, :group_by => :type % -->
-      <% html_class = ['select']
-         html_class.push 'error' unless @user.errors[:australian_gov].empty?
-         # SemanticFormBuilder.method_required?() is protected, unfortunately
-         required = f.instance_eval { method_required? :australian_gov } 
-         html_class.push 'required' if required %>
-      <li id='user_australian_gov_input' class="<%= html_class.join ' ' %>">
-        <%= f.label :departmentid,
-                    'Government Department/Agency or Research Centre',
-                    :required => required %>
-        <%= grouped_collection_select :user, :departmentid,
-                    AustralianGov.types, :members, :name, :id, :name %>
-        <%= f.inline_errors_for :australian_gov %>
-      </li>
+      <% australian_gov_options = AustralianGov.types.map {|t| {t.name => t.members.map {|m| [m.name, m.id]}}}.reduce(:merge).reject {|k,v| k == ''} %>
+      <%= f.input :australian_gov, :label => 'Government Department/Agency or Research Centre',
+                  :collection => grouped_options_for_select(australian_gov_options, @user.departmentid) %>
       <%= f.inputs :id => 'user_australian_other_inputs' do %>
         <%= f.input :other_australian_affiliation,
                     :label => "Other Institution" %>
