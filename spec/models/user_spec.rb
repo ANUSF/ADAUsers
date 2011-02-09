@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe User do
-
   describe "validations" do
     it "saves valid users" do
       user = User.make_unsaved
@@ -13,6 +12,8 @@ describe User do
       user = User.make_unsaved(:user => '')
       user.should_not be_valid
     end
+
+    # ...
   end
 
 end
