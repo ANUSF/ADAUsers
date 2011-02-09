@@ -1,4 +1,7 @@
 #!/bin/bash
+# From: http://www.jbip.net/content/how-convert-mysql-sqlite
+# Create mysql dump using:
+# mysqldump -u xxxx -p --compatible=ansi --skip-opt database > dumpfile.sql
 if [ "x$1" == "x" ]; then
    echo "Usage: $0 <dumpname>"
    exit

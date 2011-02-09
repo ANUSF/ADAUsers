@@ -16,3 +16,15 @@ gem 'ruby-openid',  :require => 'openid'
 gem 'formtastic'
 gem 'json_pure', :require => 'json'
 gem 'barista'
+
+
+group :development, :test do
+  gem 'rspec-rails', '= 2.0.1'
+  gem 'capybara'
+  gem 'launchy'    # So you can do Then show me the page
+  gem 'autotest'
+  gem 'steak', '>= 1.0.0.rc.1'
+  gem 'faker'
+  gem 'machinist' , '= 1.0.6'
+  gem 'database_cleaner'
+end
