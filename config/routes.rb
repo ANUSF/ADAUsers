@@ -8,6 +8,7 @@ OpenidServer::Application.routes.draw do
 
   match 'server', :to => 'identities#index', :as => 'server'
 
+  match 'user/search', :to => 'users#search', :as => 'user_search'
   match 'user/*username', :to => 'users#show', :as => 'user', :format => false
 
 

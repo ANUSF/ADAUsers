@@ -14,6 +14,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def search
+    @users = nil
+    
+    if params.has_key? :search
+      @search_query = params[:search][:q]
+      case params[:commit]
+      when "Search by username"
+        @users = User.where("user LIKE ?", "%%#{params[:search][:q]}%%")
+
+      when "Search by email address"
+        @users = User.where("email LIKE ?", "%%#{params[:search][:q]}%%")
+
+      when "List all users"
+        @users = User.all
+      end
+    end
+  end
+
   def new
     @user = User.new User.defaults
   end

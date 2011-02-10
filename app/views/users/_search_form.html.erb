@@ -1,0 +1,9 @@
+<%# TODO: maybe formtasticise this %>
+<%= form_for :search, :url => user_search_path do |f| %>
+  <p><%= f.text_field :q %></p>
+  <p>
+    <%= f.submit "Search by username" %>
+    <%= f.submit "Search by email address" %>
+    <%= f.submit "List all users" %>
+  </p>
+<% end %>

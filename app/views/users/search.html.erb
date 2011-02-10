@@ -1,0 +1,18 @@
+<%= render 'users/search_form' %>
+
+<% unless @users.nil? %>
+  <% if @users.empty? %>
+    Your search '<%= @search_query %>' returned no results.
+  <% else %>
+    <table id="search_results">
+      <tr>
+	<th>Username</th>
+      </tr>
+      <% @users.each do |user| %>
+        <tr>
+	  <td><%= user.user %></td>
+	</tr>
+      <% end %>
+    </table>
+  <% end %>
+<% end %>
