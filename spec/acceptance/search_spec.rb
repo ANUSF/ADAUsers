@@ -6,6 +6,13 @@ feature "Search", %q{
   I want to be able to search for users
 } do
 
+  before(:each) do
+    # Delete all users with names like "alice" or "bob"
+    ['alice', 'bob'].each do |name|
+      User.where("user LIKE ?", "%%#{name}%%").destroy_all
+    end
+  end
+
   scenario "viewing the search page" do
     visit "/user/search"
 
@@ -39,28 +46,20 @@ feature "Search", %q{
   end
 
   scenario "displaying full list of users" do
-    User.make(:user => "Alice")
-    User.make(:user => "Bob")
-
     visit "/user/search"
     click_button "List all users"
 
-    find("table#search_results").should have_content("Alice")
-    find("table#search_results").should have_content("Bob")
+    all("tr").length.should == 30+1 # 1 for heading row
   end
 
   scenario "search returns no results" do
     query = "jfdjskdf"
 
-    User.make(:user => "Alice")
-    User.make(:user => "Bob")
-
     visit "/user/search"
     fill_in "search_q", :with => query
     click_button "Search by username"
 
-    find("table#search_results").should_not have_content("Alice")
-    find("table#search_results").should_not have_content("Bob")
+    page.should_not have_selector("table#search_results")
     page.should have_content("Your search '#{query}' returned no results.")
   end
 
@@ -70,10 +69,20 @@ feature "Search", %q{
     visit "/user/search"
     click_button "List all users"
     
-    find("a").should have_content("1")
-    find("a").should have_content("Next")
-    find("tr").count.should == 30+1 # 1 for heading row
+    find("a").should have_content("2")
+    all("tr").length.should == 30+1 # 1 for heading row
   end
+
+#  scenario "search displays all required columns" do
+#    visit "/user/search"
+#    click_button "List all users"
+#    
+#    columns = []
+#
+#    columns.each do |col|
+#      find("th").should have_content(col)
+#    end
+#  end
 
   # TODO
   scenario "search is not accessible by non-administrators" do

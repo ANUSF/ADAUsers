@@ -4,6 +4,8 @@
   <% if @users.empty? %>
     Your search '<%= @search_query %>' returned no results.
   <% else %>
+    <%= will_paginate @posts %>
+
     <table id="search_results">
       <tr>
 	<th>Username</th>
@@ -14,5 +16,7 @@
 	</tr>
       <% end %>
     </table>
+
+    <%= will_paginate @posts %>
   <% end %>
 <% end %>

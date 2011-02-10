@@ -16,7 +16,8 @@ gem 'ruby-openid',  :require => 'openid'
 gem 'formtastic'
 gem 'json_pure', :require => 'json'
 gem 'barista'
-
+gem 'will_paginate', '~> 3.0.pre2'
+gem 'composite_primary_keys', '=3.1.0' # For support of Nesstar database
 
 group :development, :test do
   gem 'rspec-rails', '= 2.0.1'

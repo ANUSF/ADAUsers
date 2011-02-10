@@ -27,8 +27,10 @@ class UsersController < ApplicationController
         @users = User.where("email LIKE ?", "%%#{params[:search][:q]}%%")
 
       when "List all users"
-        @users = User.all
+        @users = User
       end
+
+      @users = @users.paginate :page => params[:page], :order => 'user'
     end
   end
 
