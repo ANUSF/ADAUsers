@@ -18,6 +18,18 @@ class User < ActiveRecord::Base
     :foreign_key => :id,
     :dependent => :destroy }
 
+  has_many :permissions_a, {
+    :class_name => 'UserPermissionA',
+    :primary_key => :user,
+    :foreign_key => :userID,
+    :dependent => :destroy }
+
+  has_many :permissions_b, {
+    :class_name => 'UserPermissionB',
+    :primary_key => :user,
+    :foreign_key => :userID,
+    :dependent => :destroy }
+
   # -- Default attributes to use in the registration form
 
   def self.defaults
