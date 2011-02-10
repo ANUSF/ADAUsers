@@ -73,16 +73,17 @@ feature "Search", %q{
     all("tr").length.should == 30+1 # 1 for heading row
   end
 
-#  scenario "search displays all required columns" do
-#    visit "/user/search"
-#    click_button "List all users"
-#    
-#    columns = []
-#
-#    columns.each do |col|
-#      find("th").should have_content(col)
-#    end
-#  end
+  scenario "search displays all required columns" do
+    visit "/user/search"
+    click_button "List all users"
+    
+    # User	Password	Role	Email	Institution	Action	Position	Dateregistered	Acsprimember	Countryid	Uniid	Departmentid	Institutiontype	Fname	Sname	Title	Austinstitution	Otherpd	Otherwt
+    columns = ['Username', 'Password', 'Role', 'Email', 'Institution', 'Type of work', 'Position', 'Date registered', 'ACSPRI member?', 'Country', 'University', 'Department', 'Institution type', 'First name', 'Surname', 'Title', 'Australian Institution Type', 'Other Position Details', 'Other Work Type']
+
+    columns.each do |col|
+      find("thead").should have_content(col)
+    end
+  end
 
   # TODO
   scenario "search is not accessible by non-administrators" do

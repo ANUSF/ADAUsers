@@ -6,15 +6,55 @@
   <% else %>
     <%= will_paginate @posts %>
 
-    <table id="search_results">
-      <tr>
-	<th>Username</th>
-      </tr>
-      <% @users.each do |user| %>
-        <tr>
-	  <td><%= user.user %></td>
+    <table id="search_results" border="1">
+      <thead>
+	<tr>
+	  <th>Username</th>
+	  <th>Password</th>
+	  <th>Role</th>
+	  <th>Email</th>
+	  <th>Institution</th>
+	  <th>Type of work</th>
+	  <th>Position</th>
+	  <th>Date registered</th>
+	  <th>ACSPRI member?</th>
+	  <th>Country</th>
+	  <th>University</th>
+	  <th>Department</th>
+	  <th>Institution type</th>
+	  <th>First name</th>
+	  <th>Surname</th>
+	  <th>Title</th>
+	  <th>Australian Institution Type</th>
+	  <th>Other Position Details</th>
+	  <th>Other Work Type</th>
 	</tr>
-      <% end %>
+      </thead>
+      <tbody>
+	<% @users.each do |user| %>
+          <tr>
+	    <td><%= user.user %></td>
+	    <td><%= user.password %></td>
+	    <td><%= user.user_roles.map {|ur| ur.roleID}.join ', ' %></td>
+	    <td><%= user.email %></td>
+	    <td><%= user.institution %></td>
+	    <td><%= user.action %></td>
+	    <td><%= user.position %></td>
+	    <td><%= user.dateregistered %></td>
+	    <td><%= user.acsprimember ? "Yes" : "No" %></td>
+	    <td><%= user.country ? user.country.Countryname : '' %></td>
+	    <td><%= user.australian_uni ? user.australian_uni.Longuniname : '' %></td>
+	    <td><%= user.australian_gov ? user.australian_gov.name : '' %></td>
+	    <td><%= user.institutiontype %></td>
+	    <td><%= user.fname %></td>
+	    <td><%= user.sname %></td>
+	    <td><%= user.title %></td>
+	    <td><%= user.austinstitution %></td>
+	    <td><%= user.otherpd == 'NULL' ? '' : user.otherpd %></td>
+	    <td><%= user.otherwt == 'NULL' ? '' : user.otherwt %></td>
+	  </tr>
+	<% end %>
+      </tbody>
     </table>
 
     <%= will_paginate @posts %>
