@@ -48,4 +48,8 @@ class UsersController < ApplicationController
       render :new
     end
   end
+
+  def edit
+    @user = User.find_by_user(params[:username])
+  end
 end

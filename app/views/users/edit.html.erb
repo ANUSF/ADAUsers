@@ -1,0 +1,8 @@
+<h2>User details</h2>
+
+<table>
+  <tr><td>Username:</td><td><%= @user.user %></td></tr>
+  <tr><td>Email address:</td><td><%= @user.email %></td></tr>
+  <tr><td>ACSPRI member?</td><td><%= @user.acsprimember ? "Yes" : "No" %></td></tr>
+  <tr><td>Role:</td><td><%= @user.user_roles.first.roleID %></td></tr>
+</table>
