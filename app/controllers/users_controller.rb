@@ -56,13 +56,18 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by_user(params[:id])
 
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "That user has been updated."
-      redirect_to edit_user_path(@user)
-    else
-      logger.debug "Error updating: #{@user.errors.inspect}."
-      render :action => "edit"
+    if params[:user][:acsprimember]
+      @user.update_attribute(:acsprimember, params[:user][:acsprimember])
     end
+
+    redirect_to edit_user_path(@user)
+
+    #if @user.update_attributes(params[:user])
+    #  flash[:notice] = "That user has been updated."
+    #  redirect_to edit_user_path(@user)
+    #else
+    #  render :action => "edit"
+    #end
 
   end
 end

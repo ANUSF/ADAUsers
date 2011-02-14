@@ -8,7 +8,7 @@
   </head>
   <body>
     <% flash.each do |name, msg| %>
-    <div id='flash_<%=name%>'><%=h(msg).gsub(/\n/, '<br/>')%></div>
+      <div id='flash_<%=name%>'><%=h(msg).gsub(/\n/, '<br/>')%></div>
     <% end %>
 
     <div id='main'>
