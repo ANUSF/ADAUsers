@@ -33,7 +33,7 @@
       <tbody>
 	<% @users.each do |user| %>
           <tr>
-	    <td><%= user.user %></td>
+	    <td><%= link_to user.user, edit_user_path(user) %></td>
 	    <td><%= user.password %></td>
 	    <td><%= user.user_roles.map {|ur| ur.roleID}.join ', ' %></td>
 	    <td><%= user.email %></td>
@@ -41,7 +41,7 @@
 	    <td><%= user.action %></td>
 	    <td><%= user.position %></td>
 	    <td><%= user.dateregistered %></td>
-	    <td><%= user.acsprimember ? "Yes" : "No" %></td>
+	    <td><%= user.acsprimember? ? "Yes" : "No" %></td>
 	    <td><%= user.country ? user.country.Countryname : '' %></td>
 	    <td><%= user.australian_uni ? user.australian_uni.Longuniname : '' %></td>
 	    <td><%= user.australian_gov ? user.australian_gov.name : '' %></td>

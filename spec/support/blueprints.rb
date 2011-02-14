@@ -12,6 +12,7 @@ User.blueprint do
   fname { Sham.name }
   sname { Sham.name }
   email { Sham.email }
+  acsprimember { 1 }
   position { User.new.position_options[0] }
   action { User.new.action_options[0][1] }
   country { User::AUSTRALIA }

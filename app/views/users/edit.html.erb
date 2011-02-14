@@ -3,6 +3,15 @@
 <table>
   <tr><td>Username:</td><td><%= @user.user %></td></tr>
   <tr><td>Email address:</td><td><%= @user.email %></td></tr>
-  <tr><td>ACSPRI member?</td><td><%= @user.acsprimember ? "Yes" : "No" %></td></tr>
+  <tr id="acspri">
+    <td>ACSPRI member?</td>
+    <td>
+      <%= form_for @user do |form| %>
+        <%= @user.acsprimember? ? "Yes" : "No" %>
+	<%= form.hidden_field :acsprimember, :value => 1-@user.acsprimember %>
+        <%= form.submit "Change" %>
+      <% end %>
+    </td>
+  </tr>
   <tr><td>Role:</td><td><%= @user.user_roles.first.roleID %></td></tr>
 </table>

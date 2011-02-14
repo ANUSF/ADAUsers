@@ -14,7 +14,7 @@ feature "Search", %q{
   end
 
   scenario "viewing the search page" do
-    visit "/user/search"
+    visit "/users/search"
 
     page.should have_selector("input[type=submit][value='Search by username']")
     page.should have_selector("input[type=submit][value='Search by email address']")
@@ -25,7 +25,7 @@ feature "Search", %q{
     User.make(:user => "Alice")
     User.make(:user => "Bob")
 
-    visit "/user/search"
+    visit "/users/search"
     fill_in "search_q", :with => "alice"
     click_button "Search by username"
 
@@ -37,7 +37,7 @@ feature "Search", %q{
     User.make(:user => "Alice", :email => "alice@toyworld.com.au")
     User.make(:user => "Bob",   :email => "bob@magnetmart.com.au")
 
-    visit "/user/search"
+    visit "/users/search"
     fill_in "search_q", :with => "magnet"
     click_button "Search by email address"
 
@@ -46,7 +46,7 @@ feature "Search", %q{
   end
 
   scenario "displaying full list of users" do
-    visit "/user/search"
+    visit "/users/search"
     click_button "List all users"
 
     all("tr").length.should == 30+1 # 1 for heading row
@@ -55,7 +55,7 @@ feature "Search", %q{
   scenario "search returns no results" do
     query = "jfdjskdf"
 
-    visit "/user/search"
+    visit "/users/search"
     fill_in "search_q", :with => query
     click_button "Search by username"
 
@@ -66,7 +66,7 @@ feature "Search", %q{
   scenario "search results are paginated on long pages" do
     User.count.should be > 100
 
-    visit "/user/search"
+    visit "/users/search"
     click_button "List all users"
     
     find("a").should have_content("2")
@@ -74,7 +74,7 @@ feature "Search", %q{
   end
 
   scenario "search displays all required columns" do
-    visit "/user/search"
+    visit "/users/search"
     click_button "List all users"
     
     # User	Password	Role	Email	Institution	Action	Position	Dateregistered	Acsprimember	Countryid	Uniid	Departmentid	Institutiontype	Fname	Sname	Title	Austinstitution	Otherpd	Otherwt

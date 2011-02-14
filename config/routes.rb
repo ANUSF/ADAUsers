@@ -1,16 +1,15 @@
 OpenidServer::Application.routes.draw do
   resources :sessions
   resources :decisions
+
+  match 'users/search', :to => 'users#search', :as => 'user_search'
   resources :users
 
   match 'login',  :to => 'sessions#new'
   match 'logout', :to => 'sessions#destroy'
 
   match 'server', :to => 'identities#index', :as => 'server'
-
-  match 'user/search', :to => 'users#search', :as => 'user_search'
-  match 'user/*username/edit', :to => 'users#edit', :as => 'user_edit', :format => false
-  match 'user/*username', :to => 'users#show', :as => 'user', :format => false
+  get 'user/*username', :to => 'users#show', :format => false  #:as => 'user'
 
 
   # A bit of trickery to serve XRDS from bare URLs

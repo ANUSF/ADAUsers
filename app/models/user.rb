@@ -244,4 +244,8 @@ class User < ActiveRecord::Base
       "Other"
     ]
   end
+
+  def acsprimember?
+    read_attribute(:acsprimember) == 1
+  end
 end
