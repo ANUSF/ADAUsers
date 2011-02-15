@@ -23,3 +23,10 @@
    </td>
   </tr>
 </table>
+
+<hr />
+
+<h2>Category A Datasets</h2>
+<%= form_for @user do |form| %>
+  <%= form.collection_select :datasets_cat_a_to_add, @datasetsCatA, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
+<% end %>

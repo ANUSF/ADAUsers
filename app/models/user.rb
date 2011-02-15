@@ -42,7 +42,8 @@ class User < ActiveRecord::Base
   # -- We use some non-database attributes in the registration form
 
   attr_accessor(:other_australian_affiliation, :other_australian_type,
-                :non_australian_affiliation, :non_australian_type)
+                :non_australian_affiliation, :non_australian_type,
+                :datasets_cat_a_to_add)
 
   # -- Clean up and set derived attributes before creating the user record
 

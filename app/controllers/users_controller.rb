@@ -51,6 +51,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find_by_user(params[:id])
+    @datasetsCatA = AccessLevel.cat_a
   end
 
   def update

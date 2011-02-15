@@ -25,3 +25,10 @@ end
 UserRole.blueprint do
   roleID { "affiliateusers" }
 end
+
+UserPermissionA.blueprint do
+  userID { User.make }
+  datasetID { AccessLevel.cat_a.first.datasetID }
+  fileID { nil }
+  permissionvalue { 1 }
+end
