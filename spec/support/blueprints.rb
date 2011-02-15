@@ -13,9 +13,15 @@ User.blueprint do
   sname { Sham.name }
   email { Sham.email }
   acsprimember { 1 }
+  user_roles { [UserRole.make(:id => object.id)] }
   position { User.new.position_options[0] }
   action { User.new.action_options[0][1] }
   country { User::AUSTRALIA }
   austinstitution { User.new.austinstitution_options[0][1] }
   australian_uni { AustralianUni.first }
+end
+
+
+UserRole.blueprint do
+  roleID { "affiliateusers" }
 end

@@ -34,4 +34,14 @@ feature "Edit", %q{
     find("tr#acspri").click_button("Change")
     find("tr#acspri").should have_content("No")
   end
+
+  scenario "changing role" do
+    visit "/users/tester/edit"
+    find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
+
+    find("select#user_user_role").select("administrator")
+    find("tr#role").click_button("Change")
+
+    find("select#user_user_role option[selected='selected']").should have_content("administrator")
+  end
 end

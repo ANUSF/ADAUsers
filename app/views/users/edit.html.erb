@@ -13,5 +13,13 @@
       <% end %>
     </td>
   </tr>
-  <tr><td>Role:</td><td><%= @user.user_roles.first.roleID %></td></tr>
+  <tr id="role">
+    <td>Role:</td>
+    <td>
+      <%= form_for @user do |form| %>
+        <%= form.collection_select :user_role, RoleEjb.all, :id, :id, {:selected => @user.user_role } %>
+        <%= form.submit "Change" %>
+      <% end %>
+   </td>
+  </tr>
 </table>

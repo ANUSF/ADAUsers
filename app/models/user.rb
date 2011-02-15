@@ -248,4 +248,18 @@ class User < ActiveRecord::Base
   def acsprimember?
     read_attribute(:acsprimember) == 1
   end
+
+  def user_role
+    self.user_roles.first.roleID unless self.user_roles.empty?
+  end
+
+  def user_role=(role_id)
+    # This lookup is not strictly required, but is present because it validates role_id
+    role = RoleEjb.find_by_id!(role_id)
+
+    self.user_roles.clear
+
+    self.user_roles.build(:roleID => role.id)  if  self.new_record?
+    self.user_roles.create(:roleID => role.id) if !self.new_record?
+  end
 end

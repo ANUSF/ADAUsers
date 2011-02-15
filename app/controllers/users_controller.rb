@@ -57,7 +57,10 @@ class UsersController < ApplicationController
     @user = User.find_by_user(params[:id])
 
     if params[:user][:acsprimember]
-      @user.update_attribute(:acsprimember, params[:user][:acsprimember])
+      @user.update_attribute :acsprimember, params[:user][:acsprimember]
+
+    elsif params[:user][:user_role]
+      @user.user_role = params[:user][:user_role]
     end
 
     redirect_to edit_user_path(@user)
