@@ -28,4 +28,5 @@ group :development, :test do
   gem 'faker'
   gem 'machinist' , '= 1.0.6'
   gem 'database_cleaner'
+  gem 'spork', '~> 0.9.0.rc'
 end
