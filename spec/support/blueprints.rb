@@ -27,7 +27,7 @@ UserRole.blueprint do
 end
 
 UserPermissionA.blueprint do
-  userID { User.make }
+  userID { User.make.user }
   datasetID { AccessLevel.cat_a.first.datasetID }
   fileID { nil }
   permissionvalue { 1 }

@@ -26,7 +26,35 @@
 
 <hr />
 
-<h2>Category A Datasets</h2>
-<%= form_for @user do |form| %>
-  <%= form.collection_select :datasets_cat_a_to_add, @datasetsCatA, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
-<% end %>
+<div id="category_a">
+  <h2>Category A Datasets</h2>
+
+
+  <% unless @user.permissions_a.pending.empty? %>
+    <!-- TODO: Display table of pending datasets -->
+  <% end %>
+
+  <% [{:name => :pending, :data => @user.permissions_a.pending}, {:name => :accessible, :data => @user.permissions_a.accessible}].each do |status| %>
+    <% unless status[:data].empty? %>
+      <h3><%= status[:name].capitalize %> datasets</h3>
+      <table id="<%= status[:name] %>">
+        <tr><th>Dataset ID</th><th>Dataset Name</th><th><%= status[:name] == :accessible ? "Revoke Permission" : "Add" %></th><th>Delete</th></tr>
+        <% status[:data].each do |permission| %>
+          <tr>
+            <td><%= permission.datasetID %></td>
+            <td><%= permission.access_level.datasetname %></td>
+            <td>TODO</td>
+            <td>TODO</td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  <% end %>
+
+ <h3>Add access to a dataset</h3>
+  <%= form_for @user do |form| %>
+    <%= form.collection_select :datasets_cat_a_to_add, @datasetsCatA, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
+    <br />
+    <%= form.submit "Add dataset(s)" %>
+  <% end %>
+</div>

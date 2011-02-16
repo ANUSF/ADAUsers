@@ -66,7 +66,7 @@ feature "Edit", %q{
     # Start with two datasets - one that's already been added, and one that hasn't
     accessLevelPresent = AccessLevel.cat_a.first
     accessLevelAbsent = AccessLevel.cat_a.last
-    @user.permissions_a.make(:datasetID => accessLevelPresent.datasetID)
+    @user.permissions_a.create(:datasetID => accessLevelPresent.datasetID, :permissionvalue => 1)
 
     @user.permissions_a.where(:datasetID => accessLevelPresent.datasetID).should_not be_empty
     @user.permissions_a.where(:datasetID => accessLevelAbsent.datasetID).should be_empty
@@ -76,10 +76,40 @@ feature "Edit", %q{
     # Submit the form with these two datasets
     find("select#user_datasets_cat_a_to_add").select(accessLevelPresent.dataset_description)
     find("select#user_datasets_cat_a_to_add").select(accessLevelAbsent.dataset_description)
-    find("#category_a").click_button("Add dataset")
+    find("#category_a").click_button("Add dataset(s)")
 
     # Ensure that both are now present, and without any duplicate rows
     @user.permissions_a.where(:datasetID => accessLevelPresent.datasetID).count.should == 1
     @user.permissions_a.where(:datasetID => accessLevelAbsent.datasetID).count.should == 1
+  end
+
+  scenario "viewing added category A datasets" do
+    # Start with two datasets - one that's already been added, and one that hasn't
+    accessLevels = {}
+    accessLevels[:present] = AccessLevel.cat_a[0]
+    accessLevels[:pending] = AccessLevel.cat_a[10]
+    accessLevels[:absent] = AccessLevel.cat_a[20]
+
+    @user.permissions_a.create(:datasetID => accessLevels[:present].datasetID, :permissionvalue => 1)
+    @user.permissions_a.create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
+
+    @user.permissions_a.where(:datasetID => accessLevels[:present].datasetID).should_not be_empty
+    @user.permissions_a.where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
+    @user.permissions_a.where(:datasetID => accessLevels[:absent].datasetID).should be_empty
+
+    visit "/users/tester/edit"
+
+    # dataset => table_name => should_be_present
+    # eg. present => pending => false
+    expected_results = {:present => {:accessible => true, :pending => false},
+                        :pending => {:accessible => false, :pending => true},
+                        :absent =>  {:accessible => false, :pending => false}}
+
+    expected_results.each_pair do |dataset, expected_tables|
+      expected_tables.each_pair do |table, should_be_present|
+        find("#category_a table##{table}").has_content?(accessLevels[dataset].datasetID).should == should_be_present
+        find("#category_a table##{table}").has_content?(accessLevels[dataset].datasetname).should == should_be_present
+      end
+    end
   end
 end

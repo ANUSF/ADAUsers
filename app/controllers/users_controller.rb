@@ -62,6 +62,9 @@ class UsersController < ApplicationController
 
     elsif params[:user][:user_role]
       @user.user_role = params[:user][:user_role]
+
+    elsif params[:user][:datasets_cat_a_to_add]
+      @user.add_datasets! params[:user][:datasets_cat_a_to_add]
     end
 
     redirect_to edit_user_path(@user)

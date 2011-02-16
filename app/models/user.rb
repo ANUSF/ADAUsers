@@ -42,8 +42,8 @@ class User < ActiveRecord::Base
   # -- We use some non-database attributes in the registration form
 
   attr_accessor(:other_australian_affiliation, :other_australian_type,
-                :non_australian_affiliation, :non_australian_type,
-                :datasets_cat_a_to_add)
+                :non_australian_affiliation, :non_australian_type)
+  attr_accessor(:datasets_cat_a_to_add)
 
   # -- Clean up and set derived attributes before creating the user record
 
@@ -246,6 +246,8 @@ class User < ActiveRecord::Base
     ]
   end
 
+
+  # -- Setters and getters
   def acsprimember?
     read_attribute(:acsprimember) == 1
   end
@@ -254,6 +256,7 @@ class User < ActiveRecord::Base
     self.user_roles.first.roleID unless self.user_roles.empty?
   end
 
+  # TODO: Maybe change this to set_role!()
   def user_role=(role_id)
     # This lookup is not strictly required, but is present because it validates role_id
     role = RoleEjb.find_by_id!(role_id)
@@ -262,5 +265,14 @@ class User < ActiveRecord::Base
 
     self.user_roles.build(:roleID => role.id)  if  self.new_record?
     self.user_roles.create(:roleID => role.id) if !self.new_record?
+  end
+
+  def add_datasets!(ids)
+    # TODO: Differenciate between cat A and B datasets, and add them to the correct permissions table
+    ids.each do |datasetID|
+      if self.permissions_a.where(:datasetID => datasetID).empty?
+        self.permissions_a.create(:datasetID => datasetID, :permissionvalue => 1)
+      end
+    end
   end
 end
