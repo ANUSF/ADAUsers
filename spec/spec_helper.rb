@@ -36,4 +36,8 @@ Spork.prefork do
 end
 
 Spork.each_run do
+  # Without this, models are not being reloaded between test runs
+  silence_warnings do
+    Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
+  end
 end
