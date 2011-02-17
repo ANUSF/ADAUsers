@@ -39,7 +39,15 @@
           <tr>
             <td><%= permission.datasetID %></td>
             <td><%= permission.access_level.datasetname %></td>
-            <td>TODO</td>
+            <td>
+              <% if status[:name] == :accessible %>
+                <%= link_to user_permissions_a_path(@user.user, permission.datasetID, :type => 'revoke'), :method => :delete do %>
+                  <%= image_tag "button_drop.png", :alt => "revoke" %>
+                <% end %>
+              <% else %>
+                TODO
+              <% end %>
+           </td>
             <td>
               <%= link_to user_permissions_a_path(@user.user, permission.datasetID), :method => :delete do %>
                 <%= image_tag "button_drop.png", :alt => "delete" %>

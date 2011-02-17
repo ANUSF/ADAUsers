@@ -133,15 +133,52 @@ feature "Edit", %q{
       visit "/users/tester/edit"
       find("#category_a table##{dataset}").should have_content(accessLevels[dataset].datasetID)
       find("#category_a table##{dataset} a:has(img[alt='delete'])").click()
-      find("#category_a").should_not have_selector("table##{dataset}")
+      page.should_not have_selector("#category_a table##{dataset}")
     end
   end
 
   scenario "adding access to a pending dataset" do
-    
+#    # TODO: This needs adjustment - the existing interface uses a form for the whole table
+#    #       with checkboxes for each row, instead of a linked action for each row.
+#
+#    # Given that I have a pending dataset
+#    accessLevel = AccessLevel.cat_a[0]
+#    @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 0)
+#
+#    # And I can see it in the pending table, but not the accessible table
+#    visit "/users/tester/edit"
+#    find("#category_a table#pending").should        have_content(accessLevel.datasetID)
+#    find("#category_a table#accessible").should_not have_content(accessLevel.datasetID)
+#
+#    # When I click on the image link "add"
+#    find("#category_a table#pending a:has(img[alt='add'])").click()
+#
+#    # Then I should not see the dataset in the pending table, but I should see it in the accessible table
+#    find("#category_a table#pending").should_not have_content(accessLevel.datasetID)
+#    find("#category_a table#accessible").should  have_content(accessLevel.datasetID)
   end
 
   scenario "revoking permission to an accessible dataset" do
-    
+    # Given that I have an accessible dataset with a file
+    accessLevel = AccessLevel.cat_a[0]
+    @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
+    #@user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1, :fileID => "blah")
+
+    # And I can see it in the accessible table, but not the pending table
+    visit "/users/tester/edit"
+    find("#category_a table#accessible").should have_content(accessLevel.datasetID)
+    page.should_not have_selector("#category_a table#pending")
+
+    # When I click on the image link "revoke"
+    find("#category_a table#accessible a:has(img[alt='revoke'])").click()
+
+    # Then I should not see the dataset in either table
+    page.should_not have_selector("#category_a table#accessible")
+    page.should_not have_selector("#category_a table#pending")
+    #find("#category_a table#accessible").should_not have_content(accessLevel.datasetID)
+    #find("#category_a table#pending").should_not    have_content(accessLevel.datasetID)
+
+    # TODO: Ensuring that files are not deleted
+
   end
 end

@@ -2,6 +2,9 @@ class UserPermissionsAController < ApplicationController
   def destroy
     # TODO: Check that current_user owns this permission. Something like:
     # @permission = current_user.permissions_a.find(params[:id])
+
+    # TODO: if params[:type] == 'revoke', do not delete if fileID != nil
+
     @permission = UserPermissionA.find(params[:user_id], params[:id])
     @permission.destroy
 
