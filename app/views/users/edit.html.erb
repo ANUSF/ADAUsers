@@ -30,10 +30,6 @@
   <h2>Category A Datasets</h2>
 
 
-  <% unless @user.permissions_a.pending.empty? %>
-    <!-- TODO: Display table of pending datasets -->
-  <% end %>
-
   <% [{:name => :pending, :data => @user.permissions_a.pending}, {:name => :accessible, :data => @user.permissions_a.accessible}].each do |status| %>
     <% unless status[:data].empty? %>
       <h3><%= status[:name].capitalize %> datasets</h3>
@@ -44,7 +40,11 @@
             <td><%= permission.datasetID %></td>
             <td><%= permission.access_level.datasetname %></td>
             <td>TODO</td>
-            <td>TODO</td>
+            <td>
+              <%= link_to user_user_permissions_a_path(@user.user, permission.datasetID), :method => :delete do %>
+                <%= image_tag "button_drop.png", :alt => "delete" %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </table>

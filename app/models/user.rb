@@ -43,6 +43,8 @@ class User < ActiveRecord::Base
 
   attr_accessor(:other_australian_affiliation, :other_australian_type,
                 :non_australian_affiliation, :non_australian_type)
+
+  # TODO: Does this need to be an attr?
   attr_accessor(:datasets_cat_a_to_add)
 
   # -- Clean up and set derived attributes before creating the user record

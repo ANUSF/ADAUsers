@@ -69,12 +69,5 @@ class UsersController < ApplicationController
 
     redirect_to edit_user_path(@user)
 
-    #if @user.update_attributes(params[:user])
-    #  flash[:notice] = "That user has been updated."
-    #  redirect_to edit_user_path(@user)
-    #else
-    #  render :action => "edit"
-    #end
-
   end
 end

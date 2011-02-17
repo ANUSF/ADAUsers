@@ -112,4 +112,36 @@ feature "Edit", %q{
       end
     end
   end
+
+  scenario "deleting an accessible or pending dataset" do
+    accessLevels = {}
+    accessLevels[:accessible] = AccessLevel.cat_a[0]
+    accessLevels[:pending] = AccessLevel.cat_a[10]
+
+    @user.permissions_a.create(:datasetID => accessLevels[:accessible].datasetID, :permissionvalue => 1)
+    @user.permissions_a.create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
+
+    @user.permissions_a.where(:datasetID => accessLevels[:accessible].datasetID).should_not be_empty
+    @user.permissions_a.where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
+
+    # When I go to the user edit page
+    # Then I should see the accessible dataset in the table
+    # When I click on the image link for removing the accessible dataset
+    # Then I should not see the accessible dataset in the table
+
+    accessLevels.each_pair do |dataset, accessLevel|
+      visit "/users/tester/edit"
+      find("#category_a table##{dataset}").should have_content(accessLevels[dataset].datasetID)
+      find("#category_a table##{dataset} a:has(img[alt='delete'])").click()
+      find("#category_a").should_not have_selector("table##{dataset}")
+    end
+  end
+
+  scenario "adding access to a pending dataset" do
+    
+  end
+
+  scenario "revoking permission to an accessible dataset" do
+    
+  end
 end
