@@ -4,7 +4,7 @@ OpenidServer::Application.routes.draw do
 
   match 'users/search', :to => 'users#search', :as => 'user_search'
   resources :users do
-    resources :user_permissions_a, :constraints => {:id => /.+/} #, :controller => "user_permissions_a", :as => "permissions_a"
+    resources :permissions_a, :constraints => {:id => /.+/}, :controller => "user_permissions_a" #, :as => "permissions_a"
   end
 
   match 'login',  :to => 'sessions#new'

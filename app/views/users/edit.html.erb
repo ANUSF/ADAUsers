@@ -41,7 +41,7 @@
             <td><%= permission.access_level.datasetname %></td>
             <td>TODO</td>
             <td>
-              <%= link_to user_user_permissions_a_path(@user.user, permission.datasetID), :method => :delete do %>
+              <%= link_to user_permissions_a_path(@user.user, permission.datasetID), :method => :delete do %>
                 <%= image_tag "button_drop.png", :alt => "delete" %>
               <% end %>
             </td>
