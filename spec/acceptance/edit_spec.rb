@@ -27,6 +27,7 @@ feature "Edit", %q{
     page.should have_content(@user.user_roles.first.roleID)
   end
 
+
   scenario "changing ACSPRI membership" do
     visit "/users/tester/edit"
 
@@ -34,6 +35,7 @@ feature "Edit", %q{
     find("tr#acspri").click_button("Change")
     find("tr#acspri").should have_content("No")
   end
+
 
   scenario "changing role" do
     visit "/users/tester/edit"
@@ -45,7 +47,13 @@ feature "Edit", %q{
     find("select#user_user_role option[selected='selected']").should have_content("administrator")
   end
 
+
   scenario "viewing available category A datasets" do
+    # Make some datasets
+    ['A', 'G', 'B', 'S'].each do |accessLevel|
+      5.times { AccessLevel.make(:accessLevel => accessLevel) }
+    end
+
     visit "/users/tester/edit"
     
     # Here's the query from the old PHP system:
@@ -62,10 +70,12 @@ feature "Edit", %q{
     end
   end
 
+
   scenario "adding a category A dataset" do
     # Start with two datasets - one that's already been added, and one that hasn't
-    accessLevelPresent = AccessLevel.cat_a.first
-    accessLevelAbsent = AccessLevel.cat_a.last
+    
+    accessLevelPresent = AccessLevel.make
+    accessLevelAbsent = AccessLevel.make
     @user.permissions_a.create(:datasetID => accessLevelPresent.datasetID, :permissionvalue => 1)
 
     @user.permissions_a.where(:datasetID => accessLevelPresent.datasetID).should_not be_empty
@@ -83,12 +93,13 @@ feature "Edit", %q{
     @user.permissions_a.where(:datasetID => accessLevelAbsent.datasetID).count.should == 1
   end
 
+
   scenario "viewing added category A datasets" do
     # Start with two datasets - one that's already been added, and one that hasn't
     accessLevels = {}
-    accessLevels[:present] = AccessLevel.cat_a[0]
-    accessLevels[:pending] = AccessLevel.cat_a[10]
-    accessLevels[:absent] = AccessLevel.cat_a[20]
+    accessLevels[:present] = AccessLevel.make
+    accessLevels[:pending] = AccessLevel.make
+    accessLevels[:absent] = AccessLevel.make
 
     @user.permissions_a.create(:datasetID => accessLevels[:present].datasetID, :permissionvalue => 1)
     @user.permissions_a.create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
@@ -113,10 +124,11 @@ feature "Edit", %q{
     end
   end
 
+
   scenario "deleting an accessible or pending dataset" do
     accessLevels = {}
-    accessLevels[:accessible] = AccessLevel.cat_a[0]
-    accessLevels[:pending] = AccessLevel.cat_a[10]
+    accessLevels[:accessible] = AccessLevel.make
+    accessLevels[:pending] = AccessLevel.make
 
     @user.permissions_a.create(:datasetID => accessLevels[:accessible].datasetID, :permissionvalue => 1)
     @user.permissions_a.create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
@@ -136,6 +148,7 @@ feature "Edit", %q{
       page.should_not have_selector("#category_a table##{dataset}")
     end
   end
+
 
   scenario "adding access to a pending dataset" do
 #    # TODO: This needs adjustment - the existing interface uses a form for the whole table
@@ -158,9 +171,10 @@ feature "Edit", %q{
 #    find("#category_a table#accessible").should  have_content(accessLevel.datasetID)
   end
 
+
   scenario "revoking permission to an accessible dataset" do
     # Given that I have an accessible dataset with a file
-    accessLevel = AccessLevel.cat_a[0]
+    accessLevel = AccessLevel.make
     @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
     #@user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1, :fileID => "blah")
 

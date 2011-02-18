@@ -31,6 +31,14 @@ Spork.prefork do
     # Sham resets
     config.before(:all)    { Sham.reset(:before_all)  }
     config.before(:each)   { Sham.reset(:before_each) }
+
+    # Generate some test data
+    config.before(:all) do
+      Country.make
+      AustralianUni.make
+      RoleEjb.make(:id => "affiliateusers")
+      RoleEjb.make(:id => "administrator")
+    end
   end
 
 end

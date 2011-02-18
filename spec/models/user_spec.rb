@@ -18,9 +18,9 @@ describe User do
 
   describe "setters" do
     it "sets the role" do
-      user = User.make(:user_role => "affiliateusers")
+      user = User.make
       user.user_role.should == "affiliateusers"
-      user.user_role = "administrator"
+      user.update_role! "administrator"
       user.user_role.should == "administrator"
     end
   end

@@ -61,7 +61,7 @@ class UsersController < ApplicationController
       @user.update_attribute :acsprimember, params[:user][:acsprimember]
 
     elsif params[:user][:user_role]
-      @user.user_role = params[:user][:user_role]
+      @user.update_role! params[:user][:user_role]
 
     elsif params[:user][:datasets_cat_a_to_add]
       @user.add_datasets! params[:user][:datasets_cat_a_to_add]

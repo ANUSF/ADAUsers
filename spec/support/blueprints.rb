@@ -1,9 +1,12 @@
 require 'machinist/active_record'
 require 'sham'
 
-Sham.name       { Faker::Name.first_name }
-Sham.email      { Faker::Internet.email }
-Sham.password   { Faker::Lorem.sentence }
+Sham.define do
+  id         { |i| i }
+  name       { Faker::Name.first_name }
+  email      { Faker::Internet.email }
+  password   { Faker::Lorem.sentence }
+end
 
 
 User.blueprint do
@@ -21,9 +24,14 @@ User.blueprint do
   australian_uni { AustralianUni.first }
 end
 
-
 UserRole.blueprint do
-  roleID { "affiliateusers" }
+  role { RoleEjb.find_by_id("affiliateusers") }
+end
+
+RoleEjb.blueprint do
+  id { "affiliateusers" }
+  label { object.id }
+  comment { object.id }
 end
 
 UserPermissionA.blueprint do
@@ -34,9 +42,9 @@ UserPermissionA.blueprint do
 end
 
 AccessLevel.blueprint do
-  datasetID { "au.edu.anu.assda.ddi.00001" }
+  datasetID { "au.edu.anu.assda.ddi.%05d" % Sham.id }
   fileID { nil }
-  datasetname { "Age Poll, July 1974" }
+  datasetname { "Age Poll, July 1974, %d" % Sham.id }
   fileContent { nil }
   accessLevel { "A" }
 end
@@ -48,3 +56,18 @@ AccessLevel.blueprint(:with_fileContent) do
   fileContent "Description of images of Indigenous people in a sample of newspapers 1853-1897"
   accessLevel { "A" }
 end
+
+Country.blueprint do
+  id
+  Countryname { "Australia" }
+  Sym { "AU" }
+end
+
+AustralianUni.blueprint do
+  id
+  Longuniname { "Australian National University" }
+  Shortuniname { "[ANU]" }
+  acsprimember { 1 }
+  g8 { 1 }
+end
+

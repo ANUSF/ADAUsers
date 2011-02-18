@@ -6,13 +6,6 @@ feature "Search", %q{
   I want to be able to search for users
 } do
 
-  before(:each) do
-    # Delete all users with names like "alice" or "bob"
-    ['alice', 'bob'].each do |name|
-      User.where("user LIKE ?", "%%#{name}%%").destroy_all
-    end
-  end
-
   scenario "viewing the search page" do
     visit "/users/search"
 
@@ -46,6 +39,8 @@ feature "Search", %q{
   end
 
   scenario "displaying full list of users" do
+    100.times { User.make }
+
     visit "/users/search"
     click_button "List all users"
 
@@ -53,6 +48,7 @@ feature "Search", %q{
   end
 
   scenario "search returns no results" do
+    10.times { User.make }
     query = "jfdjskdf"
 
     visit "/users/search"
@@ -64,7 +60,7 @@ feature "Search", %q{
   end
 
   scenario "search results are paginated on long pages" do
-    User.count.should be > 100
+    100.times { User.make }
 
     visit "/users/search"
     click_button "List all users"
@@ -74,6 +70,7 @@ feature "Search", %q{
   end
 
   scenario "search displays all required columns" do
+    User.make
     visit "/users/search"
     click_button "List all users"
     

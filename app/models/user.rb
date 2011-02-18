@@ -250,6 +250,7 @@ class User < ActiveRecord::Base
 
 
   # -- Setters and getters
+
   def acsprimember?
     read_attribute(:acsprimember) == 1
   end
@@ -258,8 +259,7 @@ class User < ActiveRecord::Base
     self.user_roles.first.roleID unless self.user_roles.empty?
   end
 
-  # TODO: Maybe change this to set_role!()
-  def user_role=(role_id)
+  def update_role!(role_id)
     # This lookup is not strictly required, but is present because it validates role_id
     role = RoleEjb.find_by_id!(role_id)
 
