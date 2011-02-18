@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
   set_table_name 'userdetails'
-  set_primary_key 'user'
+  set_primary_key :user
 
   belongs_to :country,        :foreign_key => 'countryid'
   belongs_to :australian_uni, :foreign_key => 'uniid'
