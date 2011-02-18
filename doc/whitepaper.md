@@ -57,6 +57,10 @@ For Rails-based clients, the OpenID consumer code necessary to implement the sig
 
 These services will be provided via traditional, human-accessible web interfaces. (Detailled workflows to be specified.)
 
-### Authorization
+### Authorization and requesting user details
 
-Selected ADA services may request information about a user's access rights from the UMS.
+Selected ADA services may request a range of information about users via a RESTful API. There are three types of requests:
+
+1. A user's role.
+2. A user's personal details.
+3. A user's access rights regarding a given resource.
