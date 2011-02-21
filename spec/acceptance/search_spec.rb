@@ -39,7 +39,7 @@ feature "Search", %q{
   end
 
   scenario "displaying full list of users" do
-    100.times { User.make }
+    35.times { User.make }
 
     visit "/users/search"
     click_button "List all users"
@@ -60,7 +60,7 @@ feature "Search", %q{
   end
 
   scenario "search results are paginated on long pages" do
-    100.times { User.make }
+    35.times { User.make }
 
     visit "/users/search"
     click_button "List all users"
