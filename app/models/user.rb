@@ -272,7 +272,7 @@ class User < ActiveRecord::Base
   def add_datasets!(ids)
     # TODO: Differenciate between cat A and B datasets, and add them to the correct permissions table
     ids.each do |datasetID|
-      if self.permissions_a.where(:datasetID => datasetID).empty?
+      if self.permissions_a.where(:datasetID => datasetID, :fileID => nil).empty?
         self.permissions_a.create(:datasetID => datasetID, :permissionvalue => 1)
       end
     end
