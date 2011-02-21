@@ -175,24 +175,34 @@ feature "Edit", %q{
   scenario "revoking permission to an accessible dataset" do
     # Given that I have an accessible dataset with a file
     accessLevel = AccessLevel.make
+    accessLevelFile = AccessLevel.make(:with_fileContent, :datasetID => accessLevel.datasetID)
     @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
-    #@user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1, :fileID => "blah")
+    @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1, :fileID => accessLevelFile.fileID)
 
     # And I can see it in the accessible table, but not the pending table
     visit "/users/tester/edit"
     find("#category_a table#accessible").should have_content(accessLevel.datasetID)
     page.should_not have_selector("#category_a table#pending")
 
+    # And I can see the file details in the table
+    ['File Content', 'File ID', 'Access Level', 'Grant Download'].each do |column_name|
+      find("#category_a table#accessible").should have_content(column_name)
+    end
+
     # When I click on the image link "revoke"
     find("#category_a table#accessible a:has(img[alt='revoke'])").click()
 
-    # Then I should not see the dataset in either table
-    page.should_not have_selector("#category_a table#accessible")
-    page.should_not have_selector("#category_a table#pending")
-    #find("#category_a table#accessible").should_not have_content(accessLevel.datasetID)
-    #find("#category_a table#pending").should_not    have_content(accessLevel.datasetID)
+    # Then I should not have permission to access the dataset, but I should do for the file
+    @user.permissions_a.where(:datasetID => accessLevel.datasetID, :fileID => nil).should be_empty
+    @user.permissions_a.where(:datasetID => accessLevel.datasetID, :fileID => accessLevelFile.fileID).should_not be_empty
 
-    # TODO: Ensuring that files are not deleted
+    # And I should see the dataset in the table without the revoke button
+    find("#category_a table#accessible").should have_content(accessLevel.datasetID)
+    page.should_not have_selector("#category_a table#accessible img[alt='revoke']")
 
+    # And I should see the file details in the table
+    ['File Content', 'File ID', 'Access Level', 'Grant Download'].each do |column_name|
+      find("#category_a table#accessible").should have_content(column_name)
+    end
   end
 end

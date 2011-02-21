@@ -51,6 +51,10 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find_by_user(params[:id])
+
+    @datasetsPending = @user.permissions_a.pending.select("DISTINCT(datasetID), *")
+    @datasetsAccessible = @user.permissions_a.accessible.select("DISTINCT(datasetID), *")
+
     @datasetsCatA = AccessLevel.cat_a
   end
 
