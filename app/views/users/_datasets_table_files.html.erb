@@ -1,0 +1,19 @@
+<% unless files.empty? %>
+  <!-- Files -->
+  <tr>
+    <th></th>
+    <th>File Content</th>
+    <th>File ID</th>
+    <th>Access Level</th>
+    <th>Grant Download</th>
+  </tr>
+  <% files.each do |file| %>
+    <tr>
+      <td></td>
+      <td><%= file.fileContent %></td>
+      <td><%= file.fileID %></td>
+      <td><%= file.accessLevel %></td>
+      <td>TODO</td>
+    </tr>
+  <% end %>
+<% end %>

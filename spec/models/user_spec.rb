@@ -23,5 +23,12 @@ describe User do
       user.update_role! "administrator"
       user.user_role.should == "administrator"
     end
+
+    it "grants access to pending datasets" do
+      user = User.make
+      user.permissions_a.create(:datasetID => "abc123", :permissionvalue => 0)
+      user.grant_pending_datasets!(["abc123"])
+      user.permissions_a.where(:datasetID => "abc123").first.permissionvalue.should == 1
+    end
   end
 end

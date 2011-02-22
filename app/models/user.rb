@@ -44,8 +44,7 @@ class User < ActiveRecord::Base
   attr_accessor(:other_australian_affiliation, :other_australian_type,
                 :non_australian_affiliation, :non_australian_type)
 
-  # TODO: Does this need to be an attr?
-  attr_accessor(:datasets_cat_a_to_add)
+  attr_accessor(:datasets_cat_a_to_add, :datasets_cat_a_pending_to_grant)
 
   # -- Clean up and set derived attributes before creating the user record
 
@@ -275,6 +274,13 @@ class User < ActiveRecord::Base
       if self.permissions_a.where(:datasetID => datasetID, :fileID => nil).empty?
         self.permissions_a.create(:datasetID => datasetID, :permissionvalue => 1)
       end
+    end
+  end
+
+  def grant_pending_datasets!(ids)
+    ids.each do |datasetID|
+      permission = self.permissions_a.where(:datasetID => datasetID, :fileID => nil, :permissionvalue => 0).first
+      permission.update_attributes(:permissionvalue => 1)
     end
   end
 end

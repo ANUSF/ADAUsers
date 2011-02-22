@@ -29,60 +29,11 @@
 <div id="category_a">
   <h2>Category A Datasets</h2>
 
+  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :pending, :table_data => @datasetsPending} %>
+  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :accessible, :table_data => @datasetsAccessible} %>
 
-  <% [{:name => :pending, :data => @datasetsPending}, {:name => :accessible, :data => @datasetsAccessible}].each do |status| %>
-    <% unless status[:data].empty? %>
-      <h3><%= status[:name].capitalize %> datasets</h3>
-      <table id="<%= status[:name] %>">
-        <% status[:data].each do |permission| %>
-          <tr><th>Dataset ID</th><th colspan="2">Dataset Name</th><th><%= status[:name] == :accessible ? "Revoke Permission" : "Add" %></th><th>Delete</th></tr>
-          <tr>
-            <td><%= permission.datasetID %></td>
-            <td colspan="2"><%= permission.access_level.datasetname %></td>
-            <td>
-              <% if status[:name] == :accessible && permission.user_has_access %>
-                <%= link_to user_permissions_a_path(@user.user, permission.datasetID, :type => 'revoke'), :method => :delete do %>
-                  <%= image_tag "button_drop.png", :alt => "revoke" %>
-                <% end %>
-              <% elsif status[:name] == :pending %>
-                TODO
-              <% end %>
-            </td>
-            <td>
-              <%= link_to user_permissions_a_path(@user.user, permission.datasetID), :method => :delete do %>
-                <%= image_tag "button_drop.png", :alt => "delete" %>
-              <% end %>
-            </td>
-          </tr>
 
-          <% files = AccessLevel.files_for_dataset(permission.datasetID) %>
-          <% unless files.empty? %>
-            <!-- Files -->
-            <tr>
-              <th></th>
-              <th>File Content</th>
-              <th>File ID</th>
-              <th>Access Level</th>
-              <th>Grant Download</th>
-            </tr>
-            <% files.each do |file| %>
-              <tr>
-                <td></td>
-                <td><%= file.fileContent %></td>
-                <td><%= file.fileID %></td>
-                <td><%= file.accessLevel %></td>
-                <td>TODO</td>
-              </tr>
-            <% end %>
-          <% end %>
-
-          <tr><td></td><td></td><td></td><td></td></tr>
-        <% end %>
-      </table>
-    <% end %>
-  <% end %>
-
- <h3>Add access to a dataset</h3>
+  <h3>Add access to a dataset</h3>
   <%= form_for @user do |form| %>
     <%= form.collection_select :datasets_cat_a_to_add, @datasetsCatA, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
     <br />

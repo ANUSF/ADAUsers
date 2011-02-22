@@ -71,9 +71,11 @@ class UsersController < ApplicationController
 
     elsif params[:user][:datasets_cat_a_to_add]
       @user.add_datasets! params[:user][:datasets_cat_a_to_add]
+
+    elsif params[:user][:datasets_cat_a_pending_to_grant]
+      @user.grant_pending_datasets! params[:user][:datasets_cat_a_pending_to_grant]
     end
 
     redirect_to edit_user_path(@user)
-
   end
 end
