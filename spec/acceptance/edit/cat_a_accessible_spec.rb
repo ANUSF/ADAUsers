@@ -1,50 +1,13 @@
-require File.dirname(__FILE__) + '/acceptance_helper'
+require File.dirname(__FILE__) + '/../acceptance_helper'
 
-feature "Edit", %q{
-  In order to administer user access to data
+feature "Modify access to cat A accessible datasets", %q{
+  In order to manage user access to data
   As an administrator
-  I want to adjust user permissions
+  I want to adjust permissions wrt. accessible category A datasets
 } do
 
   before(:each) do
     @user = User.make(:user => 'tester')
-  end
-
-  scenario "viewing user details page" do
-    visit "/users/tester/edit"
-
-    # -- User details
-    page.should have_content("Username")
-    page.should have_content("tester")
-
-    page.should have_content("Email address")
-    page.should have_content(@user.email)
-    
-    page.should have_content("ACSPRI member?")
-    page.should have_content(@user.acsprimember ? "Yes" : "No")
-    
-    page.should have_content("Role")
-    page.should have_content(@user.user_roles.first.roleID)
-  end
-
-
-  scenario "changing ACSPRI membership" do
-    visit "/users/tester/edit"
-
-    find("tr#acspri").should have_content("Yes")
-    find("tr#acspri").click_button("Change")
-    find("tr#acspri").should have_content("No")
-  end
-
-
-  scenario "changing role" do
-    visit "/users/tester/edit"
-    find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
-
-    find("select#user_user_role").select("administrator")
-    find("tr#role").click_button("Change")
-
-    find("select#user_user_role option[selected='selected']").should have_content("administrator")
   end
 
 
@@ -147,43 +110,6 @@ feature "Edit", %q{
       find("#category_a table##{dataset} a:has(img[alt='delete'])").click()
       page.should_not have_selector("#category_a table##{dataset}")
     end
-  end
-
-
-  scenario "Add Access button does not appear when there are no pending datasets" do
-    # Given that I have an accessible dataset, but no pending datasets
-    accessLevel = AccessLevel.make
-    @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
-
-    # When I view the page
-    visit "/users/tester/edit"
-
-    # Then I should not see the button "Add Access"
-    page.should_not have_selector("input[type='submit'][value='Add Access']")
-  end
-
-
-  scenario "adding access to a pending dataset" do
-    # Given that I have two pending datasets
-    accessLevels = [AccessLevel.make, AccessLevel.make]
-    accessLevels.each { |accessLevel| @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 0) }
-
-    # And I can see them in the pending table, but not the accessible table
-    visit "/users/tester/edit"
-    accessLevels.each { |accessLevel| find("#category_a table#pending").should have_content(accessLevel.datasetID) }
-    page.should_not have_selector("#category_a table#accessible")
-
-    # When I check the checkbox next to the first dataset, and I press "Add Access"
-    find("#category_a table#pending").check("pending_#{accessLevels[0].datasetID}")
-    page.click_button("Add Access")
-
-    # Then I should not see the first dataset in the pending table, but I should see it in the accessible table
-    find("#category_a table#pending").should_not have_content(accessLevels[0].datasetID)
-    find("#category_a table#accessible").should  have_content(accessLevels[0].datasetID)
-
-    # And I should see the second dataset in the pending table, but I should not see it in the accessible table
-    find("#category_a table#pending").should        have_content(accessLevels[1].datasetID)
-    find("#category_a table#accessible").should_not have_content(accessLevels[1].datasetID)
   end
 
 
