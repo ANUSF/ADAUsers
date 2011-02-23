@@ -39,6 +39,7 @@ Spork.prefork do
     config.before(:all) do
       Country.make
       AustralianUni.make
+      AustralianGov.make
       RoleEjb.make(:id => "affiliateusers")
       RoleEjb.make(:id => "administrator")
     end

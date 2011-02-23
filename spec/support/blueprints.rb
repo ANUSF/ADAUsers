@@ -12,6 +12,7 @@ end
 User.blueprint do
   user { Sham.name }
   password { Sham.password }
+  title { User.new.title_options[0] }
   fname { Sham.name }
   sname { Sham.name }
   email { Sham.email }
@@ -71,3 +72,11 @@ AustralianUni.blueprint do
   g8 { 1 }
 end
 
+AustralianGov.blueprint do
+  # id: integer, value: string, name: string, acsprimember: integer, type: string
+  id
+  value { "DEducation" }
+  name { "Department of Education, Employment and Workplace Relations" }
+  acsprimember { 1 }
+  type { "Australian federal government department" }
+end
