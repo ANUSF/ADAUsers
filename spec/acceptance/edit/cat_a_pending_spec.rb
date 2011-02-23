@@ -35,7 +35,7 @@ feature "Modify access to cat A pending datasets", %q{
     page.should_not have_selector("#category_a table#accessible")
 
     # When I check the checkbox next to the first dataset, and I press "Add Access"
-    find("#category_a table#pending").check("pending_#{accessLevels[0].datasetID}")
+    find("#category_a table#pending").check("pending_#{ddi_to_id(accessLevels[0].datasetID)}")
     page.click_button("Add Access")
 
     # Then I should not see the first dataset in the pending table, but I should see it in the accessible table

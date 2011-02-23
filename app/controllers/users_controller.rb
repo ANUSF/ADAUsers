@@ -74,6 +74,9 @@ class UsersController < ApplicationController
 
     elsif params[:user][:datasets_cat_a_pending_to_grant]
       @user.grant_pending_datasets! params[:user][:datasets_cat_a_pending_to_grant]
+      
+    elsif params[:user][:datasets_cat_a_files]
+      @user.update_file_permissions! params[:user][:datasets_cat_a_files]
     end
 
     redirect_to edit_user_path(@user)

@@ -1,5 +1,6 @@
 <% unless table_data.empty? %>
   <%= form_for @user do |form| %>
+    <% files_found = false %>
     <h3><%= table_name.capitalize %> datasets</h3>
     <table id="<%= table_name %>">
       <% table_data.each do |permission| %>
@@ -13,7 +14,7 @@
                 <%= image_tag "button_drop.png", :alt => "revoke" %>
               <% end %>
             <% elsif table_name == :pending %>
-              <%= check_box_tag "user[datasets_cat_a_pending_to_grant][]", permission.datasetID, false, :id => "pending_#{permission.datasetID}" %>
+              <%= check_box_tag "user[datasets_cat_a_pending_to_grant][]", permission.datasetID, false, :id => "pending_#{ddi_to_id(permission.datasetID)}" %>
             <% end %>
           </td>
           <td>
@@ -24,12 +25,14 @@
         </tr>
         
         <% files = AccessLevel.files_for_dataset(permission.datasetID) %>
-        <%= render :partial => 'users/datasets_table_files', :locals => {:files => files} %>
+        <% files_found = true if files.present? %>
+        <%= render :partial => 'users/datasets_table_files', :locals => {:form => form, :files => files} %>
         
         <tr><td></td><td></td><td></td><td></td></tr>
       <% end %>
     </table>
 
     <%= form.submit "Add Access" if table_name == :pending %>
- <% end %>
+    <%= form.submit "Update File Access" if files_found %>
+  <% end %>
 <% end %>

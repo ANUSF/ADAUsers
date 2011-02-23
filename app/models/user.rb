@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   attr_accessor(:other_australian_affiliation, :other_australian_type,
                 :non_australian_affiliation, :non_australian_type)
 
-  attr_accessor(:datasets_cat_a_to_add, :datasets_cat_a_pending_to_grant)
+  attr_accessor(:datasets_cat_a_to_add, :datasets_cat_a_pending_to_grant, :datasets_cat_a_files)
 
   # -- Clean up and set derived attributes before creating the user record
 
@@ -281,6 +281,22 @@ class User < ActiveRecord::Base
     ids.each do |datasetID|
       permission = self.permissions_a.where(:datasetID => datasetID, :fileID => nil, :permissionvalue => 0).first
       permission.update_attributes(:permissionvalue => 1)
+    end
+  end
+
+  # permissions are in the structure: datasetID => fileID => permission('1'|'0')
+  def update_file_permissions!(permissions)
+    permissions.each_pair do |datasetID, dataset|
+      dataset.each_pair do |fileID, permission|
+        p = self.permissions_a.find_or_initialize_by_datasetID_and_fileID(datasetID, fileID)
+
+        if permission == '1'
+          p.permissionvalue = 1
+          p.save!
+        else
+          p.destroy unless p.new_record?
+        end
+      end
     end
   end
 end
