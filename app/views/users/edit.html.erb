@@ -7,9 +7,9 @@
     <td>ACSPRI member?</td>
     <td>
       <%= form_for @user do |form| %>
-        <%= @user.acsprimember? ? "Yes" : "No" %>
-        <%= form.hidden_field :acsprimember, :value => 1-@user.acsprimember %>
-        <%= form.submit "Change" %>
+        <%= acsprimember_to_s(@user.acsprimember) %>
+        <%= form.hidden_field :acsprimember, :value => (1-@user.acsprimember).abs %>
+        <%= form.submit @user.acsprimember? ? "Revoke membership" : "Grant membership" %>
       <% end %>
     </td>
   </tr>

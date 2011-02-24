@@ -30,10 +30,15 @@ feature "Edit basic attributes", %q{
 
 
   scenario "changing ACSPRI membership" do
+    @user.acsprimember = 2
+    @user.save!
+
     visit "/users/tester/edit"
 
+    find("tr#acspri").should have_content("Requested")
+    find("tr#acspri").click_button("Grant membership")
     find("tr#acspri").should have_content("Yes")
-    find("tr#acspri").click_button("Change")
+    find("tr#acspri").click_button("Revoke membership")
     find("tr#acspri").should have_content("No")
   end
 
