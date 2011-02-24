@@ -61,24 +61,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by_user(params[:id])
-
-    if params[:user][:acsprimember]
-      @user.update_attribute :acsprimember, params[:user][:acsprimember]
-
-    elsif params[:user][:user_role]
-      @user.update_role! params[:user][:user_role]
-
-    elsif params[:user][:datasets_cat_a_to_add]
-      @user.add_datasets! params[:user][:datasets_cat_a_to_add]
-
-    elsif params[:user][:datasets_cat_a_pending_to_grant]
-      @user.grant_pending_datasets! params[:user][:datasets_cat_a_pending_to_grant]
-      
-    elsif params[:user][:datasets_cat_a_files]
-      @user.update_file_permissions! params[:user][:datasets_cat_a_files]
-    end
-
+    @user = UserWithoutValidations.find_by_user(params[:id])
+    @user.update_attributes(params[:user])
     redirect_to edit_user_path(@user)
   end
 end
