@@ -1,6 +1,5 @@
 body {
     font: 11px/16px Arial, Helvetica, sans-serif;
-    background: #E8E8E8!important;
 }
 
 .navigation ul {
@@ -59,4 +58,32 @@ body {
 form.formtastic fieldset ol li.radio fieldset ol li {
     float: left;
     padding-right: 2em;
+}
+
+table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;
+    background: #fff;
+    margin-bottom: 2em;
+    border-collapse: collapse;
+    text-align: left;
+}
+th {
+    font-size: 14px;
+    font-weight: normal;
+    color: #039;
+    padding: 10px 8px;
+    border-bottom: 2px solid #6678b1;
+}
+td {
+    border-bottom: 1px solid #ccc;
+    color: #669;
+    padding: 6px 8px;
+}
+tbody tr:hover td {
+    color: #009;
+}
+
+a img {
+    border: none;
 }

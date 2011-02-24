@@ -3,8 +3,11 @@
     <% files_found = false %>
     <h3><%= table_name.capitalize %> datasets</h3>
     <table id="<%= table_name %>">
+      <% files = nil %>
       <% table_data.each do |permission| %>
-        <tr><th>Dataset ID</th><th colspan="2">Dataset Name</th><th><%= table_name == :accessible ? "Revoke Permission" : "Add" %></th><th>Delete</th></tr>
+        <% if permission == table_data[0] || (!files.nil? && files.present?) %>
+          <tr><th>Dataset ID</th><th colspan="2">Dataset Name</th><th><%= table_name == :accessible ? "Revoke Permission" : "Add" %></th><th>Delete</th></tr>
+        <% end %>
         <tr>
           <td><%= permission.datasetID %></td>
           <td colspan="2"><%= permission.access_level.datasetname %></td>
@@ -26,9 +29,10 @@
         
         <% files = AccessLevel.files_for_dataset(permission.datasetID) %>
         <% files_found = true if files.present? %>
-        <%= render :partial => 'users/datasets_table_files', :locals => {:form => form, :files => files} %>
-        
-        <tr><td></td><td></td><td></td><td></td></tr>
+        <% if files.present? %>
+          <%= render :partial => 'users/datasets_table_files', :locals => {:form => form, :files => files} %>
+          <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <% end %>
       <% end %>
     </table>
 

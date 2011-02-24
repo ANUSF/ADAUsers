@@ -37,6 +37,7 @@
   <%= form_for @user do |form| %>
     <%= form.collection_select :datasets_cat_a_to_add, @datasetsCatA, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
     <br />
+    <br />
     <%= form.submit "Add dataset(s)" %>
   <% end %>
 </div>

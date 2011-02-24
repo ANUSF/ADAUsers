@@ -1,23 +1,21 @@
-<% unless files.empty? %>
-  <!-- Files -->
+<!-- Files -->
+<tr>
+  <th></th>
+  <th>File Content</th>
+  <th>File ID</th>
+  <th>Access Level</th>
+  <th>Grant Download</th>
+</tr>
+<% files.each do |file| %>
   <tr>
-    <th></th>
-    <th>File Content</th>
-    <th>File ID</th>
-    <th>Access Level</th>
-    <th>Grant Download</th>
+    <td></td>
+    <td><%= file.fileContent %></td>
+    <td><%= file.fileID %></td>
+    <td><%= file.accessLevel %></td>
+    <td>
+      <%= hidden_field_tag "user[datasets_cat_a_files][#{file.datasetID}][#{file.fileID}]", 0 %>
+      <%= check_box_tag "user[datasets_cat_a_files][#{file.datasetID}][#{file.fileID}]", 1, file.user_permission(@user).permissionvalue == 1,
+          :id => "file_#{ddi_to_id(file.datasetID)}_#{file.fileID}" %>
+  </td>
   </tr>
-  <% files.each do |file| %>
-    <tr>
-      <td></td>
-      <td><%= file.fileContent %></td>
-      <td><%= file.fileID %></td>
-      <td><%= file.accessLevel %></td>
-      <td>
-        <%= hidden_field_tag "user[datasets_cat_a_files][#{file.datasetID}][#{file.fileID}]", 0 %>
-        <%= check_box_tag "user[datasets_cat_a_files][#{file.datasetID}][#{file.fileID}]", 1, file.user_permission(@user).permissionvalue == 1,
-            :id => "file_#{ddi_to_id(file.datasetID)}_#{file.fileID}" %>
-    </td>
-    </tr>
-  <% end %>
 <% end %>
