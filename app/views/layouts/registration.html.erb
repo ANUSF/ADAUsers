@@ -7,6 +7,9 @@
     <%= csrf_meta_tag %>
   </head>
   <body>
+    <div id="title">ADA Users</div>
+    <div id="subtitle"><%= yield :title %></div>
+   
     <% flash.each do |name, msg| %>
       <div id='flash_<%=name%>'><%=h(msg).gsub(/\n/, '<br/>')%></div>
     <% end %>
