@@ -82,8 +82,19 @@ feature "Search", %q{
     end
   end
 
-  # TODO
-  scenario "search is not accessible by non-administrators" do
+  scenario "pagination can be overwridden" do
+    35.times { User.make }
+    
+    visit "/users/search"
+    click_button "List all users"
+    find_link("Show all").click
+
+    all("tr").length.should == 35+1 # 1 for heading row
   end
+
+
+  # TODO
+  #scenario "search is not accessible by non-administrators" do
+  #end
 
 end

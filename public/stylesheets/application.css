@@ -99,3 +99,7 @@ tbody tr:hover td {
 a img {
     border: none;
 }
+
+#search {
+    text-align: center;
+}
