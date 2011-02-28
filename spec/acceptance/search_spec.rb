@@ -82,7 +82,7 @@ feature "Search", %q{
     end
   end
 
-  scenario "pagination can be overwridden" do
+  scenario "pagination can be overridden" do
     35.times { User.make }
     
     visit "/users/search"
@@ -90,6 +90,10 @@ feature "Search", %q{
     find_link("Show all").click
 
     all("tr").length.should == 35+1 # 1 for heading row
+
+    # Revert to paginated view
+    find_link("Show in pages").click
+    all("tr").length.should == 30+1 # 1 for heading row
   end
 
 

@@ -6,7 +6,10 @@
       Your search '<%= @search_query %>' returned no results.
     <% else %>
       <%= will_paginate @posts %>
-      <%= link_to "Show all", user_search_path(request.parameters.merge({:paginate => 0, :page => 1})) %>
+
+      <%= link_to user_search_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
+        <%= @paginate ? "Show all" : "Show in pages" %>
+      <% end %>
 
       <%= render 'users/search_results' %>
 

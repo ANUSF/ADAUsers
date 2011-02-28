@@ -34,7 +34,8 @@ class UsersController < ApplicationController
         @users = User
       end
 
-      @users = @users.paginate :page => params[:page], :order => 'user', :per_page => (params[:paginate] == '0' ? @users.count : 30)
+      @paginate = params[:paginate] != '0'
+      @users = @users.paginate :page => params[:page], :order => 'user', :per_page => (@paginate ? 30 : @users.count)
     end
   end
 
