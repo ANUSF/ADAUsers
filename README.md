@@ -1,6 +1,6 @@
-The ADA user management server.
+The ADA user management server (in development).
 
-
+Authors: Olaf Delgado-Friedrichs and Rohan Mitchell
 
 Copyright (c) 2011 The Australian National University
 
