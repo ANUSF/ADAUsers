@@ -3,8 +3,8 @@ OpenidServer::Application.routes.draw do
   resources :decisions
 
   match 'users/search', :to => 'users#search', :as => 'user_search'
-  resources :users do
-    resources :permissions_a, :constraints => {:id => /.+/}, :controller => "user_permissions_a"
+  resources :users, :constraints => {:id => /.+/} do
+    resources :permissions_a, :controller => "user_permissions_a"
   end
 
   match 'login',  :to => 'sessions#new'
