@@ -7,22 +7,37 @@
       $servlet_context.get_init_parameter('oid.dbconfig') ) ||
     File.join(ENV['HOME'], 'etc', 'assda', 'dbconfig.yml')
 
-  @conf = File.exist?(file) && YAML::load(File.open(file))[Rails.env] || {}
+  @conf = File.exist?(file) && YAML::load(File.open(file)) || {}
+  # Fix behaviour of "rails db development_logs"
+  rails_env = Rails.env.gsub('_logs', '')
 %>
 template: &template
-  adapter:  <%= (defined?(JRUBY_VERSION) && @conf['jdbc']) || @conf['adapter'] %>
+  adapter:  <%= (defined?(JRUBY_VERSION) && @conf[rails_env]['jdbc']) || @conf[rails_env]['adapter'] %>
   pool:     5
   timeout:  5000
-  database: <%= @conf['database'] %>
-  host:     <%= @conf['host'] %>
-  username: <%= @conf['username'] %>
-  password: <%= @conf['password'] %>
+  database: <%= @conf[rails_env]['database'] %>
+  host:     <%= @conf[rails_env]['host'] %>
+  username: <%= @conf[rails_env]['username'] %>
+  password: <%= @conf[rails_env]['password'] %>
 
 production:
   <<: *template
 
+production_logs:
+  <<: *template
+  database: <%= @conf[rails_env+'_logs']['database'] %>
+  username: <%= @conf[rails_env+'_logs']['username'] %>
+  
 development:
   <<: *template
 
+development_logs:
+  <<: *template
+  database: <%= @conf[rails_env+'_logs']['database'] %>
+
 test:
   <<: *template
+
+test_logs:
+  <<: *template
+  database: <%= @conf[rails_env+'_logs']['database'] %>
