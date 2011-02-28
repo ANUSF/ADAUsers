@@ -30,6 +30,11 @@ class UserWithoutValidations < ActiveRecord::Base
     :foreign_key => :userID,
     :dependent => :destroy }
 
+  has_many :anu_logs, {
+    :class_name => "AnuLog",
+    :primary_key => :user,
+    :foreign_key => :name }
+
   # -- Default attributes to use in the registration form
 
   def self.defaults
@@ -152,6 +157,19 @@ class UserWithoutValidations < ActiveRecord::Base
 
 
   # -- Setters and getters
+
+  def name
+    [self.title, self.fname, self.sname].join(' ')
+  end
+
+  def last_access_time
+    log = self.anu_logs.last
+    log ? log.date_processed : nil
+  end
+
+  def num_accesses_in_past_year
+    self.anu_logs.where("date_processed > ?", Time.now - 1.year).count
+  end
 
   def acsprimember?
     read_attribute(:acsprimember) == 1

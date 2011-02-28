@@ -5,4 +5,5 @@ class AnuLog < ActiveRecord::Base
 
   belongs_to :user, :foreign_key => 'name'
 
+  default_scope order('date_processed')
 end
