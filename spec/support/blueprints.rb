@@ -55,6 +55,14 @@ AccessLevel.blueprint do
   accessLevel { "A" }
 end
 
+AccessLevel.blueprint(:a) do
+  accessLevel { "A" }
+end
+
+AccessLevel.blueprint(:b) do
+  accessLevel { "B" }
+end
+
 AccessLevel.blueprint(:with_fileContent) do
   datasetID { "au.edu.anu.assda.ddi.00115" }
   fileID { "F1" }

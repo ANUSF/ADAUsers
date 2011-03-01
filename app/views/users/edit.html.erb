@@ -37,8 +37,8 @@
 <div id="category_a">
   <h2>Category A Datasets</h2>
 
-  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :pending, :table_data => @datasetsPending} %>
-  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :accessible, :table_data => @datasetsAccessible} %>
+  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :pending, :table_data => @datasetsPendingA, :category => :a} %>
+  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :accessible, :table_data => @datasetsAccessibleA, :category => :a} %>
 
 
   <h3>Add access to a dataset</h3>
@@ -48,4 +48,13 @@
     <br />
     <%= form.submit "Add dataset(s)" %>
   <% end %>
+</div>
+
+
+<hr />
+
+<div id="category_b">
+  <h2>Category B Datasets</h2>
+
+  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :pending, :table_data => @datasetsPendingB, :category => :b} %>
 </div>

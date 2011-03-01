@@ -60,8 +60,13 @@ describe User do
     it "grants access to pending datasets" do
       user = User.make
       user.permissions_a.create(:datasetID => "abc123", :permissionvalue => 0)
-      user.grant_pending_datasets!(["abc123"])
+      user.grant_pending_datasets!(["abc123"], :a)
       user.permissions_a.where(:datasetID => "abc123").first.permissionvalue.should == 1
+
+      user = User.make
+      user.permissions_b.create(:datasetID => "abc123", :permissionvalue => 0)
+      user.grant_pending_datasets!(["abc123"], :b)
+      user.permissions_b.where(:datasetID => "abc123").first.permissionvalue.should == 6
     end
   end
 end

@@ -10,7 +10,6 @@ feature "Edit basic attributes", %q{
     @user = User.make(:user => 'tester')
   end
 
-
   scenario "viewing user details page" do
     visit "/users/tester/edit"
 
@@ -31,7 +30,7 @@ feature "Edit basic attributes", %q{
     page.should have_content(User.new.action_options[0][1])
 
     page.should have_content("Member for")
-    page.should have_content("about 1 hour")
+    #page.should have_content("about 1 hour")
 
     page.should have_content("Last access")
     page.should have_content("Never")

@@ -13,24 +13,24 @@
           <td colspan="2"><%= permission.access_level.datasetname %></td>
           <td>
             <% if table_name == :accessible && permission.user_has_access %>
-              <%= link_to user_permissions_a_path(@user.user, permission.datasetID, :type => 'revoke'), :method => :delete do %>
+              <%= link_to_delete_permission(@user.user, permission.datasetID, 'revoke', category) do %>
                 <%= image_tag "button_drop.png", :alt => "revoke" %>
               <% end %>
             <% elsif table_name == :pending %>
-              <%= check_box_tag "user[datasets_cat_a_pending_to_grant][]", permission.datasetID, false, :id => "pending_#{ddi_to_id(permission.datasetID)}" %>
+              <%= check_box_tag "user[datasets_cat_#{category}_pending_to_grant][]", permission.datasetID, false, :id => "pending_#{ddi_to_id(permission.datasetID)}" %>
             <% end %>
           </td>
           <td>
-            <%= link_to user_permissions_a_path(@user.user, permission.datasetID), :method => :delete do %>
+            <%= link_to_delete_permission(@user.user, permission.datasetID, 'delete', category) do %>
               <%= image_tag "button_drop.png", :alt => "delete" %>
             <% end %>
           </td>
         </tr>
         
-        <% files = AccessLevel.files_for_dataset(permission.datasetID) %>
+        <% files = AccessLevel.files_for_dataset(permission.datasetID, category) %>
         <% files_found = true if files.present? %>
         <% if files.present? %>
-          <%= render :partial => 'users/datasets_table_files', :locals => {:form => form, :files => files} %>
+          <%= render :partial => 'users/datasets_table_files', :locals => {:form => form, :files => files, :category => category} %>
           <tr><td></td><td></td><td></td><td></td><td></td></tr>
         <% end %>
       <% end %>

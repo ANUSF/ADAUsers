@@ -50,6 +50,7 @@ class UserWithoutValidations < ActiveRecord::Base
                 :non_australian_affiliation, :non_australian_type)
 
   attr_accessor(:datasets_cat_a_to_add, :datasets_cat_a_pending_to_grant, :datasets_cat_a_files)
+  attr_accessor(:datasets_cat_b_to_add, :datasets_cat_b_pending_to_grant, :datasets_cat_b_files)
 
   # -- Clean up and set derived attributes before creating the user record
 
@@ -91,10 +92,15 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def update_from_attrs
-    self.update_role! @user_role if @user_role
-    self.add_datasets! self.datasets_cat_a_to_add if self.datasets_cat_a_to_add
-    self.grant_pending_datasets! self.datasets_cat_a_pending_to_grant if self.datasets_cat_a_pending_to_grant
-    self.update_file_permissions! self.datasets_cat_a_files if self.datasets_cat_a_files
+    self.update_role!(@user_role) if @user_role
+
+    self.add_datasets!(self.datasets_cat_a_to_add, :a) if self.datasets_cat_a_to_add
+    self.grant_pending_datasets!(self.datasets_cat_a_pending_to_grant, :a) if self.datasets_cat_a_pending_to_grant
+    self.update_file_permissions!(self.datasets_cat_a_files, :a) if self.datasets_cat_a_files
+
+    self.add_datasets!(self.datasets_cat_b_to_add, :b) if self.datasets_cat_b_to_add
+    self.grant_pending_datasets!(self.datasets_cat_b_pending_to_grant, :b) if self.datasets_cat_b_pending_to_grant
+    self.update_file_permissions!(self.datasets_cat_b_files, :b) if self.datasets_cat_b_files
   end
 
   # -- Option lists to use in the registration form
@@ -213,30 +219,36 @@ class UserWithoutValidations < ActiveRecord::Base
     self.user_roles.create(:roleID => role.id) if !self.new_record?
   end
 
-  def add_datasets!(ids)
-    # TODO: Differenciate between cat A and B datasets, and add them to the correct permissions table
+  # Add permission to the supplied datasets in the specified category, which may be :a or :b
+  def add_datasets!(ids, category)
+    relation = "permissions_#{category}"
+
     ids.each do |datasetID|
-      if self.permissions_a.where(:datasetID => datasetID, :fileID => nil).empty?
-        self.permissions_a.create(:datasetID => datasetID, :permissionvalue => 1)
+      if self.send(relation).where(:datasetID => datasetID, :fileID => nil).empty?
+        self.send(relation).create(:datasetID => datasetID, :permissionvalue => 1)
       end
     end
   end
 
-  def grant_pending_datasets!(ids)
+  def grant_pending_datasets!(ids, category)
+    relation = "permissions_#{category}"
+
     ids.each do |datasetID|
-      permission = self.permissions_a.where(:datasetID => datasetID, :fileID => nil, :permissionvalue => 0).first
-      permission.update_attributes(:permissionvalue => 1)
+      permission = self.send(relation).where(:datasetID => datasetID, :fileID => nil, :permissionvalue => 0).first
+      permission.update_attributes(:permissionvalue => (category == :a ? 1 : 6))
     end
   end
 
-  # permissions are in the structure: datasetID => fileID => permission('1'|'0')
-  def update_file_permissions!(permissions)
+  # permissions are in the structure: datasetID => fileID => permission('0|1')
+  def update_file_permissions!(permissions, category)
+    relation = "permissions_#{category}"
+
     permissions.each_pair do |datasetID, dataset|
       dataset.each_pair do |fileID, permission|
-        p = self.permissions_a.find_or_initialize_by_datasetID_and_fileID(datasetID, fileID)
+        p = self.send(relation).find_or_initialize_by_datasetID_and_fileID(datasetID, fileID)
 
         if permission == '1'
-          p.permissionvalue = 1
+          p.permissionvalue = (category == :a ? 1 : 2)
           p.save!
         else
           p.destroy unless p.new_record?

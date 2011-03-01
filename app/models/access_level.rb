@@ -4,9 +4,10 @@ class AccessLevel < ActiveRecord::Base
 
   scope :cat_a, where(:accessLevel => ['A', 'G'], :fileID => nil).where("datasetID NOT IN (SELECT datasetID FROM accesslevel al2 WHERE al2.accesslevel in ('B', 'S') and al2.fileID is NULL)").order('datasetID ASC')
 
-  def self.files_for_dataset(datasetID)
-    # TODO: Parameter to choose unrestricted/restricted
-    where("datasetID = ? AND accessLevel IN ('A', 'G') AND fileID IS NOT NULL", datasetID).order('fileID')
+  # accessLevel may be :a or :b, which is translated to the database layer: [A, G] or [B, S]
+  def self.files_for_dataset(datasetID, accessLevel)
+    levels = {:a => ['A', 'G'], :b => ['B', 'S']}
+    where("datasetID = ? AND accessLevel IN (?) AND fileID IS NOT NULL", datasetID, levels[accessLevel]).order('fileID')
   end
 
   def user_permission(user)
