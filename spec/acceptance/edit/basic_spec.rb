@@ -24,20 +24,21 @@ feature "Edit basic attributes", %q{
     page.should have_content("Email address")
     page.should have_content(@user.email)
     
-    page.should have_content("Institution")
-    page.should have_content(AustralianUni.first.Longuniname)
+    page.should have_content("Affiliation")
+    page.should have_content(@user.australian_uni.Longuniname)
 
     page.should have_content("Type of work")
     page.should have_content(User.new.action_options[0][1])
 
     page.should have_content("Member for")
-    page.should have_content("")
+    page.should have_content("about 1 hour")
 
     page.should have_content("Last access")
     page.should have_content("Never")
 
-    page.should have_content("Number of accesses in last 12 months")
-    page.should have_content("0")
+    page.should have_content("Number of accesses")
+    page.should have_content("(last 12 months / all time)")
+    page.should have_content("0 / 0")
 
     page.should have_content("ACSPRI member?")
     page.should have_content(@user.acsprimember ? "Yes" : "No")

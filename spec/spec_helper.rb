@@ -37,7 +37,8 @@ Spork.prefork do
 
     # Generate some test data
     config.before(:all) do
-      Country.make
+      Country.make(:australia)
+      Country.make(:new_zealand)
       AustralianUni.make
       AustralianGov.make
       RoleEjb.make(:id => "affiliateusers")

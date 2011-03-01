@@ -25,6 +25,11 @@ User.blueprint do
   australian_uni { AustralianUni.first }
 end
 
+User.blueprint(:no_affiliation) do
+  austinstitution { "" }
+  australian_uni { nil }
+end
+
 UserRole.blueprint do
   role { RoleEjb.find_by_id("affiliateusers") }
 end
@@ -60,8 +65,16 @@ end
 
 Country.blueprint do
   id
+end
+
+Country.blueprint(:australia) do
   Countryname { "Australia" }
   Sym { "AU" }
+end
+
+Country.blueprint(:new_zealand) do
+  Countryname { "New Zealand" }
+  Sym { "NZ" }
 end
 
 AustralianUni.blueprint do
@@ -73,7 +86,6 @@ AustralianUni.blueprint do
 end
 
 AustralianGov.blueprint do
-  # id: integer, value: string, name: string, acsprimember: integer, type: string
   id
   value { "DEducation" }
   name { "Department of Education, Employment and Workplace Relations" }

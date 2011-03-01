@@ -5,11 +5,11 @@
   <tr><td>Name:</td><td><%= @user.name %></td>
   <tr><td>Username:</td><td><%= @user.user %></td></tr>
   <tr><td>Email address:</td><td><%= @user.email %></td></tr>
-  <tr><td>Institution:</td><td><%= "STUB" %></td></tr>
+  <tr><td>Affiliation:</td><td><%= @user.affiliation %></td></tr>
   <tr><td>Type of work:</td><td><%= @user.action %></td></tr>
   <tr><td>Member for:</td><td><%= time_ago_in_words(@user.dateregistered) %></td></tr>
   <tr><td>Last access:</td><td><%= @user.last_access_time ? time_ago_in_words(@user.last_access_time)+" ago" : "Never" %></td></tr>
-  <tr><td>Number of accesses<br />in last 12 months:</td><td><%= @user.num_accesses_in_past_year %></td></tr>
+  <tr><td>Number of accesses<br />(last 12 months / all time):</td><td><%= @user.num_accesses_in_past(1.year) %> / <%= @user.num_accesses_in_past %></td></tr>
 
   <tr id="acspri">
     <td>ACSPRI member?</td>

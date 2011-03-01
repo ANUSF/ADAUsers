@@ -162,13 +162,33 @@ class UserWithoutValidations < ActiveRecord::Base
     [self.title, self.fname, self.sname].join(' ')
   end
 
+  def affiliation
+    if self.country != AUSTRALIA
+      self.non_australian_affiliation
+
+    else
+      case self.austinstitution
+        when 'Uni'
+        self.australian_uni.Longuniname
+
+        when 'Dept'
+        self.australian_gov.name
+
+        when 'Other'
+        self.other_australian_affiliation
+      end
+    end
+  end
+
   def last_access_time
     log = self.anu_logs.last
     log ? log.date_processed : nil
   end
 
-  def num_accesses_in_past_year
-    self.anu_logs.where("date_processed > ?", Time.now - 1.year).count
+  def num_accesses_in_past(duration=nil)
+    logs = self.anu_logs
+    logs = logs.where("date_processed > ?", Time.now - duration) unless duration.nil?
+    logs.count
   end
 
   def acsprimember?
