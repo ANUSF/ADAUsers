@@ -37,17 +37,10 @@
 <div id="category_a">
   <h2>Category A Datasets</h2>
 
-  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :pending, :table_data => @datasetsPendingA, :category => :a} %>
-  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :accessible, :table_data => @datasetsAccessibleA, :category => :a} %>
+  <%= render 'users/datasets_table', :table_name => :pending, :table_data => @datasetsPendingA, :category => :a %>
+  <%= render 'users/datasets_table', :table_name => :accessible, :table_data => @datasetsAccessibleA, :category => :a %>
 
-
-  <h3>Add access to a dataset</h3>
-  <%= form_for @user do |form| %>
-    <%= form.collection_select :datasets_cat_a_to_add, @datasetsCatA, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
-    <br />
-    <br />
-    <%= form.submit "Add dataset(s)" %>
-  <% end %>
+  <%= render 'users/datasets_add_form', :datasets => @datasetsCatA, :category => :a %>
 </div>
 
 
@@ -56,5 +49,8 @@
 <div id="category_b">
   <h2>Category B Datasets</h2>
 
-  <%= render :partial => 'users/datasets_table', :locals => {:table_name => :pending, :table_data => @datasetsPendingB, :category => :b} %>
+  <%= render 'users/datasets_table', :table_name => :pending, :table_data => @datasetsPendingB, :category => :b %>
+  <%= render 'users/datasets_table', :table_name => :accessible, :table_data => @datasetsAccessibleB, :category => :b %>
+
+  <%= render 'users/datasets_add_form', :datasets => @datasetsCatB, :category => :b %>
 </div>

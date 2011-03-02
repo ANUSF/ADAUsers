@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../acceptance_helper'
 feature "Modify access to pending datasets", %q{
   In order to manage user access to data
   As an administrator
-  I want to adjust permissions wrt. pending datasets
+  I want to adjust permissions for pending datasets
 } do
 
   before(:each) do
@@ -30,7 +30,7 @@ feature "Modify access to pending datasets", %q{
     [:a, :b].each do |category|
       # Given that I have two pending datasets
       accessLevels = [AccessLevel.make(category), AccessLevel.make(category)]
-      accessLevels.each { |accessLevel| @user.send("permissions_#{category}").create(:datasetID => accessLevel.datasetID, :permissionvalue => 0) }
+      accessLevels.each { |accessLevel| @user.permissions(category).create(:datasetID => accessLevel.datasetID, :permissionvalue => 0) }
 
       # And I can see them in the pending table, but not the accessible table
       visit "/users/tester/edit"

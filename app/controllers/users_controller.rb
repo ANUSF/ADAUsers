@@ -65,6 +65,7 @@ class UsersController < ApplicationController
     @datasetsAccessibleB = @user.permissions_b.accessible.select("DISTINCT(datasetID)").map {|p| p.tap { p.user = @user } }
 
     @datasetsCatA = AccessLevel.cat_a
+    @datasetsCatB = AccessLevel.cat_b
   end
 
   def update

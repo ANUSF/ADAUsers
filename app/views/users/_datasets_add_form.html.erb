@@ -1,0 +1,15 @@
+  <h3>Add access to a dataset</h3>
+  <%= form_for @user do |form| %>
+    <%= form.collection_select "datasets_cat_#{category}_to_add".to_sym, datasets, :datasetID, :dataset_description, {}, {:multiple => '1'} %>
+    <br />
+    <br />
+    <%= form.submit (category == :a ? "Add dataset(s)" : "Add/Update dataset(s)") %>
+
+    <% if category == :b %>
+      <% [:analyse, :download].each do |permission| %>
+        <% permission_value = UserPermissionB::PERMISSION_VALUES[permission] %>
+        <%= check_box_tag "user[datasets_cat_b_permissions][#{permission_value}]" %>
+        <%= label_tag "user_datasets_cat_b_permissions_#{permission_value}", permission.capitalize %>
+      <% end %>
+    <% end %>
+ <% end %>

@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../acceptance_helper'
 
-feature "Modify access to cat A accessible datasets", %q{
+feature "Modify access to accessible datasets", %q{
   In order to manage user access to data
   As an administrator
-  I want to adjust permissions wrt. accessible category A datasets
+  I want to adjust permissions for accessible  datasets
 } do
 
   before(:each) do
@@ -11,108 +11,160 @@ feature "Modify access to cat A accessible datasets", %q{
   end
 
 
-  scenario "viewing available category A datasets" do
+  scenario "viewing available datasets" do
     # Make some datasets
     ['A', 'G', 'B', 'S'].each do |accessLevel|
-      5.times { AccessLevel.make(:accessLevel => accessLevel) }
+      2.times { AccessLevel.make(:accessLevel => accessLevel) }
     end
 
     visit "/users/tester/edit"
     
-    # Here's the query from the old PHP system:
-    #select datasetID, datasetname, fileContent from accesslevel al1 where al1.accessLevel in ('A', 'G') and al1.fileID is null and al1.datasetID not in (select datasetID from accesslevel al2 where al2.accessLevel in ('B', 'S') and al2.fileID is null) ORDER BY al1.datasetID ASC
-    # The query below generates equivalent (though not identical) SQL.
+    # -- Unrestricted datasets
+    accessLevelsA = AccessLevel
+      .where(:accessLevel => ['A', 'G'], :fileID => nil)
+      .where("datasetID NOT IN (SELECT datasetID FROM accesslevel al2 WHERE al2.accesslevel in ('B', 'S') and al2.fileID is NULL)")
+      .order('datasetID ASC')
 
-    accessLevels = AccessLevel.where(:accessLevel => ['A', 'G'], :fileID => nil).where("datasetID NOT IN (SELECT datasetID FROM accesslevel al2 WHERE al2.accesslevel in ('B', 'S') and al2.fileID is NULL)").order('datasetID ASC')
-
-    # Test that the first, middle and last item are present
-    accessLevelsToTest = [accessLevels.first, accessLevels[accessLevels.count/2], accessLevels.last]
-
-    accessLevelsToTest.each do |accessLevel|
+    accessLevelsA.each do |accessLevel|
       find("select#user_datasets_cat_a_to_add").should have_content(accessLevel.dataset_description)
     end
+
+
+    # -- Restricted datasets
+    accessLevelsB = AccessLevel.where(:accessLevel => ['B', 'S'], :fileID => nil).order('datasetID ASC')
+
+    accessLevelsB.each do |accessLevel|
+      find("select#user_datasets_cat_b_to_add").should have_content(accessLevel.dataset_description)
+    end
+
+    # TODO: Test display of permission level (browse, analyse, download, analyse+download)
   end
 
 
   scenario "adding a category A dataset" do
-    # Start with two datasets - one that's already been added, and one that hasn't
+    datasets = make_datasets(:a)
     
-    accessLevelPresent = AccessLevel.make
-    accessLevelAbsent = AccessLevel.make
-    @user.permissions_a.create(:datasetID => accessLevelPresent.datasetID, :permissionvalue => 1)
-
-    @user.permissions_a.where(:datasetID => accessLevelPresent.datasetID).should_not be_empty
-    @user.permissions_a.where(:datasetID => accessLevelAbsent.datasetID).should be_empty
-
     visit "/users/tester/edit"
     
     # Submit the form with these two datasets
-    find("select#user_datasets_cat_a_to_add").select(accessLevelPresent.dataset_description)
-    find("select#user_datasets_cat_a_to_add").select(accessLevelAbsent.dataset_description)
+    find("select#user_datasets_cat_a_to_add").select(datasets[:present].dataset_description)
+    find("select#user_datasets_cat_a_to_add").select(datasets[:absent].dataset_description)
     find("#category_a").click_button("Add dataset(s)")
 
     # Ensure that both are now present, and without any duplicate rows
-    @user.permissions_a.where(:datasetID => accessLevelPresent.datasetID).count.should == 1
-    @user.permissions_a.where(:datasetID => accessLevelAbsent.datasetID).count.should == 1
+    datasets.each_value do |dataset|
+      @user.permissions_a.where(:datasetID => dataset.datasetID).count.should == 1
+      @user.permissions_a.where(:datasetID => dataset.datasetID, :permissionvalue => 1).should be_present
+    end
   end
 
-
-  scenario "viewing added category A datasets" do
-    # Start with two datasets - one that's already been added, and one that hasn't
-    accessLevels = {}
-    accessLevels[:present] = AccessLevel.make
-    accessLevels[:pending] = AccessLevel.make
-    accessLevels[:absent] = AccessLevel.make
-
-    @user.permissions_a.create(:datasetID => accessLevels[:present].datasetID, :permissionvalue => 1)
-    @user.permissions_a.create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
-
-    @user.permissions_a.where(:datasetID => accessLevels[:present].datasetID).should_not be_empty
-    @user.permissions_a.where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
-    @user.permissions_a.where(:datasetID => accessLevels[:absent].datasetID).should be_empty
-
+  scenario "adding a category B dataset" do
+    datasets = make_datasets(:b)
+    
     visit "/users/tester/edit"
+    
+    # Build an array of valid combinations of the three permissions
+    permissions = [[], [:analyse], [:download], [:analyse, :download]]
 
-    # dataset => table_name => should_be_present
-    # eg. present => pending => false
-    expected_results = {:present => {:accessible => true, :pending => false},
-                        :pending => {:accessible => false, :pending => true},
-                        :absent =>  {:accessible => false, :pending => false}}
+    permissions.each do |permission|
+      find("select#user_datasets_cat_b_to_add").select(datasets[:present].dataset_description)
+      find("select#user_datasets_cat_b_to_add").select(datasets[:absent].dataset_description)
 
-    expected_results.each_pair do |dataset, expected_tables|
-      expected_tables.each_pair do |table, should_be_present|
-        find("#category_a table##{table}").has_content?(accessLevels[dataset].datasetID).should == should_be_present
-        find("#category_a table##{table}").has_content?(accessLevels[dataset].datasetname).should == should_be_present
+      # Select permission(s)
+      permission.each do |p|
+        find("#category_b").check(p.to_s.capitalize)
+      end
+
+      find("#category_b").click_button("Add/Update dataset(s)")
+    
+      # Ensure that both datasets are now present, and without any duplicate rows
+      permission_value = permission.inject(1) { |product, p| product*UserPermissionB::PERMISSION_VALUES[p] }
+      datasets.each_value do |dataset|
+        @user.permissions_b.where(:datasetID => dataset.datasetID).count.should == 1
+        @user.permissions_b.where(:datasetID => dataset.datasetID, :permissionvalue => permission_value).should be_present
       end
     end
   end
 
 
-  scenario "deleting an accessible or pending dataset" do
-    accessLevels = {}
-    accessLevels[:accessible] = AccessLevel.make
-    accessLevels[:pending] = AccessLevel.make
+  # Make two datasets - one that's already been added, and one that hasn't
+  def make_datasets(category)
+    accessLevelPresent = AccessLevel.make(category)
+    accessLevelAbsent = AccessLevel.make(category)
+    @user.permissions(category).create(:datasetID => accessLevelPresent.datasetID, :permissionvalue => 1)
+    
+    @user.permissions(category).where(:datasetID => accessLevelPresent.datasetID).should_not be_empty
+    @user.permissions(category).where(:datasetID => accessLevelAbsent.datasetID).should be_empty
 
-    @user.permissions_a.create(:datasetID => accessLevels[:accessible].datasetID, :permissionvalue => 1)
-    @user.permissions_a.create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
+    {:present => accessLevelPresent, :absent => accessLevelAbsent}
+  end
 
-    @user.permissions_a.where(:datasetID => accessLevels[:accessible].datasetID).should_not be_empty
-    @user.permissions_a.where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
 
-    # When I go to the user edit page
-    # Then I should see the accessible dataset in the table
-    # When I click on the image link for removing the accessible dataset
-    # Then I should not see the accessible dataset in the table
 
-    accessLevels.each_pair do |dataset, accessLevel|
+
+  scenario "viewing added datasets" do
+    [:a, :b].each do |category|
+      # Start with two datasets - one that's already been added, and one that hasn't
+      accessLevels = {}
+      accessLevels[:present] = AccessLevel.make(category)
+      accessLevels[:pending] = AccessLevel.make(category)
+      accessLevels[:absent] = AccessLevel.make(category)
+
+      @user.permissions(category).create(:datasetID => accessLevels[:present].datasetID, :permissionvalue => 1)
+      @user.permissions(category).create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
+
+      @user.permissions(category).where(:datasetID => accessLevels[:present].datasetID).should_not be_empty
+      @user.permissions(category).where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
+      @user.permissions(category).where(:datasetID => accessLevels[:absent].datasetID).should be_empty
+
       visit "/users/tester/edit"
-      find("#category_a table##{dataset}").should have_content(accessLevels[dataset].datasetID)
-      find("#category_a table##{dataset} a:has(img[alt='delete'])").click()
-      page.should_not have_selector("#category_a table##{dataset}")
+
+      # dataset => table_name => should_be_present
+      # eg. present => pending => false
+      expected_results = {:present => {:accessible => true, :pending => false},
+        :pending => {:accessible => false, :pending => true},
+        :absent =>  {:accessible => false, :pending => false}}
+
+      expected_results.each_pair do |dataset, expected_tables|
+        expected_tables.each_pair do |table, should_be_present|
+          find("#category_#{category} table##{table}").has_content?(accessLevels[dataset].datasetID).should == should_be_present
+          find("#category_#{category} table##{table}").has_content?(accessLevels[dataset].datasetname).should == should_be_present
+        end
+      end
+
+      # TODO: View permissions for cat B datasets - browse, analyse, download
     end
   end
 
 
+  scenario "deleting an accessible or pending dataset" do
+    [:a, :b].each do |category|
+      accessLevels = {}
+      accessLevels[:accessible] = AccessLevel.make(category)
+      accessLevels[:pending] = AccessLevel.make(category)
+
+      @user.permissions(category).create(:datasetID => accessLevels[:accessible].datasetID, :permissionvalue => 1)
+      @user.permissions(category).create(:datasetID => accessLevels[:pending].datasetID, :permissionvalue => 0)
+
+      @user.permissions(category).where(:datasetID => accessLevels[:accessible].datasetID).should_not be_empty
+      @user.permissions(category).where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
+
+      # When I go to the user edit page
+      # Then I should see the accessible dataset in the table
+      # When I click on the image link for removing the accessible dataset
+      # Then I should not see the accessible dataset in the table
+
+      accessLevels.each_pair do |dataset, accessLevel|
+        visit "/users/tester/edit"
+        find("#category_#{category} table##{dataset}").should have_content(accessLevels[dataset].datasetID)
+        find("#category_#{category} table##{dataset} a:has(img[alt='delete'])").click()
+        page.should_not have_selector("#category_#{category} table##{dataset}")
+      end
+    end
+  end
+
+
+  # TODO: Adapt to include cat B
   scenario "revoking permission to an accessible dataset" do
     # Given that I have an accessible dataset with a file
     accessLevel = AccessLevel.make

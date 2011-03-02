@@ -3,6 +3,7 @@ class AccessLevel < ActiveRecord::Base
   set_primary_keys :datasetID, :fileID, :accessLevel
 
   scope :cat_a, where(:accessLevel => ['A', 'G'], :fileID => nil).where("datasetID NOT IN (SELECT datasetID FROM accesslevel al2 WHERE al2.accesslevel in ('B', 'S') and al2.fileID is NULL)").order('datasetID ASC')
+  scope :cat_b, where(:accessLevel => ['B', 'S'], :fileID => nil).order('datasetID ASC')
 
   # accessLevel may be :a or :b, which is translated to the database layer: [A, G] or [B, S]
   def self.files_for_dataset(datasetID, accessLevel)

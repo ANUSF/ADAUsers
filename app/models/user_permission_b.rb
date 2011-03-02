@@ -7,4 +7,10 @@ class UserPermissionB < ActiveRecord::Base
 
   scope :accessible, where("permissionvalue > 0")
   scope :pending, where(:permissionvalue => 0)
+
+  PERMISSION_VALUES = {:browse => 1, :analyse => 3, :download => 2}
+
+  def user_has_access
+    self.user.permissions_b.where("datasetID = ? AND fileID IS NULL AND permissionvalue > 0", self.datasetID).present?
+  end
 end
