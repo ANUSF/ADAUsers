@@ -12,8 +12,8 @@ class AccessLevel < ActiveRecord::Base
   end
 
   def user_permission(user)
-    # TODO: Handle restricted datasets (ie. UserPermissionB)
-    p = UserPermissionA.find_or_initialize_by_userID_and_datasetID_and_fileID(user.user, self.datasetID, self.fileID)
+    model = (self.category == :a ? UserPermissionA : UserPermissionB)
+    p = model.find_or_initialize_by_userID_and_datasetID_and_fileID(user.user, self.datasetID, self.fileID)
     p.permissionvalue = 0 if p.new_record?
     p
   end
@@ -21,5 +21,9 @@ class AccessLevel < ActiveRecord::Base
   def dataset_description
     self.datasetID =~ /([^\.]*)$/
     "%s - %s" % [$1, self.fileContent || self.datasetname]
+  end
+
+  def category
+    ['A', 'G'].include?(self.accessLevel) ? :a : :b
   end
 end

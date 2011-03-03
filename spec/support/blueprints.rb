@@ -64,9 +64,9 @@ AccessLevel.blueprint(:b) do
 end
 
 AccessLevel.blueprint(:with_fileContent) do
-  datasetID { "au.edu.anu.assda.ddi.00115" }
+  datasetID { "au.edu.anu.assda.ddi.%05d" % Sham.id }
   fileID { "F1" }
-  datasetname { "00115/Disseminate/au.edu.anu.assda.ddi.00115.rtf" }
+  datasetname { "00115/Disseminate/au.edu.anu.assda.ddi.%05d.rtf" % Sham.id }
   fileContent "Description of images of Indigenous people in a sample of newspapers 1853-1897"
   accessLevel { "A" }
 end
