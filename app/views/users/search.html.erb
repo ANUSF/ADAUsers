@@ -7,7 +7,7 @@
     <% else %>
       <%= will_paginate @posts %>
 
-      <%= link_to user_search_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
+      <%= link_to search_users_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
         <%= @paginate ? "Show all" : "Show in pages" %>
       <% end %>
 

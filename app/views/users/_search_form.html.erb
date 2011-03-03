@@ -1,4 +1,4 @@
-<%= form_for :search, :url => user_search_path, :html => {:method => :get} do |f| %>
+<%= form_for :search, :url => search_users_path, :html => {:method => :get} do |f| %>
   <p><%= f.text_field :q %></p>
   <p>
     <%= f.submit "Search by username" %>

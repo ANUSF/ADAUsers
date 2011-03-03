@@ -25,10 +25,10 @@ class UsersController < ApplicationController
       @search_query = params[:search][:q]
       case params[:commit]
       when "Search by username"
-        @users = User.where("user LIKE ?", "%%#{params[:search][:q]}%%")
+        @users = User.where("user LIKE ?", "%%#{@search_query}%%")
 
       when "Search by email address"
-        @users = User.where("email LIKE ?", "%%#{params[:search][:q]}%%")
+        @users = User.where("email LIKE ?", "%%#{@search_query}%%")
 
       when "List all users"
         @users = User
