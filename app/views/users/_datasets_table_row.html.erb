@@ -9,9 +9,8 @@
     <% elsif table_name == :pending %>
       <%= check_box_tag "user[datasets_cat_#{category}_pending_to_grant][]", permission.datasetID, false, :id => "pending_#{ddi_to_id(permission.datasetID)}" %>
     <% elsif category == :b %>
-      <% # UserPermissionB::PERMISSION_VALUE_S[permission.permissionvalue] %>
-      TODO
-    <% end %>
+      <%= UserPermissionB::PERMISSION_VALUE_S[permission.permissionvalue] %>
+   <% end %>
   </td>
   <td>
     <%= link_to_delete_permission(@user.user, permission.datasetID, 'delete', category) do %>

@@ -57,12 +57,10 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_user(params[:id])
 
-    # Fetch the datasets, and set the user on these objects so that calls
-    # to UserPermissionX.user_has_access from the view will succeed
-    @datasetsPendingA = @user.permissions_a.pending.select("DISTINCT(datasetID)").map {|p| p.tap { p.user = @user } }
-    @datasetsAccessibleA = @user.permissions_a.accessible.select("DISTINCT(datasetID)").map {|p| p.tap { p.user = @user } }
-    @datasetsPendingB = @user.permissions_b.pending.select("DISTINCT(datasetID)").map {|p| p.tap { p.user = @user } }
-    @datasetsAccessibleB = @user.permissions_b.accessible.select("DISTINCT(datasetID)").map {|p| p.tap { p.user = @user } }
+    @datasetsPendingA = @user.permissions_a.pending
+    @datasetsAccessibleA = @user.permissions_a.accessible.without_parented_files
+    @datasetsPendingB = @user.permissions_b.pending
+    @datasetsAccessibleB = @user.permissions_b.accessible.without_parented_files
 
     @datasetsCatA = AccessLevel.cat_a
     @datasetsCatB = AccessLevel.cat_b
