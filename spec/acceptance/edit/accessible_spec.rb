@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../acceptance_helper'
 feature "Modify access to accessible datasets", %q{
   In order to manage user access to data
   As an administrator
-  I want to adjust permissions for accessible  datasets
+  I want to adjust permissions for accessible datasets
 } do
 
   before(:each) do
@@ -36,8 +36,6 @@ feature "Modify access to accessible datasets", %q{
     accessLevelsB.each do |accessLevel|
       find("select#user_datasets_cat_b_to_add").should have_content(accessLevel.dataset_description)
     end
-
-    # TODO: Test display of permission level (browse, analyse, download, analyse+download)
   end
 
 
@@ -57,6 +55,7 @@ feature "Modify access to accessible datasets", %q{
       @user.permissions_a.where(:datasetID => dataset.datasetID, :permissionvalue => 1).should be_present
     end
   end
+
 
   scenario "adding a category B dataset" do
     datasets = make_datasets(:b)
@@ -87,21 +86,6 @@ feature "Modify access to accessible datasets", %q{
   end
 
 
-  # Make two datasets - one that's already been added, and one that hasn't
-  def make_datasets(category)
-    accessLevelPresent = AccessLevel.make(category)
-    accessLevelAbsent = AccessLevel.make(category)
-    @user.permissions(category).create(:datasetID => accessLevelPresent.datasetID, :permissionvalue => 1)
-    
-    @user.permissions(category).where(:datasetID => accessLevelPresent.datasetID).should_not be_empty
-    @user.permissions(category).where(:datasetID => accessLevelAbsent.datasetID).should be_empty
-
-    {:present => accessLevelPresent, :absent => accessLevelAbsent}
-  end
-
-
-
-
   scenario "viewing added datasets" do
     [:a, :b].each do |category|
       # Start with two datasets - one that's already been added, and one that hasn't
@@ -122,8 +106,8 @@ feature "Modify access to accessible datasets", %q{
       # dataset => table_name => should_be_present
       # eg. present => pending => false
       expected_results = {:present => {:accessible => true, :pending => false},
-        :pending => {:accessible => false, :pending => true},
-        :absent =>  {:accessible => false, :pending => false}}
+                          :pending => {:accessible => false, :pending => true},
+                          :absent =>  {:accessible => false, :pending => false}}
 
       expected_results.each_pair do |dataset, expected_tables|
         expected_tables.each_pair do |table, should_be_present|
@@ -131,11 +115,33 @@ feature "Modify access to accessible datasets", %q{
           find("#category_#{category} table##{table}").has_content?(accessLevels[dataset].datasetname).should == should_be_present
         end
       end
-
-      # TODO: View permissions for cat B datasets - browse, analyse, download
     end
+
+    # We should see the revoke action for cat A datasets, but not for cat B
+    find("#category_a table#accessible").should     have_content("Revoke Permission")
+    find("#category_b table#accessible").should_not have_content("Revoke Permission")
   end
 
+
+  scenario "viewing category B dataset permissions" do
+    # TODO: We should see the permission level in the table for cat B datasets - browse, analyse, download, analyse+download
+    accessLevel = AccessLevel.make(:b)
+    permission = @user.permissions_b.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
+
+    # TODO: Refactor? See other code like this
+    [UserPermissionB::PERMISSION_VALUES[:browse],
+     UserPermissionB::PERMISSION_VALUES[:analyse],
+     UserPermissionB::PERMISSION_VALUES[:download],
+     UserPermissionB::PERMISSION_VALUES[:analyse]*UserPermissionB::PERMISSION_VALUES[:download]].each do |permission_value|
+
+      permission.permissionvalue = permission_value
+      permission.save!
+
+      visit "/users/tester/edit"
+
+      find("#category_b table#accessible").should have_content(UserPermissionB::PERMISSION_VALUE_S[permission_value])
+    end
+  end
 
   scenario "deleting an accessible or pending dataset" do
     [:a, :b].each do |category|
@@ -164,8 +170,7 @@ feature "Modify access to accessible datasets", %q{
   end
 
 
-  # TODO: Adapt to include cat B
-  scenario "revoking permission to an accessible dataset" do
+  scenario "revoking permission to a category A accessible dataset" do
     # Given that I have an accessible dataset with a file
     accessLevel = AccessLevel.make
     accessLevelFile = AccessLevel.make(:with_fileContent, :datasetID => accessLevel.datasetID)
@@ -197,5 +202,20 @@ feature "Modify access to accessible datasets", %q{
     ['File Content', 'File ID', 'Access Level', 'Grant Download'].each do |column_name|
       find("#category_a table#accessible").should have_content(column_name)
     end
+  end
+
+
+  # -- Support functions
+
+  # Make two datasets - one that's already been added, and one that hasn't
+  def make_datasets(category)
+    accessLevelPresent = AccessLevel.make(category)
+    accessLevelAbsent = AccessLevel.make(category)
+    @user.permissions(category).create(:datasetID => accessLevelPresent.datasetID, :permissionvalue => 1)
+    
+    @user.permissions(category).where(:datasetID => accessLevelPresent.datasetID).should_not be_empty
+    @user.permissions(category).where(:datasetID => accessLevelAbsent.datasetID).should be_empty
+
+    {:present => accessLevelPresent, :absent => accessLevelAbsent}
   end
 end

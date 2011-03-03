@@ -1,0 +1,21 @@
+<tr>
+  <td><%= permission.datasetID %></td>
+  <td colspan="2"><%= permission.access_level.datasetname %></td>
+  <td>
+    <% if table_name == :accessible && category == :a && permission.user_has_access %>
+      <%= link_to_delete_permission(@user.user, permission.datasetID, 'revoke', category) do %>
+        <%= image_tag "button_drop.png", :alt => "revoke" %>
+      <% end %>
+    <% elsif table_name == :pending %>
+      <%= check_box_tag "user[datasets_cat_#{category}_pending_to_grant][]", permission.datasetID, false, :id => "pending_#{ddi_to_id(permission.datasetID)}" %>
+    <% elsif category == :b %>
+      <% # UserPermissionB::PERMISSION_VALUE_S[permission.permissionvalue] %>
+      TODO
+    <% end %>
+  </td>
+  <td>
+    <%= link_to_delete_permission(@user.user, permission.datasetID, 'delete', category) do %>
+      <%= image_tag "button_drop.png", :alt => "delete" %>
+    <% end %>
+  </td>
+</tr>

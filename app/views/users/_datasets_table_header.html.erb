@@ -1,0 +1,12 @@
+<tr>
+  <th>Dataset ID</th>
+  <th colspan="2">Dataset Name</th>
+  <th>
+    <% if table_name == :accessible %>
+      <%= category == :a ? "Revoke Permission" : "Permissions" %>
+    <% else %>
+      Add
+    <% end %>
+  </th>
+ <th>Delete</th>
+</tr>
