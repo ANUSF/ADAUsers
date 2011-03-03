@@ -77,7 +77,7 @@ feature "Modify access to accessible datasets", %q{
       find("#category_b").click_button("Add/Update dataset(s)")
     
       # Ensure that both datasets are now present, and without any duplicate rows
-      permission_value = permission.inject(1) { |product, p| product*UserPermissionB::PERMISSION_VALUES[p] }
+      permission_value = UserPermissionB.permission_value(permission)
       datasets.each_value do |dataset|
         @user.permissions_b.where(:datasetID => dataset.datasetID).count.should == 1
         @user.permissions_b.where(:datasetID => dataset.datasetID, :permissionvalue => permission_value).should be_present
@@ -124,15 +124,11 @@ feature "Modify access to accessible datasets", %q{
 
 
   scenario "viewing category B dataset permissions" do
-    # TODO: We should see the permission level in the table for cat B datasets - browse, analyse, download, analyse+download
     accessLevel = AccessLevel.make(:b)
     permission = @user.permissions_b.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
 
-    # TODO: Refactor? See other code like this
-    [UserPermissionB::PERMISSION_VALUES[:browse],
-     UserPermissionB::PERMISSION_VALUES[:analyse],
-     UserPermissionB::PERMISSION_VALUES[:download],
-     UserPermissionB::PERMISSION_VALUES[:analyse]*UserPermissionB::PERMISSION_VALUES[:download]].each do |permission_value|
+    [[:browse], [:analyse], [:download], [:analyse, :download]].each do |permissions|
+      permission_value = UserPermissionB.permission_value(permissions)
 
       permission.permissionvalue = permission_value
       permission.save!
@@ -142,6 +138,7 @@ feature "Modify access to accessible datasets", %q{
       find("#category_b table#accessible").should have_content(UserPermissionB::PERMISSION_VALUE_S[permission_value])
     end
   end
+
 
   scenario "deleting an accessible or pending dataset" do
     [:a, :b].each do |category|
