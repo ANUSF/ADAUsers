@@ -10,3 +10,4 @@ db/openid-store
 *~
 *.war
 doc/whitepaper.html
+coverage/
