@@ -1,4 +1,4 @@
-OpenidServer::Application.routes.draw do
+ADAUsers::Application.routes.draw do
   resources :sessions
   resources :decisions
 
