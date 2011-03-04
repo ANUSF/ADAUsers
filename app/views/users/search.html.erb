@@ -5,15 +5,17 @@
     <% if @users.empty? %>
       Your search '<%= @search_query %>' returned no results.
     <% else %>
-      <%= will_paginate @posts %>
+      <%= will_paginate @users %>
 
-      <%= link_to search_users_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
-        <%= @paginate ? "Show all" : "Show in pages" %>
+      <% if @users.total_entries > 30 %>
+        <%= link_to search_users_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
+          <%= @paginate ? "Show all" : "Show in pages" %>
+        <% end %>
       <% end %>
 
       <%= render 'users/search_results' %>
 
-      <%= will_paginate @posts %>
+      <%= will_paginate @users %>
     <% end %>
   <% end %>
 </div>
