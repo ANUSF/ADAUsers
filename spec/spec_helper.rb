@@ -1,3 +1,7 @@
+# Uncomment to generate code coverage report
+#require 'simplecov'
+#SimpleCov.start 'rails'
+
 require 'rubygems'
 require 'spork'
 

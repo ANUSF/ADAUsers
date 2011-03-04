@@ -29,4 +29,6 @@ group :development, :test do
   gem 'machinist' , '= 1.0.6'
   gem 'database_cleaner'
   gem 'spork', '~> 0.9.0.rc'
+  gem 'simplecov', '>= 0.4.0', :require => false, :group => :test
+  gem 'newrelic_rpm'
 end
