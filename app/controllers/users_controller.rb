@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         @users = User.where("email LIKE ?", "%%#{@search_query}%%")
 
       when "List all users"
-        @users = User
+        @users = User.scoped
       end
 
       @paginate = params[:paginate] != '0'
