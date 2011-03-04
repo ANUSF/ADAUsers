@@ -1,5 +1,7 @@
 .bundle
 db/*.db
+db/*.sql
+db/*.bak
 log/*.log
 tmp/**/*
 .rvmrc

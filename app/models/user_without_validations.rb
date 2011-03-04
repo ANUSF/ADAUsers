@@ -41,7 +41,7 @@ class UserWithoutValidations < ActiveRecord::Base
     elsif category == :b
       self.permissions_b
     else
-      raise "category must be :a or :b"
+      raise(ArgumentError, "category must be :a or :b")
     end
   end
 
@@ -54,6 +54,7 @@ class UserWithoutValidations < ActiveRecord::Base
     }
   end
 
+
   # -- We use some non-database attributes in the registration and edit forms
 
   attr_accessor(:other_australian_affiliation, :other_australian_type,
@@ -61,6 +62,7 @@ class UserWithoutValidations < ActiveRecord::Base
 
   attr_accessor(:datasets_cat_a_to_add,                              :datasets_cat_a_pending_to_grant, :datasets_cat_a_files)
   attr_accessor(:datasets_cat_b_to_add, :datasets_cat_b_permissions, :datasets_cat_b_pending_to_grant, :datasets_cat_b_files)
+
 
   # -- Clean up and set derived attributes before creating the user record
 
@@ -112,6 +114,7 @@ class UserWithoutValidations < ActiveRecord::Base
     self.grant_pending_datasets!(self.datasets_cat_b_pending_to_grant, :b) if self.datasets_cat_b_pending_to_grant
     self.update_file_permissions!(self.datasets_cat_b_files, :b) if self.datasets_cat_b_files
   end
+
 
   # -- Option lists to use in the registration form
 
@@ -220,7 +223,7 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def update_role!(role_id)
-    # This lookup is not strictly required, but is performed because it validates role_id
+    # This lookup is not strictly required, but is included because it validates role_id
     role = RoleEjb.find_by_id!(role_id)
 
     self.user_roles.clear
