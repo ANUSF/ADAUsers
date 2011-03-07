@@ -2,11 +2,7 @@ class SessionsController < ApplicationController
   def new
     oidreq = session[:last_oidreq]
     @username = username_for oidreq.identity if oidreq and not oidreq.id_select
-    if session[:username]
-      flash[:notice] =
-        "You are already logged in as #{session[:username]}." +
-        " Do not press 'Login' unless you want to end that session."
-    end
+    redirect_to root_url, :notice => "You are already logged in as #{session[:username]}." if session[:username]
   end
 
   def create

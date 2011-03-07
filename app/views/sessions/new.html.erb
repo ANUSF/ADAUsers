@@ -1,6 +1,6 @@
 <h3>Sign In</h3>
 
-<%= semantic_form_for :session, :url => sessions_path do |f| %>
+<%= semantic_form_for :session, :url => session_path do |f| %>
   <%= f.inputs do %>
     <% if @username.nil? %>
       <%= f.input :username %>

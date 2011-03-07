@@ -65,7 +65,7 @@ feature "Search", %q{
     visit "/users/search"
     click_button "List all users"
     
-    find("a").should have_content("2")
+    page.should have_selector("a", :text => "2")
     all("tr").length.should == 30+1 # 1 for heading row
   end
 

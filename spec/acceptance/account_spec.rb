@@ -6,19 +6,14 @@ feature "Accounts", %q{
   I want to log in and manage my account
 } do
 
-  scenario "logging in" do
+  scenario "logging in and out" do
     user = User.make
     log_in(user)
     find("#header").should have_content(user.user)
+
+    log_out
   end
 
-  scenario "logging out" do
-    user = User.make
-    log_in(user)
-
-    click_link "Log out"
-    page.should have_content("You have successfully logged out.")
-  end
 
 
   def log_in(user)
@@ -30,5 +25,10 @@ feature "Accounts", %q{
     click_button "Log in"
 
     page.should have_content("Login successful")
+  end
+
+  def log_out
+    click_link "Log out"
+    page.should have_content("You have successfully logged out.")
   end
 end
