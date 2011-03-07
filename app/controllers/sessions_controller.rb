@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  layout "session"
-
   def new
     oidreq = session[:last_oidreq]
     @username = username_for oidreq.identity if oidreq and not oidreq.id_select
@@ -14,12 +12,12 @@ class SessionsController < ApplicationController
   def create
     oidreq = session[:last_oidreq]
 
-    if params[:commit] != 'Login'
+    if params[:commit] != 'Log in'
       reset_session
       if oidreq
         redirect_to oidreq.cancel_url
       else
-        redirect_to new_session_url :notice => 'Login cancelled'
+        redirect_to new_session_url, :notice => 'Login cancelled'
       end
     else
       username = if oidreq and not oidreq.id_select
@@ -45,10 +43,9 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
-    if params[:return_url]
-      redirect_to params[:return_url]
-    else
-      render :text => "Successfully logged out."
-    end
+
+    flash[:notice] = "You have successfully logged out."
+
+    redirect_to params[:return_url] || root_url
   end
 end

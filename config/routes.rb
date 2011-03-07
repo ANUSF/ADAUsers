@@ -1,5 +1,5 @@
 ADAUsers::Application.routes.draw do
-  resources :sessions
+  resource :session
   resources :decisions
 
   resources :users, :constraints => {:id => /.+/} do

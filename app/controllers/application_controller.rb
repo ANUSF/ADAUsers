@@ -7,9 +7,7 @@ require 'openid/store/filesystem'
 class ApplicationController < ActionController::Base
   protect_from_forgery :except => :index
 
-  layout nil
-
-  helper_method :current_identity, :username_for
+  helper_method :current_identity, :username_for, :current_user
 
   protected
 
@@ -24,6 +22,27 @@ class ApplicationController < ActionController::Base
 
   def is_logged_in_as(identity)
     session[:username] and user_url(:username => session[:username]) == identity
+  end
+
+  def current_user
+    return @current_user if defined? @current_user
+    @current_user = session[:username] ? User.find_by_user(session[:username]) : nil
+  end
+
+  def require_user
+    unless current_user
+      flash[:notice] = "You must be logged in to access this page."
+      redirect_to login_url
+      return false
+    end
+  end
+
+  def require_admin
+    unless current_user and current_user.user_role == 'administrator'
+      flash[:notice] = "You must be logged in to access this page."
+      redirect_to login_url
+      return false
+    end
   end
 
   def server

@@ -1,14 +1,13 @@
 class UsersController < ApplicationController
-  layout 'registration'
-
   def index
     render :search
   end
 
   def show
+    @username = params[:id] || params[:username]
     respond_to do |format|
       format.html do
-        response.headers['X-XRDS-Location'] = xrds_user_url
+        response.headers['X-XRDS-Location'] = xrds_user_url(@username)
       end
       format.xrds do
         render :text => render_xrds(OpenID::OPENID_2_0_TYPE,

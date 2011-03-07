@@ -1,6 +1,4 @@
 class DecisionsController < ApplicationController
-  layout "session"
-
   def new
     flash[:notice] = "Do you trust this site with your identity?"
   end

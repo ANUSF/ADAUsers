@@ -1,11 +1,11 @@
 <html>
   <head>
-    <meta http-equiv="X-XRDS-Location" content="<%= xrds_user_url %>" />
+    <meta http-equiv="X-XRDS-Location" content="<%= xrds_user_url(@username) %>" />
     <link rel="openid.server" href="<%= server_url %>" />
   </head>
   <body>
     <p>
-      OpenID identity page for <%= params[:username] %>
+      OpenID identity page for <%= @username %>
     </p>
   </body>
 </html>

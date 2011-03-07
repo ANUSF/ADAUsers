@@ -34,6 +34,10 @@ body {
     border-bottom: 2px solid #6678b1;
 }
 
+#account {
+    float: right;
+}
+
 #flash_notice {
     padding: 5px;
     border: 1px solid gray;
