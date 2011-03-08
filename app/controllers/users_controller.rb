@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :require_admin, :except => [:new, :create, :show]
+
   def index
     render :search
   end

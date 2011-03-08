@@ -47,8 +47,8 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     unless current_user and current_user.user_role == 'administrator'
-      flash[:notice] = "You must be logged in to access this page."
-      redirect_to login_url
+      flash[:notice] = "You must be an administrator to access this page."
+      redirect_to root_url
       return false
     end
   end

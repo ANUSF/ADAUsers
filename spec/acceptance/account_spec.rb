@@ -8,27 +8,13 @@ feature "Accounts", %q{
 
   scenario "logging in and out" do
     user = User.make
-    log_in(user)
+
+    visit "/"
+    page.should have_selector("a", :text => "Log in")
+
+    log_in_as(user)
     find("#header").should have_content(user.user)
 
     log_out
-  end
-
-
-
-  def log_in(user)
-    visit "/"
-    click_link "Log in"
-
-    fill_in "session_username", :with => user.user
-    fill_in "session_password", :with => user.password
-    click_button "Log in"
-
-    page.should have_content("Login successful")
-  end
-
-  def log_out
-    click_link "Log out"
-    page.should have_content("You have successfully logged out.")
   end
 end

@@ -6,6 +6,12 @@ feature "Search", %q{
   I want to be able to search for users
 } do
 
+  before(:each) do
+    @admin = User.find_by_user("administrator") || User.make(:administrator, :user => "administrator")
+    
+    log_in_as(@admin) unless logged_in?
+  end
+
   scenario "viewing the search page" do
     visit "/users/search"
 
@@ -89,7 +95,7 @@ feature "Search", %q{
     click_button "List all users"
     find_link("Show all").click
 
-    all("tr").length.should == 35+1 # 1 for heading row
+    all("tr").length.should == 35+1+1 # 1 for heading row, 1 for admin user
 
     # Revert to paginated view
     find_link("Show in pages").click
@@ -97,8 +103,11 @@ feature "Search", %q{
   end
 
 
-  # TODO
-  #scenario "search is not accessible by non-administrators" do
-  #end
+  scenario "search is not accessible by non-administrators" do
+    log_out
+    visit "/users/search"
+    page.should have_content("You must be an administrator to access this page.")
+    should_be_on("/")
+  end
 
 end

@@ -30,6 +30,10 @@ User.blueprint(:no_affiliation) do
   australian_uni { nil }
 end
 
+User.blueprint(:administrator) do
+  user_roles { [UserRole.make(:id => object.id, :role => RoleEjb.find_by_id("administrator"))] }
+end
+
 UserRole.blueprint do
   role { RoleEjb.find_by_id("affiliateusers") }
 end
