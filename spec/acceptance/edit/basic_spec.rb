@@ -73,4 +73,16 @@ feature "Edit basic attributes", %q{
 
     find("select#user_user_role option[selected='selected']").should have_content("administrator")
   end
+
+
+  scenario "accessing the edit page without admin privileges" do
+    [nil, @user].each do |user|
+      user ? log_in_as(user) : log_out
+      visit "/users/#{@user.user}/edit"
+      page.should have_content("You must be an administrator to access this page.")
+      should_be_on("/")
+    end
+
+    log_out
+  end
 end

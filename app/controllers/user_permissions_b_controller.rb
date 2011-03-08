@@ -1,8 +1,7 @@
 class UserPermissionsBController < ApplicationController
-  def destroy
-    # TODO: Check that current_user owns this permission. Something like:
-    # @permission = current_user.permissions_b.find(params[:id])
+  before_filter :require_admin
 
+  def destroy
     @permission = UserPermissionB.where(:userID => params[:user_id], :datasetID => params[:id])
     @permission = @permission.where(:fileID => nil) if params[:type] == 'revoke'
     @permission.destroy_all
