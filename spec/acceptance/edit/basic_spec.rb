@@ -7,6 +7,9 @@ feature "Edit basic attributes", %q{
 } do
 
   before(:each) do
+    @admin = User.find_by_user("administrator") || User.make(:administrator, :user => "administrator")
+    log_in_as(@admin) unless logged_in?
+
     @user = User.make(:user => 'tester')
   end
 
