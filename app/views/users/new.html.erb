@@ -43,7 +43,7 @@
                   :as => :radio, :collection => @user.austinstitution_options %>
       <%= f.input :australian_uni, :label => 'University',
                   :label_method => :Longuniname %>
-      <% australian_gov_options = AustralianGov.types.map {|t| {t.name => t.members.map {|m| [m.name, m.id]}}}.reduce(:merge).reject {|k,v| k == ''} %>
+      <% australian_gov_options = build_australian_gov_options %>
       <%= f.input :australian_gov, :label => 'Government Department/Agency or Research Centre',
                   :collection => grouped_options_for_select(australian_gov_options, @user.departmentid) %>
       <%= f.inputs :id => 'user_australian_other_inputs' do %>
