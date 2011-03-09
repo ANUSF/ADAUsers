@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin, :except => [:new, :create, :show]
+  before_filter :require_no_user, :only => [:new, :create]
+  before_filter :require_user, :only => :show
 
   def index
     render :search
@@ -7,6 +9,12 @@ class UsersController < ApplicationController
 
   def show
     @username = params[:id] || params[:username]
+
+    if @username != current_user.user && !current_user.admin?
+      redirect_to root_url, :notice => "You may not view another user's details."
+      return
+    end
+
     respond_to do |format|
       format.html do
         response.headers['X-XRDS-Location'] = xrds_user_url(@username)

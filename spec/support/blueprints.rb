@@ -31,7 +31,8 @@ User.blueprint(:no_affiliation) do
 end
 
 User.blueprint(:administrator) do
-  user_roles { [UserRole.make(:id => object.id, :role => RoleEjb.find_by_id("administrator"))] }
+  user { Sham.name }
+  user_roles { [UserRole.make(:id => object.user, :role => RoleEjb.find_by_id("administrator"))] }
 end
 
 UserRole.blueprint do
