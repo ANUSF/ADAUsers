@@ -15,6 +15,8 @@ class UsersController < ApplicationController
       return
     end
 
+    @user = User.find_by_user(@username)
+
     respond_to do |format|
       format.html do
         response.headers['X-XRDS-Location'] = xrds_user_url(@username)

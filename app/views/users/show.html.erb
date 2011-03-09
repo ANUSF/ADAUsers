@@ -4,8 +4,24 @@
     <link rel="openid.server" href="<%= server_url %>" />
   </head>
   <body>
-    <p>
-      OpenID identity page for <%= @username %>
-    </p>
+
+    <table>
+      <tr><td>User:</td><td><%= @user.user %></td></tr>
+      <tr><td>Role:</td><td><%= @user.user_role %></td></tr>
+      <tr><td>Name:</td><td><%= @user.name %></td></tr>
+      <tr><td>Email:</td><td><%= @user.email %></td></tr>
+      <tr><td>Institution:</td><td><%= @user.affiliation %></td></tr>
+      <tr><td>Type of institution:</td><td><%= "TODO" %></td></tr>
+      <tr><td>Position:</td><td><%= "TODO" %></td></tr>
+      <tr><td>Country:</td><td><%= @user.country.Countryname %></td></tr>
+      <tr><td>Sector:</td><td><%= "TDOO" %></td></tr>
+
+      <tr><td>Last search:</td><td><%= "TODO" %></td></tr>
+      <tr><td>Registered:</td><td><%= @user.dateregistered %></td></tr>
+      <tr><td>Signed undertaking:</td><td><%= acsprimember_to_s(@user.acsprimember) %></td></tr>
+      <tr><td>Type of work:</td><td><%= "TODO" %></td></tr>
+
+   </table>
+
   </body>
 </html>
