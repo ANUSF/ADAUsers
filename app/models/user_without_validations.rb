@@ -35,6 +35,11 @@ class UserWithoutValidations < ActiveRecord::Base
     :primary_key => :user,
     :foreign_key => :name }
 
+  has_many :searches, {
+    :class_name => "Search",
+    :primary_key => :user,
+    :foreign_key => :userId }
+
   def permissions(category)
     if category == :a
       self.permissions_a
@@ -199,9 +204,26 @@ class UserWithoutValidations < ActiveRecord::Base
     end
   end
 
+  def position
+    read_attribute(:position) == "Other" ? read_attribute(:otherpd) : read_attribute(:position)
+  end
+
+  def type_of_work
+    self.action == "Other" ? self.otherwt : self.action
+  end
+
+  def sector
+    self.austinstitution.sub(/^Uni$/, "University").sub(/^Dept$/, "Government/Research")
+  end
+
   def last_access_time
     log = self.anu_logs.last
     log ? log.date_processed : nil
+  end
+
+  def last_search_time
+    search = self.searches.last
+    search ? search.date : nil
   end
 
   def num_accesses_in_past(duration=nil)
