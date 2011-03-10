@@ -15,7 +15,7 @@
       <tr><td>Position:</td><td><%= @user.position %></td></tr>
       <tr><td>Country:</td><td><%= @user.country.Countryname %></td></tr>
       <tr><td>Sector:</td><td><%= @user.sector %></td></tr>
-      <tr><td>Last search:</td><td><%= @user.last_search_time %></td></tr>
+      <tr><td>Last search:</td><td><%= @user.last_search_time || "Never" %></td></tr>
       <tr><td>Registered:</td><td><%= @user.dateregistered %></td></tr>
       <tr><td>Signed undertaking:</td><td><%= acsprimember_to_s(@user.acsprimember) %></td></tr>
       <tr><td>Type of work:</td><td><%= @user.type_of_work %></td></tr>

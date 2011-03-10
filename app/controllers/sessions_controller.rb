@@ -1,8 +1,10 @@
 class SessionsController < ApplicationController
+  before_filter :require_no_user, :only => [:new, :create]
+  before_filter :require_user, :only => :destroy
+
   def new
     oidreq = session[:last_oidreq]
     @username = username_for oidreq.identity if oidreq and not oidreq.id_select
-    redirect_to root_url, :notice => "You are already logged in as #{session[:username]}." if session[:username]
   end
 
   def create

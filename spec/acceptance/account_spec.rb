@@ -6,6 +6,10 @@ feature "Accounts", %q{
   I want to log in and manage my account
 } do
 
+  after(:each) do
+    log_out if logged_in?
+  end
+
   scenario "logging in and out" do
     user = User.make
 
@@ -14,10 +18,15 @@ feature "Accounts", %q{
 
     log_in_as(user)
     find("#header").should have_content(user.user)
-
-    log_out
   end
 
+  scenario "viewing user details" do
+    user = User.make
+    log_in_as(user)
+    visit "/users/#{user.user}"
+
+    page.should have_content(user.name)
+  end
 
   scenario "viewing another user's details" do
     access_denied_messages = ["You may not view another user's details.", "You must be logged in to access this page."]

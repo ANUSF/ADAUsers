@@ -12,6 +12,10 @@ feature "Search", %q{
     log_in_as(@admin) unless logged_in?
   end
 
+  after(:all) do
+    log_out if logged_in?
+  end
+
   scenario "viewing the search page" do
     visit "/users/search"
 
