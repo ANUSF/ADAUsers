@@ -47,6 +47,38 @@ describe User do
                        :other_australian_type => User.new.other_aust_inst_types[5])
       user.affiliation.should == "BarCamp Canberra"
     end
+
+    it "provides correct values for derived attributes" do
+      # Other Australian affiliation
+      user = User.make(:no_affiliation,
+                       :country => User::AUSTRALIA,
+                       :austinstitution => 'Other',
+                       :other_australian_affiliation => "BarCamp Canberra",
+                       :other_australian_type => User.new.other_aust_inst_types[5])
+      user = User.find(user.user)
+      user.other_australian_affiliation.should == "BarCamp Canberra"
+      user.other_australian_type.should == User.new.other_aust_inst_types[5]
+
+      # Non-Australian affiliation
+      user = User.make(:no_affiliation,
+                       :country => Country.find_by_Countryname("New Zealand"),
+                       :non_australian_affiliation => "University of Auckland",
+                       :non_australian_type => User.new.non_aust_inst_types[0])
+      user = User.find(user.user)
+      user.non_australian_affiliation.should == "University of Auckland"
+      user.non_australian_type.should == User.new.non_aust_inst_types[0]
+
+      # Australian uni
+      user = User.make(:no_affiliation,
+                       :country => User::AUSTRALIA,
+                       :austinstitution => 'Uni',
+                       :australian_uni => AustralianUni.find_by_Longuniname("Australian National University"))
+      user = User.find(user.user)
+      user.other_australian_affiliation.should == nil
+      user.other_australian_type.should == nil
+      user.non_australian_affiliation.should == nil
+      user.non_australian_type.should == nil
+    end
   end
 
   describe "setters" do

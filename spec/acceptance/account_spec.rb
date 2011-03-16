@@ -29,7 +29,7 @@ feature "Accounts", %q{
   end
 
   scenario "viewing another user's details" do
-    access_denied_messages = ["You may not view another user's details.", "You must be logged in to access this page."]
+    access_denied_messages = ["You may not access another user's details.", "You must be logged in to access this page."]
 
     alice = User.make(:user => "alice")
     bob = User.make(:user => "bob")

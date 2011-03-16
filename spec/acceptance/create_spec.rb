@@ -51,4 +51,72 @@ feature "Create", %q{
     # And I should see "Please check the values you filled in."
     page.should have_content("Please check the values you filled in.")
   end
-end
+
+
+  scenario "edit page shows correct fields and values" do
+    user = User.make
+    log_in_as(user)
+
+    visit "/users/#{user.user}/edit"
+    
+    form = find("form#edit_user_#{user.user}")
+
+    fields = [{:name => 'title', :type => :select},
+              {:name => 'fname', :type => :text_field},
+              {:name => 'sname', :type => :text_field},
+              {:name => 'email', :type => :text_field},
+              {:name => 'email_confirmation', :type => :text_field, :value => ''},
+                
+              {:name => 'position', :type => :select, :value => user[:position]},
+              {:name => 'otherpd', :type => :text_field},
+                
+              {:name => 'action', :type => :select},
+              {:name => 'otherwt', :type => :text_field},
+              
+              {:name => 'countryid', :type => :select},
+              
+              {:name => 'austinstitution', :type => :radio},
+              {:name => 'uniid', :type => :select},
+              {:name => 'departmentid', :type => :select},
+              {:name => 'other_australian_affiliation', :type => :text_field},
+              {:name => 'other_australian_affiliation_type', :type => :select},
+              
+              {:name => 'non_australian_affiliation', :type => :text_field},
+              {:name => 'non_australian_type', :type => :select}]
+
+    fields.each do |field|
+      should_have field[:type], :named => "user[#{field[:name]}]", :value => (field[:value] || user[field[:name]]), :within => form
+    end
+
+    log_out
+  end
+
+
+  # should_have :text_field, :named => 'user[email]', :value => user.email, :within => find("#user_details")
+  def should_have(type, opts={})
+    raise ArgumentError, ":named is required" unless opts.has_key? :named
+    opts = {:value => '', :within => page}.merge(opts)
+
+    name_attr = "[name='#{opts[:named]}']"
+    value_attr = opts[:value].present? ? "[value='#{opts[:value]}']" : ""
+
+    if type == :text_field
+      opts[:within].should have_selector("input#{name_attr}#{value_attr}")
+    elsif type == :select
+      if opts[:value].present?
+        opts[:within].should have_selector("select#{name_attr} option#{value_attr}[selected='selected']")
+      else
+        opts[:within].should_not have_selector("select#{name_attr} option[selected='selected']")
+      end
+    elsif type == :radio
+      if opts[:value].present?
+        opts[:within].should have_selector("input[type='radio']#{name_attr}#{value_attr}[checked='checked']")
+      else
+        opts[:within].should_not have_selector("input[type='radio']#{name_attr}[checked='checked']")
+      end
+    else
+      raise ArgumentError, "Unknown field type: #{type}"
+    end
+  end
+
+ end

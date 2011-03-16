@@ -1,20 +1,14 @@
 class UsersController < ApplicationController
-  before_filter :require_admin, :except => [:new, :create, :show]
+  before_filter :require_admin, :only => [:index, :search]
+  before_filter :require_admin_or_owner, :only => [:show, :edit, :update]
   before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => :show
+
 
   def index
     render :search
   end
 
   def show
-    @username = params[:id] || params[:username]
-
-    if @username != current_user.user && !current_user.admin?
-      redirect_to root_url, :notice => "You may not view another user's details."
-      return
-    end
-
     @user = User.find_by_user(@username)
 
     respond_to do |format|
@@ -68,18 +62,34 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by_user(params[:id])
 
-    @datasetsPendingA = @user.permissions_a.pending
-    @datasetsAccessibleA = @user.permissions_a.accessible.without_parented_files
-    @datasetsPendingB = @user.permissions_b.pending
-    @datasetsAccessibleB = @user.permissions_b.accessible.without_parented_files
+    if current_user.admin?
+      @datasetsPendingA = @user.permissions_a.pending
+      @datasetsAccessibleA = @user.permissions_a.accessible.without_parented_files
+      @datasetsPendingB = @user.permissions_b.pending
+      @datasetsAccessibleB = @user.permissions_b.accessible.without_parented_files
 
-    @datasetsCatA = AccessLevel.cat_a
-    @datasetsCatB = AccessLevel.cat_b
+      @datasetsCatA = AccessLevel.cat_a
+      @datasetsCatB = AccessLevel.cat_b
+    end
   end
 
   def update
+    # TODO: If the user is editing themselves, do not allow them to update their permissions
+
     @user = UserWithoutValidations.find_by_user(params[:id])
     @user.update_attributes(params[:user])
     redirect_to edit_user_path(@user)
   end
+
+
+
+  def require_admin_or_owner
+    @username = params[:id] || params[:username]
+
+    if require_user != false and @username != current_user.user && !current_user.admin?
+      redirect_to root_url, :notice => "You may not access another user's details."
+      return false
+    end
+  end
+
 end

@@ -62,8 +62,25 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # -- We use some non-database attributes in the registration and edit forms
 
-  attr_accessor(:other_australian_affiliation, :other_australian_type,
-                :non_australian_affiliation, :non_australian_type)
+  attr_writer(:other_australian_affiliation, :other_australian_type,
+              :non_australian_affiliation, :non_australian_type)
+  def other_australian_affiliation
+    @other_australian_affiliation ||
+      (country == AUSTRALIA && !['Uni', 'Dept'].include?(austinstitution) && self.institution) ||
+      nil
+  end
+  def other_australian_type
+    @other_australian_type ||
+      (country == AUSTRALIA && !['Uni', 'Dept'].include?(austinstitution) && self.institutiontype) ||
+      nil
+  end
+  def non_australian_affiliation
+    @non_australian_affiliation || (country != AUSTRALIA && self.institution) || nil
+  end
+  def non_australian_type
+    @non_australian_type || (country != AUSTRALIA && self.institutiontype) || nil
+  end
+
 
   attr_accessor(:datasets_cat_a_to_add,                              :datasets_cat_a_pending_to_grant, :datasets_cat_a_files)
   attr_accessor(:datasets_cat_b_to_add, :datasets_cat_b_permissions, :datasets_cat_b_pending_to_grant, :datasets_cat_b_files)
@@ -89,14 +106,12 @@ class UserWithoutValidations < ActiveRecord::Base
       :password => password,
       :active => 1)
 
-    self.institution, self.institutiontype, self.uniid, self.departmentid,
-    self.acsprimember =
+    self.institution, self.institutiontype, self.uniid, self.departmentid, self.acsprimember =
       if country == AUSTRALIA
         case austinstitution
         when 'Uni'
           uni = AustralianUni.find(uniid)
-          [ uni.Longuniname,
-            "Australian University", uni.id, nil, uni.acsprimember ]
+          [ uni.Longuniname, "Australian University", uni.id, nil, uni.acsprimember ]
         when 'Dept'
           dept = AustralianGov.find(departmentid)
           [dept.name, dept.type, nil, dept.id, dept.acsprimember]
@@ -204,7 +219,7 @@ class UserWithoutValidations < ActiveRecord::Base
     end
   end
 
-  def position
+  def position_s
     read_attribute(:position) == "Other" ? read_attribute(:otherpd) : read_attribute(:position)
   end
 
