@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :require_admin, :only => [:index, :search]
-  before_filter :require_admin_or_owner, :only => [:show, :edit, :update]
+  before_filter :require_admin_or_publisher, :only => [:index, :search]
+  before_filter :require_admin_or_publisher_or_owner, :only => [:show, :edit, :update]
   before_filter :require_no_user, :only => [:new, :create]
 
 
@@ -83,10 +83,10 @@ class UsersController < ApplicationController
 
 
 
-  def require_admin_or_owner
+  def require_admin_or_publisher_or_owner
     @username = params[:id] || params[:username]
 
-    if require_user != false and @username != current_user.user && !current_user.admin?
+    if require_user != false and @username != current_user.user and !current_user.admin? and !current_user.publisher?
       redirect_to root_url, :notice => "You may not access another user's details."
       return false
     end

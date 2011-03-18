@@ -110,7 +110,7 @@ feature "Search", %q{
   scenario "search is not accessible by non-administrators" do
     log_out
     visit "/users/search"
-    page.should have_content("You must be an administrator to access this page.")
+    page.should have_content("You must be an administrator or publisher to access this page.")
     should_be_on("/")
   end
 

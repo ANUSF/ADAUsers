@@ -1,5 +1,5 @@
 class UserPermissionsAController < ApplicationController
-  before_filter :require_admin
+  before_filter :require_admin_or_publisher
 
   def destroy
     @permission = UserPermissionA.where(:userID => params[:user_id], :datasetID => params[:id])

@@ -255,6 +255,10 @@ class UserWithoutValidations < ActiveRecord::Base
     self.user_role == 'administrator'
   end
 
+  def publisher?
+    self.user_role == 'publisher'
+  end
+
   def user_role
     self.user_roles.first.roleID unless self.user_roles.empty?
   end
