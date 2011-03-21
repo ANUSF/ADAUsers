@@ -39,6 +39,9 @@ class UsersController < ApplicationController
         @users = User.scoped
       end
 
+      # This slows things down massively, but would be faster for listing all results
+      #@users = @users.includes(:user_roles, :country, :australian_uni, :australian_gov)
+
       @paginate = params[:paginate] != '0'
       @users = @users.paginate :page => params[:page], :order => 'user', :per_page => (@paginate ? 30 : @users.count)
     end
