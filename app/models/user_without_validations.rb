@@ -252,11 +252,7 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def admin?
-    self.user_role == 'administrator'
-  end
-
-  def publisher?
-    self.user_role == 'publisher'
+    ['administrator', 'publisher'].include? self.user_role
   end
 
   def user_role

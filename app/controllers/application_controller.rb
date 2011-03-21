@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_admin_or_publisher
-    unless current_user and (current_user.admin? or current_user.publisher?)
+  def require_admin
+    unless current_user and current_user.admin?
       flash[:notice] = "You must be an administrator or publisher to access this page."
       redirect_to root_url
       return false
