@@ -20,6 +20,10 @@
 
       <div id="title">ADA Users</div>
       <div id="subtitle"><%= yield :title %></div>
+
+      <div id="links">
+        <%= link_to "Manage users", users_path if current_user and current_user.admin? %>
+      </div>
     </div>
    
    <% flash.each do |name, msg| %>
