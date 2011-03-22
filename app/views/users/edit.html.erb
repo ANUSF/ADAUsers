@@ -1,34 +1,4 @@
 <% content_for(:title) { "Editing #{@user.user}" } %>
 <h2>User details</h2>
 
-<% if current_user == @user %>
-  <%= render 'users/form' %>
-  <hr />
-<% end %>
-
-<% if current_user.admin? %>
-  <%= render 'users/user_details_table' %>
-
-  <hr />
-
-  <div id="category_a">
-    <h2>Category A Datasets</h2>
-
-    <%= render 'users/datasets_table', :table_name => :pending, :table_data => @datasetsPendingA, :category => :a %>
-    <%= render 'users/datasets_table', :table_name => :accessible, :table_data => @datasetsAccessibleA, :category => :a %>
-
-    <%= render 'users/datasets_add_form', :datasets => @datasetsCatA, :category => :a %>
-  </div>
-
-
-  <hr />
-
-  <div id="category_b">
-    <h2>Category B Datasets</h2>
-
-    <%= render 'users/datasets_table', :table_name => :pending, :table_data => @datasetsPendingB, :category => :b %>
-    <%= render 'users/datasets_table', :table_name => :accessible, :table_data => @datasetsAccessibleB, :category => :b %>
-
-    <%= render 'users/datasets_add_form', :datasets => @datasetsCatB, :category => :b %>
-  </div>
-<% end %>
+<%= render 'users/form' %>

@@ -1,4 +1,4 @@
-class UserPermissionsBController < ApplicationController
+class Admin::UserPermissionsBController < ApplicationController
   before_filter :require_admin
 
   def destroy
@@ -6,6 +6,6 @@ class UserPermissionsBController < ApplicationController
     @permission = @permission.where(:fileID => nil) if params[:type] == 'revoke'
     @permission.destroy_all
 
-    redirect_to edit_user_path(params[:user_id])
+    redirect_to admin_edit_user_path(params[:user_id])
   end
 end

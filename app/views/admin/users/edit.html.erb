@@ -1,0 +1,30 @@
+<% content_for(:title) { "Editing #{@user.user}" } %>
+
+<h2>User details</h2>
+
+<p>TODO: Edit user details (eg. email address)</p>
+
+<%= render 'user_details_table' %>
+
+<hr />
+
+<div id="category_a">
+  <h2>Category A Datasets</h2>
+
+  <%= render 'datasets_table', :table_name => :pending, :table_data => @datasetsPendingA, :category => :a %>
+  <%= render 'datasets_table', :table_name => :accessible, :table_data => @datasetsAccessibleA, :category => :a %>
+
+  <%= render 'datasets_add_form', :datasets => @datasetsCatA, :category => :a %>
+</div>
+
+
+<hr />
+
+<div id="category_b">
+  <h2>Category B Datasets</h2>
+
+  <%= render 'datasets_table', :table_name => :pending, :table_data => @datasetsPendingB, :category => :b %>
+  <%= render 'datasets_table', :table_name => :accessible, :table_data => @datasetsAccessibleB, :category => :b %>
+
+  <%= render 'datasets_add_form', :datasets => @datasetsCatB, :category => :b %>
+</div>

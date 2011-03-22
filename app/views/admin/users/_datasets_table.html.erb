@@ -6,14 +6,14 @@
       <% files = nil %>
       <% table_data.each do |permission| %>
         <% if permission == table_data[0] || (!files.nil? && files.present?) %>
-          <%= render 'users/datasets_table_header', :table_name => table_name, :category => category %>
+          <%= render 'datasets_table_header', :table_name => table_name, :category => category %>
         <% end %>
 
-        <%= render 'users/datasets_table_row', :table_name => table_name, :category => category, :permission => permission %>
+        <%= render 'datasets_table_row', :table_name => table_name, :category => category, :permission => permission %>
       
         <% files = AccessLevel.files_for_dataset(permission.datasetID, category) %>
         <% if files.present? %>
-          <%= render :partial => 'users/datasets_table_files', :locals => {:form => form, :files => files, :category => category} %>
+          <%= render :partial => 'datasets_table_files', :locals => {:form => form, :files => files, :category => category} %>
           <tr><td></td><td></td><td></td><td></td><td></td></tr>
           <% files_found = true %>
        <% end %>

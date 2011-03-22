@@ -1,5 +1,5 @@
 <div id="search">
-  <%= render 'users/search_form' %>
+  <%= render 'search_form' %>
 
   <% unless @users.nil? %>
     <% if @users.empty? %>
@@ -8,12 +8,12 @@
       <%= will_paginate @users %>
 
       <% if @users.total_entries > 30 %>
-        <%= link_to search_users_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
+        <%= link_to search_admin_users_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
           <%= @paginate ? "Show all" : "Show in pages" %>
         <% end %>
       <% end %>
 
-      <%= render 'users/search_results' %>
+      <%= render 'search_results' %>
 
       <%= will_paginate @users %>
     <% end %>

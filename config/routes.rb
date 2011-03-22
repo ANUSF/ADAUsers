@@ -3,10 +3,15 @@ ADAUsers::Application.routes.draw do
   resources :decisions
 
   resources :users, :constraints => {:id => /.+/} do
-    get :search, :on => :collection
     get :change_password, :on => :member
-    resources :permissions_a, :controller => "user_permissions_a"
-    resources :permissions_b, :controller => "user_permissions_b"
+  end
+
+  namespace "admin" do
+    resources :users, :constraints => {:id => /.+/} do
+      get :search, :on => :collection
+      resources :permissions_a, :controller => "user_permissions_a"
+      resources :permissions_b, :controller => "user_permissions_b"
+    end
   end
 
   match 'login',  :to => 'sessions#new'
