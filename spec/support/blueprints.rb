@@ -25,6 +25,21 @@ User.blueprint do
   australian_uni { AustralianUni.first }
 end
 
+User.blueprint(:gov) do
+  austinstitution { User.new.austinstitution_options[1][1] }
+  australian_uni { nil }
+  australian_gov { AustralianGov.first }
+end
+
+User.blueprint(:foreign) do
+  country { Country.find_by_Countryname("New Zealand") }
+  austinstitution { nil }
+  australian_uni { nil }
+  australian_gov { nil }
+  non_australian_affiliation { "My Institution" }
+  non_australian_type { User.new.non_aust_inst_types[0] }
+end
+
 User.blueprint(:no_affiliation) do
   austinstitution { "" }
   australian_uni { nil }
@@ -98,10 +113,24 @@ AustralianUni.blueprint do
   g8 { 1 }
 end
 
+AustralianUni.blueprint(:melbourne) do
+  id
+  Longuniname { "University of Melbourne" }
+  Shortuniname { "[MELBOURNE]" }
+  acsprimember { 1 }
+  g8 { 1 }
+end
+
 AustralianGov.blueprint do
   id
   value { "DEducation" }
   name { "Department of Education, Employment and Workplace Relations" }
   acsprimember { 1 }
   type { "Australian federal government department" }
+end
+
+AustralianGov.blueprint(:treasury) do
+  value { "DTreasury" }
+  name { "The Treasury" }
+  acsprimember { 0 }
 end

@@ -65,7 +65,6 @@ feature "Create", %q{
               {:name => 'fname', :type => :text_field},
               {:name => 'sname', :type => :text_field},
               {:name => 'email', :type => :text_field},
-              {:name => 'email_confirmation', :type => :text_field, :value => ''},
                 
               {:name => 'position', :type => :select, :value => user[:position]},
               {:name => 'otherpd', :type => :text_field},
@@ -89,6 +88,51 @@ feature "Create", %q{
     end
 
     log_out
+  end
+
+
+  scenario "editing a user" do
+    base_data = [{:type => :select, :name => 'title', :value => 'Miss'},
+                 {:type => :text, :name => 'fname', :value => 'newfname'},
+                 {:type => :text, :name => 'sname', :value => 'newsname'},
+                 {:type => :text, :name => 'email', :value => 'new@email.com'},
+                 {:type => :select, :name => 'position', :value => 'Researcher'},
+                 {:type => :text, :name => 'otherpd', :value => 'otherpdnew'},
+                 {:type => :select, :name => 'action', :value => 'Pure research'},
+                 {:type => :text, :name => 'otherwt', :value => 'otherwtnew'}]
+
+
+    # Australian university
+    user = User.make(:foreign)
+    test_edit(user, base_data +
+              [{:type => :select, :name => 'countryid', :value_label => 'Australia', :value => Country.find_by_Countryname('Australia').id},
+               {:type => :radio, :name => 'austinstitution', :value => 'Uni'},
+               {:type => :select, :name => 'uniid', :value_label => 'University of Melbourne', :value => AustralianUni.find_by_Longuniname('University of Melbourne').id}])
+
+
+    # Australian government
+    user = User.make(:foreign)
+    test_edit(user, base_data +
+              [{:type => :select, :name => 'countryid', :value_label => 'Australia', :value => Country.find_by_Countryname('Australia').id},
+               {:type => :radio, :name => 'austinstitution', :value_label => 'Government/Research', :value => 'Dept'},
+               {:type => :select, :name => 'departmentid', :value_label => 'The Treasury', :value => AustralianGov.find_by_name('The Treasury').id}])
+
+
+    # Australian other affiliation
+    user = User.make(:foreign)
+    test_edit(user, base_data +
+              [{:type => :select, :name => 'countryid', :value_label => 'Australia', :value => Country.find_by_Countryname('Australia').id},
+               {:type => :radio, :name => 'austinstitution', :value => 'Other'},
+               {:type => :text, :name => 'other_australian_affiliation', :value => 'Other Aus aff'},
+               {:type => :select, :name => 'other_australian_type', :value => 'Media'}])
+
+
+    # Non-australian affiliation
+    user = User.make
+    test_edit(user, base_data +
+              [{:type => :select, :name => 'countryid', :value_label => 'New Zealand', :value => Country.find_by_Countryname('New Zealand').id},
+               {:type => :text, :name => 'non_australian_affiliation', :value => 'nainew'},
+               {:type => :select, :name => 'non_australian_type', :value => 'Private company'}])
   end
 
 
@@ -117,6 +161,52 @@ feature "Create", %q{
     else
       raise ArgumentError, "Unknown field type: #{type}"
     end
+  end
+
+
+  def test_edit(user, data)
+    #puts "=" * 60
+    log_in_as(user)
+
+
+    # Check that user differs from these values
+    data.each do |field|
+      #puts "Comparing #{field[:name]}: '#{user[field[:name]]}' to '#{field[:value]}'"
+      user.send(field[:name]).should_not == field[:value]
+    end
+
+
+    # Perform the edit
+    visit "/users/#{user.user}/edit"
+    data.each do |field|
+      name = "user_#{field[:name]}"
+      value = field[:value_label] || field[:value]
+
+      case field[:type]
+      when :select
+        select value, :from => name
+      when :text
+        fill_in name, :with => value
+      when :radio
+        choose value
+      else
+        raise ArgumentError, "Unknown field type: #{field[:type]}"
+      end
+    end
+    click_button "Submit"
+
+
+    # Check that the user has been updated
+    #puts "-" * 60
+    user.reload
+    data.each do |field|
+      #puts "Comparing #{field[:name]}: '#{user[field[:name]]}' to '#{field[:value]}'"
+      user.send(field[:name]).should == field[:value]
+    end
+
+
+    # Clean up
+    log_out
   end
 
  end

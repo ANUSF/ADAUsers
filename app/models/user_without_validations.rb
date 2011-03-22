@@ -88,8 +88,8 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # -- Clean up and set derived attributes before creating the user record
 
-  before_create :complete_user_data
-  before_update :update_from_attrs
+  before_create :complete_user_data, :set_derived_fields
+  before_update :update_from_attrs, :set_derived_fields
 
   def complete_user_data
     self.dateregistered = Date.today.to_s
@@ -105,7 +105,21 @@ class UserWithoutValidations < ActiveRecord::Base
       :modificationDate => dateregistered,
       :password => password,
       :active => 1)
+  end
 
+  def update_from_attrs
+    self.update_role!(@user_role) if @user_role
+
+    self.add_datasets!(self.datasets_cat_a_to_add, :a) if self.datasets_cat_a_to_add
+    self.grant_pending_datasets!(self.datasets_cat_a_pending_to_grant, :a) if self.datasets_cat_a_pending_to_grant
+    self.update_file_permissions!(self.datasets_cat_a_files, :a) if self.datasets_cat_a_files
+
+    self.add_datasets!(self.datasets_cat_b_to_add, :b, self.datasets_cat_b_permissions) if self.datasets_cat_b_to_add
+    self.grant_pending_datasets!(self.datasets_cat_b_pending_to_grant, :b) if self.datasets_cat_b_pending_to_grant
+    self.update_file_permissions!(self.datasets_cat_b_files, :b) if self.datasets_cat_b_files
+  end
+
+  def set_derived_fields
     self.institution, self.institutiontype, self.uniid, self.departmentid, self.acsprimember =
       if country == AUSTRALIA
         case austinstitution
@@ -121,18 +135,6 @@ class UserWithoutValidations < ActiveRecord::Base
       else
         [non_australian_affiliation, non_australian_type, nil, nil, 0]
       end
-  end
-
-  def update_from_attrs
-    self.update_role!(@user_role) if @user_role
-
-    self.add_datasets!(self.datasets_cat_a_to_add, :a) if self.datasets_cat_a_to_add
-    self.grant_pending_datasets!(self.datasets_cat_a_pending_to_grant, :a) if self.datasets_cat_a_pending_to_grant
-    self.update_file_permissions!(self.datasets_cat_a_files, :a) if self.datasets_cat_a_files
-
-    self.add_datasets!(self.datasets_cat_b_to_add, :b, self.datasets_cat_b_permissions) if self.datasets_cat_b_to_add
-    self.grant_pending_datasets!(self.datasets_cat_b_pending_to_grant, :b) if self.datasets_cat_b_pending_to_grant
-    self.update_file_permissions!(self.datasets_cat_b_files, :b) if self.datasets_cat_b_files
   end
 
 
@@ -228,7 +230,7 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def sector
-    self.austinstitution.sub(/^Uni$/, "University").sub(/^Dept$/, "Government/Research")
+    self.austinstitution ? self.austinstitution.sub(/^Uni$/, "University").sub(/^Dept$/, "Government/Research") : nil
   end
 
   def last_access_time

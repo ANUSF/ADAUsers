@@ -44,10 +44,19 @@ Spork.prefork do
       Country.make(:australia)
       Country.make(:new_zealand)
       AustralianUni.make
+      AustralianUni.make(:melbourne)
       AustralianGov.make
+      AustralianGov.make(:treasury)
       RoleEjb.make(:id => "affiliateusers")
       RoleEjb.make(:id => "administrator")
     end
+
+    #config.after(:all) do
+    #  Country.destroy_all
+    #  AustralianUni.destroy_all
+    #  AustralianGov.destroy_all
+    #  RoleEjb.destroy_all
+    #end
   end
 
 end

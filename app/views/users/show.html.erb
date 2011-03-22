@@ -13,7 +13,7 @@
       <tr><td>Institution:</td><td><%= @user.affiliation %></td></tr>
       <tr><td>Type of institution:</td><td><%= @user.institutiontype %></td></tr>
       <tr><td>Position:</td><td><%= @user.position_s %></td></tr>
-      <tr><td>Country:</td><td><%= @user.country.Countryname %></td></tr>
+      <tr><td>Country:</td><td><%= @user.country ? @user.country.Countryname : "" %></td></tr>
       <tr><td>Sector:</td><td><%= @user.sector %></td></tr>
       <tr><td>Last search:</td><td><%= @user.last_search_time || "Never" %></td></tr>
       <tr><td>Registered:</td><td><%= @user.dateregistered %></td></tr>

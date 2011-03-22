@@ -78,10 +78,11 @@ class UsersController < ApplicationController
 
   def update
     # TODO: If the user is editing themselves, do not allow them to update their permissions
+    #       Also, use validations in this case, and display errors if there are some any
 
     @user = UserWithoutValidations.find_by_user(params[:id])
     @user.update_attributes(params[:user])
-    redirect_to edit_user_path(@user)
+    redirect_to edit_user_path(@user), :notice => 'Update successful'
   end
 
 
