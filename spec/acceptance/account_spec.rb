@@ -37,6 +37,7 @@ feature "Accounts", %q{
 
     # Anonymous and another user can't access, owner and admin can
     data = [{:user => nil,   :should_be_denied => true},
+
             {:user => bob,   :should_be_denied => true},
             {:user => alice, :should_be_denied => false},
             {:user => admin, :should_be_denied => false}]
@@ -50,5 +51,22 @@ feature "Accounts", %q{
 
       log_out if logged_in?
     end
+  end
+
+  scenario "changing password" do
+    user = User.make(:password => "oldpass")
+    log_in_as(user)
+
+    click_link "Change password"
+
+    fill_in 'user_password_old', :with => "oldpass"
+    fill_in 'user_password', :with => "newpass"
+    fill_in 'user_password_confirmation', :with => "newpass"
+    click_button "Submit"
+
+    page.should have_content "Your password has been updated."
+
+    log_out
+    log_in_with(:username => user.user, :password => "newpass")
   end
 end

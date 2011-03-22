@@ -4,6 +4,7 @@ ADAUsers::Application.routes.draw do
 
   resources :users, :constraints => {:id => /.+/} do
     get :search, :on => :collection
+    get :change_password, :on => :member
     resources :permissions_a, :controller => "user_permissions_a"
     resources :permissions_b, :controller => "user_permissions_b"
   end

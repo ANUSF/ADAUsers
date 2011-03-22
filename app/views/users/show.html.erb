@@ -5,7 +5,7 @@
   </head>
   <body>
 
-    <p><%= link_to "Edit", edit_user_path(@user) %></p>
+    <%= render 'account_links' %>
 
     <table>
       <tr><td>User:</td><td><%= @user.user %></td></tr>
@@ -23,7 +23,7 @@
       <tr><td>Type of work:</td><td><%= @user.type_of_work %></td></tr>
     </table>
 
-    <p><%= link_to "Edit", edit_user_path(@user) %></p>
+    <%= render 'account_links' %>
 
   </body>
 </html>

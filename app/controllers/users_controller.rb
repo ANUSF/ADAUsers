@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_admin, :only => [:index, :search]
-  before_filter :require_admin_or_owner, :only => [:show, :edit, :update]
+  before_filter :require_admin_or_owner, :only => [:show, :change_password, :edit, :update]
   before_filter :require_no_user, :only => [:new, :create]
 
 
@@ -76,11 +76,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_password
+    @user = User.find_by_user(params[:id])
+  end
+
   def update
     # TODO: If the user is editing themselves, do not allow them to update their permissions
     #       Also, use validations in this case, and display errors if there are some any
 
-    @user = UserWithoutValidations.find_by_user(params[:id])
+    (current_user.admin? ? UserWithoutValidations : User).find_by_user(params[:id])
     @user.update_attributes(params[:user])
     redirect_to edit_user_path(@user), :notice => 'Update successful'
   end
