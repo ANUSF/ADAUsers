@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/acceptance_helper'
+require File.dirname(__FILE__) + '/../acceptance_helper'
 
 feature "Search", %q{
   In order to find users

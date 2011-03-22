@@ -13,7 +13,7 @@
       
         <% files = AccessLevel.files_for_dataset(permission.datasetID, category) %>
         <% if files.present? %>
-          <%= render :partial => 'datasets_table_files', :locals => {:form => form, :files => files, :category => category} %>
+          <%= render 'datasets_table_files', :form => form, :files => files, :category => category %>
           <tr><td></td><td></td><td></td><td></td><td></td></tr>
           <% files_found = true %>
        <% end %>
