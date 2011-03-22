@@ -21,7 +21,7 @@ feature "Modify access to dataset files", %q{
       @user.permissions(category).create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
       
       # When I view the page
-      visit "/users/tester/edit"
+      visit "/admin/users/tester/edit"
       
       # Then I should not see the "Update File Access" button
       page.should_not have_selector("input[type='submit'][value='Update File Access']")
@@ -37,7 +37,7 @@ feature "Modify access to dataset files", %q{
       @user.permissions(category).create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
 
       # When I view the page, the "Grant Download" checkbox should not be checked
-      visit "/users/tester/edit"
+      visit "/admin/users/tester/edit"
       page.should_not have_selector("#category_#{category} table#accessible input#file_#{ddi_to_id(accessLevelFile.datasetID)}_#{accessLevelFile.fileID}[checked]")
 
       # When I check "Grant Download" and press "Update File Access"
@@ -63,7 +63,7 @@ feature "Modify access to dataset files", %q{
       @user.permissions(category).create(:datasetID => accessLevelFile.datasetID, :fileID => accessLevelFile.fileID, :permissionvalue => permission_value)
 
       # When I view the page, the "Grant Download" checkbox should be checked
-      visit "/users/tester/edit"
+      visit "/admin/users/tester/edit"
       page.should have_selector("#category_#{category} table#accessible input#file_#{ddi_to_id(accessLevelFile.datasetID)}_#{accessLevelFile.fileID}[checked]")
 
       # When I uncheck "Grant Download" and press "Update File Access"

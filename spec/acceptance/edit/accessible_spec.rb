@@ -20,7 +20,7 @@ feature "Modify access to accessible datasets", %q{
       2.times { AccessLevel.make(:accessLevel => accessLevel) }
     end
 
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
     
     # -- Unrestricted datasets
     accessLevelsA = AccessLevel
@@ -45,7 +45,7 @@ feature "Modify access to accessible datasets", %q{
   scenario "adding a category A dataset" do
     datasets = make_datasets(:a)
     
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
     
     # Submit the form with these two datasets
     find("select#user_datasets_cat_a_to_add").select(datasets[:present].dataset_description)
@@ -63,7 +63,7 @@ feature "Modify access to accessible datasets", %q{
   scenario "adding a category B dataset" do
     datasets = make_datasets(:b)
     
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
     
     # Build an array of valid combinations of the three permissions
     permissions = [[], [:analyse], [:download], [:analyse, :download]]
@@ -104,7 +104,7 @@ feature "Modify access to accessible datasets", %q{
       @user.permissions(category).where(:datasetID => accessLevels[:pending].datasetID).should_not be_empty
       @user.permissions(category).where(:datasetID => accessLevels[:absent].datasetID).should be_empty
 
-      visit "/users/tester/edit"
+      visit "/admin/users/tester/edit"
 
       # dataset => table_name => should_be_present
       # eg. present => pending => false
@@ -136,7 +136,7 @@ feature "Modify access to accessible datasets", %q{
       permission.permissionvalue = permission_value
       permission.save!
 
-      visit "/users/tester/edit"
+      visit "/admin/users/tester/edit"
 
       find("#category_b table#accessible").should have_content(UserPermissionB::PERMISSION_VALUE_S[permission_value])
     end
@@ -161,7 +161,7 @@ feature "Modify access to accessible datasets", %q{
       # Then I should not see the accessible dataset in the table
 
       accessLevels.each_pair do |dataset, accessLevel|
-        visit "/users/tester/edit"
+        visit "/admin/users/tester/edit"
         find("#category_#{category} table##{dataset}").should have_content(accessLevels[dataset].datasetID)
         find("#category_#{category} table##{dataset} a:has(img[alt='delete'])").click()
         page.should_not have_selector("#category_#{category} table##{dataset}")
@@ -178,7 +178,7 @@ feature "Modify access to accessible datasets", %q{
     @user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1, :fileID => accessLevelFile.fileID)
 
     # And I can see it in the accessible table, but not the pending table
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
     find("#category_a table#accessible").should have_content(accessLevel.datasetID)
     page.should_not have_selector("#category_a table#pending")
 

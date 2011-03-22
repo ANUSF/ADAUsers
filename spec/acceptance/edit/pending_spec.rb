@@ -22,7 +22,7 @@ feature "Modify access to pending datasets", %q{
     @user.permissions_b.create(:datasetID => accessLevelB.datasetID, :permissionvalue => 1)
 
     # When I view the page
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
 
     # Then I should not see the button "Add Access"
     page.should_not have_selector("input[type='submit'][value='Add Access']")
@@ -36,7 +36,7 @@ feature "Modify access to pending datasets", %q{
       accessLevels.each { |accessLevel| @user.permissions(category).create(:datasetID => accessLevel.datasetID, :permissionvalue => 0) }
 
       # And I can see them in the pending table, but not the accessible table
-      visit "/users/tester/edit"
+      visit "/admin/users/tester/edit"
       accessLevels.each { |accessLevel| find("#category_#{category} table#pending").should have_content(accessLevel.datasetID) }
       page.should_not have_selector("#category_#{category} table#accessible")
       
