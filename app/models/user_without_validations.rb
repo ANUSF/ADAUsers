@@ -120,20 +120,20 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def set_derived_fields
-    self.institution, self.institutiontype, self.uniid, self.departmentid, self.acsprimember =
+    self.institution, self.institutiontype, self.uniid, self.departmentid =
       if country == AUSTRALIA
         case austinstitution
         when 'Uni'
           uni = AustralianUni.find(uniid)
-          [ uni.Longuniname, "Australian University", uni.id, nil, uni.acsprimember ]
+          [ uni.Longuniname, "Australian University", uni.id, nil ]
         when 'Dept'
           dept = AustralianGov.find(departmentid)
-          [dept.name, dept.type, nil, dept.id, dept.acsprimember]
+          [dept.name, dept.type, nil, dept.id]
         else
-          [other_australian_affiliation, other_australian_type, nil, nil, 0]
+          [other_australian_affiliation, other_australian_type, nil, nil]
         end
       else
-        [non_australian_affiliation, non_australian_type, nil, nil, 0]
+        [non_australian_affiliation, non_australian_type, nil, nil]
       end
   end
 

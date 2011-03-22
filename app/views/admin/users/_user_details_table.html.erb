@@ -11,7 +11,7 @@
   <tr id="acspri">
     <td>ACSPRI member?</td>
     <td>
-      <%= form_for @user do |form| %>
+      <%= form_for [:admin, @user] do |form| %>
         <%= acsprimember_to_s(@user.acsprimember) %>
         <%= form.hidden_field :acsprimember, :value => (1-@user.acsprimember).abs %>
         <%= form.submit @user.acsprimember? ? "Revoke membership" : "Grant membership" %>
@@ -21,7 +21,7 @@
   <tr id="role">
     <td>Role:</td>
     <td>
-      <%= form_for @user do |form| %>
+      <%= form_for [:admin, @user] do |form| %>
         <%= form.collection_select :user_role, RoleEjb.all, :id, :id, {:selected => @user.user_role } %>
         <%= form.submit "Change" %>
       <% end %>

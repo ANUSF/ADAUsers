@@ -136,6 +136,37 @@ feature "Create", %q{
   end
 
 
+
+#  scenario "editing without permission" do
+#    # Anonymous user
+#    log_out
+#    visit "/admin/users/#{@user.user}/edit"
+#    page.should have_content("You must be an administrator or publisher to access this page.")
+#    should_be_on("/")
+#    
+#
+#    log_in_as(@user)
+#
+#    # Own edit page
+#    visit "/admin/users/#{@user.user}/edit"
+#    page.should have_content("User details")
+#    page.should_not have_content("Category A Datasets")
+#
+#    # Someone else's edit page when not an admin
+#    user2 = User.make
+#    visit "/admin/users/#{user2.user}/edit"
+#    page.should have_content("You may not access another user's details.")
+#    should_be_on("/")
+#
+#    log_out
+#  end
+
+
+
+  ############################################################
+
+  protected
+
   # should_have :text_field, :named => 'user[email]', :value => user.email, :within => find("#user_details")
   def should_have(type, opts={})
     raise ArgumentError, ":named is required" unless opts.has_key? :named

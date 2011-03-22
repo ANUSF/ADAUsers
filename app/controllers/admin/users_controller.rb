@@ -43,9 +43,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    UserWithoutValidations.find_by_user(params[:id])
+    @user = UserWithoutValidations.find_by_user(params[:id])
     @user.update_attributes(params[:user])
-    redirect_to admin_edit_user_path(@user), :notice => 'Update successful'
+    redirect_to edit_admin_user_path(@user), :notice => 'Update successful'
   end
 
 end

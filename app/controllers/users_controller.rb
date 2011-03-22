@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     @user.user = params[:user][:user] # primary key, needs to be set manually
     if @user.save
-      flash[:notice] = 'Registration successful!'
+      redirect_to root_path, :notice => 'Registration successful!'
     else
       flash.now[:alert] = 'Please check the values you filled in.'
       render :new
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     # TODO: If the user is editing themselves, do not allow them to update their permissions
     #       Also, use validations in this case, and display errors if there are some any
 
-    User.find_by_user(params[:id])
+    @user = User.find_by_user(params[:id])
     @user.update_attributes(params[:user])
     redirect_to edit_user_path(@user), :notice => 'Update successful'
   end

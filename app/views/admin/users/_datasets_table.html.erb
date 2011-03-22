@@ -1,5 +1,5 @@
 <% unless table_data.empty? %>
-  <%= form_for @user do |form| %>
+  <%= form_for [:admin, @user] do |form| %>
     <% files_found = false %>
     <h3><%= table_name.capitalize %> datasets</h3>
     <table id="<%= table_name %>">

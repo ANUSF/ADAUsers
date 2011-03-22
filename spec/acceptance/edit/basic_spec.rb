@@ -14,7 +14,7 @@ feature "Edit basic attributes", %q{
   end
 
   scenario "viewing user details page" do
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
 
     # -- User details
     page.should have_content("Name")
@@ -54,7 +54,7 @@ feature "Edit basic attributes", %q{
     @user.acsprimember = 2
     @user.save!
 
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
 
     find("tr#acspri").should have_content("Requested")
     find("tr#acspri").click_button("Grant membership")
@@ -65,7 +65,7 @@ feature "Edit basic attributes", %q{
 
 
   scenario "changing role" do
-    visit "/users/tester/edit"
+    visit "/admin/users/tester/edit"
     find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
 
     find("select#user_user_role").select("administrator")
@@ -75,27 +75,15 @@ feature "Edit basic attributes", %q{
   end
 
 
-  scenario "accessing the edit page" do
-    # Anonymous user
+  scenario "accessing the edit page without permission" do
     log_out
-    visit "/users/#{@user.user}/edit"
-    page.should have_content("You must be logged in to access this page.")
-    should_be_on("/login")
-    
 
-    log_in_as(@user)
-
-    # Own edit page
-    visit "/users/#{@user.user}/edit"
-    page.should have_content("User details")
-    page.should_not have_content("Category A Datasets")
-
-    # Someone else's edit page when not an admin
-    user2 = User.make
-    visit "/users/#{user2.user}/edit"
-    page.should have_content("You may not access another user's details.")
-    should_be_on("/")
-
-    log_out
+    [nil, @user].each do |user|
+      log_in_as(user) if user
+      visit "/admin/users/#{@user.user}/edit"
+      page.should have_content("You must be an administrator or publisher to access this page.")
+      should_be_on("/")
+      log_out if logged_in?
+    end
   end
 end
