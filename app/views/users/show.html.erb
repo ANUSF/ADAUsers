@@ -5,6 +5,8 @@
   </head>
   <body>
 
+    <p><%= link_to "Edit", edit_user_path(@user) %></p>
+
     <table>
       <tr><td>User:</td><td><%= @user.user %></td></tr>
       <tr><td>Role:</td><td><%= @user.user_role %></td></tr>
@@ -19,8 +21,9 @@
       <tr><td>Registered:</td><td><%= @user.dateregistered %></td></tr>
       <tr><td>Signed undertaking:</td><td><%= acsprimember_to_s(@user.acsprimember) %></td></tr>
       <tr><td>Type of work:</td><td><%= @user.type_of_work %></td></tr>
+    </table>
 
-   </table>
+    <p><%= link_to "Edit", edit_user_path(@user) %></p>
 
   </body>
 </html>
