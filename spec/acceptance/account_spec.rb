@@ -69,4 +69,23 @@ feature "Accounts", %q{
     log_out
     log_in_with(:username => user.user, :password => "newpass")
   end
+
+  scenario "resetting password" do
+    user = User.make
+    visit "/session/new"
+    click_link "Recover your account"
+
+    fill_in :reset_password_email, :with => user.email
+    click_button "Reset password"
+
+    page.should have_content "Your username and a new password have been emailed to you."
+
+    email = ActionMailer::Base.deliveries.last
+
+    email.encoded.should match /Username: #{user.user}\r$/
+    email.encoded =~ /Password: (.*)\r$/
+    new_password = $1
+
+    log_in_with(:username => user.user, :password => new_password)
+  end
 end

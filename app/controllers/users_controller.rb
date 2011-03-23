@@ -41,6 +41,19 @@ class UsersController < ApplicationController
     @user = User.find_by_user(params[:id])
   end
 
+  def reset_password
+    if params[:reset_password]
+      @user = User.find_by_email(params[:reset_password][:email])
+      new_password = (('a'..'z').to_a + (0..9).to_a).sample(8).join
+      @user.change_password! new_password
+      @user.save!
+
+      UserMailer.reset_password_email(@user, new_password).deliver
+
+      redirect_to root_path, :notice => 'Your username and a new password have been emailed to you.'
+    end
+  end
+
   def update
     # TODO: If the user is editing themselves, do not allow them to update their permissions
 

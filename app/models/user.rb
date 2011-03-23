@@ -112,4 +112,12 @@ class User < UserWithoutValidations
     rec.errors.add(attr, 'password does not match') if value != rec.password_was
   end
 
+
+  # -- Setters and getters
+
+  def change_password!(new_password)
+    self.password_old = self.password_was
+    self.password = new_password
+    save!
+  end
 end
