@@ -108,7 +108,7 @@ feature "Create", %q{
               [{:type => :select, :name => 'countryid', :value_label => 'Australia', :value => Country.find_by_Countryname('Australia').id},
                {:type => :radio, :name => 'austinstitution', :value => 'Uni'},
                {:type => :select, :name => 'uniid', :value_label => 'University of Melbourne', :value => AustralianUni.find_by_Longuniname('University of Melbourne').id}])
-
+    user.destroy
 
     # Australian government
     user = User.make(:foreign)
@@ -116,7 +116,7 @@ feature "Create", %q{
               [{:type => :select, :name => 'countryid', :value_label => 'Australia', :value => Country.find_by_Countryname('Australia').id},
                {:type => :radio, :name => 'austinstitution', :value_label => 'Government/Research', :value => 'Dept'},
                {:type => :select, :name => 'departmentid', :value_label => 'The Treasury', :value => AustralianGov.find_by_name('The Treasury').id}])
-
+    user.destroy
 
     # Australian other affiliation
     user = User.make(:foreign)
@@ -125,7 +125,7 @@ feature "Create", %q{
                {:type => :radio, :name => 'austinstitution', :value => 'Other'},
                {:type => :text, :name => 'other_australian_affiliation', :value => 'Other Aus aff'},
                {:type => :select, :name => 'other_australian_type', :value => 'Media'}])
-
+    user.destroy
 
     # Non-australian affiliation
     user = User.make
@@ -133,6 +133,7 @@ feature "Create", %q{
               [{:type => :select, :name => 'countryid', :value_label => 'New Zealand', :value => Country.find_by_Countryname('New Zealand').id},
                {:type => :text, :name => 'non_australian_affiliation', :value => 'nainew'},
                {:type => :select, :name => 'non_australian_type', :value => 'Private company'}])
+    user.destroy
   end
 
 
@@ -225,7 +226,6 @@ feature "Create", %q{
       end
     end
     click_button "Submit"
-
 
     # Check that the user has been updated
     #puts "-" * 60
