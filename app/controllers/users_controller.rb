@@ -43,14 +43,14 @@ class UsersController < ApplicationController
 
   def update
     # TODO: If the user is editing themselves, do not allow them to update their permissions
-    #       Also, use validations in this case, and display errors if there are any
 
     @user = User.find_by_user(params[:id])
 
     if @user.update_attributes(params[:user])
-      redirect_to edit_user_path(@user), :notice => 'Update successful'
+      flash[:notice] = (params[:commit] == "Submit" ? 'Update successful' : 'Your password has been updated.')
+      redirect_to @user
     else
-      render :edit
+      render (params[:commit] == "Submit" ? :edit : :change_password)
     end
   end
 

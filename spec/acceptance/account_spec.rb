@@ -62,7 +62,7 @@ feature "Accounts", %q{
     fill_in 'user_password_old', :with => "oldpass"
     fill_in 'user_password', :with => "newpass"
     fill_in 'user_password_confirmation', :with => "newpass"
-    click_button "Submit"
+    click_button "Change Password"
 
     page.should have_content "Your password has been updated."
 

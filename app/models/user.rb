@@ -1,4 +1,6 @@
 class User < UserWithoutValidations
+  attr_accessor :password_old
+
   # -- Validations for attributes available in the registration form go here:
 
   validates :user, {
@@ -102,4 +104,12 @@ class User < UserWithoutValidations
     :presence => {
       :message => 'please select one',
       :if => lambda { |rec| rec.country != AUSTRALIA }}}
+
+
+  # -- Other validations:
+
+  validates_each :password_old, :if => lambda { |rec| rec.password_changed? and !rec.new_record? } do |rec, attr, value|
+    rec.errors.add(attr, 'password does not match') if value != rec.password_was
+  end
+
 end
