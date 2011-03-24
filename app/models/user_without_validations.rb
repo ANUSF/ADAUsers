@@ -278,9 +278,12 @@ class UserWithoutValidations < ActiveRecord::Base
     search ? search.date : nil
   end
 
-  def num_accesses_in_past(duration=nil)
+  def num_accesses_in_past(duration=nil, method=nil)
+    methods = {:analyse => "ANALIZE", :download => "DOWNLOAD"}
+
     logs = self.anu_logs
     logs = logs.where("date_processed > ?", Time.now - duration) unless duration.nil?
+    logs = logs.where("method = ?", methods[method]) if method
     logs.count
   end
 
