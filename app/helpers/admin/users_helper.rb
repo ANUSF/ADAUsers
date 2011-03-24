@@ -1,6 +1,10 @@
 module Admin::UsersHelper
-  def acsprimember_to_s(acsprimember)
-    ["No", "Yes", "Requested"][acsprimember]
+  def bool_to_s(var)
+    var ? "Yes" : "No"
+  end
+
+  def signed_undertaking_to_s(signed_undertaking)
+    ["No", "Yes", "Requested"][signed_undertaking]
   end
 
   def link_to_delete_permission(user, datasetID, type, category)

@@ -16,7 +16,7 @@ User.blueprint do
   fname { Sham.name }
   sname { Sham.name }
   email { Sham.email }
-  acsprimember { 1 }
+  signed_undertaking { 1 }
   user_roles { [UserRole.make(:id => object.id)] }
   position { User.new.position_options[0] }
   action { User.new.action_options[0][1] }

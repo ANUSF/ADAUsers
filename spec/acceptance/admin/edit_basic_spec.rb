@@ -32,7 +32,7 @@ feature "Edit basic attributes", %q{
     page.should have_content("Type of work")
     page.should have_content(User.new.action_options[0][1])
 
-    page.should have_content("Member for")
+    page.should have_content("Member since")
     #page.should have_content("about 1 hour")
 
     page.should have_content("Last access")
@@ -42,25 +42,25 @@ feature "Edit basic attributes", %q{
     page.should have_content("(last 12 months / all time)")
     page.should have_content("0 / 0")
 
-    page.should have_content("ACSPRI member?")
-    page.should have_content(@user.acsprimember ? "Yes" : "No")
+    page.should have_content("Signed undertaking?")
+    page.should have_content(@user.signed_undertaking? ? "Yes" : "No")
     
     page.should have_content("Role")
     page.should have_content(@user.user_roles.first.roleID)
   end
 
 
-  scenario "changing ACSPRI membership" do
-    @user.acsprimember = 2
+  scenario "changing undertaking signedness" do
+    @user.signed_undertaking = 2
     @user.save!
 
     visit "/admin/users/tester/edit"
 
-    find("tr#acspri").should have_content("Requested")
-    find("tr#acspri").click_button("Grant membership")
-    find("tr#acspri").should have_content("Yes")
-    find("tr#acspri").click_button("Revoke membership")
-    find("tr#acspri").should have_content("No")
+    find("tr#signed_undertaking").should have_content("Requested")
+    find("tr#signed_undertaking").click_button("Grant access")
+    find("tr#signed_undertaking").should have_content("Yes")
+    find("tr#signed_undertaking").click_button("Revoke access")
+    find("tr#signed_undertaking").should have_content("No")
   end
 
 

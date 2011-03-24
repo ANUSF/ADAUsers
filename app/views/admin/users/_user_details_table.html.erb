@@ -3,18 +3,19 @@
   <tr><td>Username:</td><td><%= @user.user %></td></tr>
   <tr><td>Email address:</td><td><%= @user.email %></td></tr>
   <tr><td>Affiliation:</td><td><%= @user.affiliation %></td></tr>
+  <tr><td>ACSPRI member?</td><td><%= bool_to_s(@user.acsprimember) %></td></tr>
   <tr><td>Type of work:</td><td><%= @user.action %></td></tr>
-  <tr><td>Member for:</td><td><%= time_ago_in_words(@user.dateregistered) %></td></tr>
+  <tr><td>Member since:</td><td><%= Time.parse(@user.dateregistered).strftime("%e %b %Y") %>  (<%= time_ago_in_words(@user.dateregistered) %>)</td></tr>
   <tr><td>Last access:</td><td><%= @user.last_access_time ? time_ago_in_words(@user.last_access_time)+" ago" : "Never" %></td></tr>
   <tr><td>Number of accesses<br />(last 12 months / all time):</td><td><%= @user.num_accesses_in_past(1.year) %> / <%= @user.num_accesses_in_past %></td></tr>
 
-  <tr id="acspri">
-    <td>ACSPRI member?</td>
+  <tr id="signed_undertaking">
+    <td>Signed undertaking?</td>
     <td>
       <%= form_for [:admin, @user] do |form| %>
-        <%= acsprimember_to_s(@user.acsprimember) %>
-        <%= form.hidden_field :acsprimember, :value => (1-@user.acsprimember).abs %>
-        <%= form.submit @user.acsprimember? ? "Revoke membership" : "Grant membership" %>
+        <%= signed_undertaking_to_s(@user.signed_undertaking) %>
+        <%= form.hidden_field :signed_undertaking, :value => (1-@user.signed_undertaking).abs %>
+        <%= form.submit @user.signed_undertaking? ? "Revoke access" : "Grant access" %>
       <% end %>
     </td>
   </tr>

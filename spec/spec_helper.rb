@@ -64,8 +64,6 @@ end
 Spork.each_run do
   # Without this, models are not being reloaded between test runs
   silence_warnings do
-    Dir["#{Rails.root}/app/**/*.rb",
-        "#{Rails.root}/config/routes.rb",
-        "#{Rails.root}/spec/support/blueprints.rb"].each { |f| load f }
+    Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
   end
 end

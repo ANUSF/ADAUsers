@@ -197,6 +197,41 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
 
+  # -- The database attribute acsprimember actually refers to whether the user has signed
+  #    a general undertaking form, NOT whether the institution with which they are affiliated
+  #    is an ACSPRI member. We encapsulate this inconsistency below.
+
+  def signed_undertaking?
+    read_attribute(:acsprimember) == 1
+  end
+
+  def signed_undertaking
+    read_attribute(:acsprimember)
+  end
+
+  def signed_undertaking=(signed_undertaking)
+    write_attribute(:acsprimember, signed_undertaking)
+  end
+
+  def acsprimember
+    acsprimember = false
+
+    if self.country == AUSTRALIA
+      if self.austinstitution == 'Uni'
+        acsprimember = self.australian_uni.acsprimember
+      elsif self.austinstitution == 'Dept'
+        acsprimember = self.australian_gov.acsprimember
+      end
+    end
+
+    acsprimember
+  end
+
+  def acsprimember=(acsprimember)
+    raise "You can't set an institution's ACSPRI membership through a user"
+  end
+  
+
   # -- Setters and getters
 
   def name
@@ -249,9 +284,7 @@ class UserWithoutValidations < ActiveRecord::Base
     logs.count
   end
 
-  def acsprimember?
-    read_attribute(:acsprimember) == 1
-  end
+
 
   def admin?
     ['administrator', 'publisher'].include? self.user_role

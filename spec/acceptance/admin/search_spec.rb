@@ -84,8 +84,7 @@ feature "Search", %q{
     visit "/admin/users/search"
     click_button "List all users"
     
-    # User	Password	Role	Email	Institution	Action	Position	Dateregistered	Acsprimember	Countryid	Uniid	Departmentid	Institutiontype	Fname	Sname	Title	Austinstitution	Otherpd	Otherwt
-    columns = ['Username', 'Password', 'Role', 'Email', 'Institution', 'Type of work', 'Position', 'Date registered', 'ACSPRI member?', 'Country', 'University', 'Department', 'Institution type', 'First name', 'Surname', 'Title', 'Australian Institution Type', 'Other Position Details', 'Other Work Type']
+    columns = ['Username', 'Password', 'Role', 'Email', 'Institution', 'Type of work', 'Position', 'Date registered', 'Signed undertaking?', 'Country', 'University', 'Department', 'Institution type', 'First name', 'Surname', 'Title', 'Australian Institution Type', 'Other Position Details', 'Other Work Type']
 
     columns.each do |col|
       find("thead").should have_content(col)

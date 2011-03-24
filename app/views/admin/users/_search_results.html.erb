@@ -9,7 +9,7 @@
       <th>Type of work</th>
       <th>Position</th>
       <th>Date registered</th>
-      <th>ACSPRI member?</th>
+      <th>Signed undertaking?</th>
       <th>Country</th>
       <th>University</th>
       <th>Department</th>
@@ -33,7 +33,7 @@
         <td><%= user.action %></td>
         <td><%= user.position %></td>
         <td><%= user.dateregistered %></td>
-        <td><%= user.acsprimember? ? "Yes" : "No" %></td>
+        <td><%= user.signed_undertaking? ? "Yes" : "No" %></td>
         <td><%= user.country ? user.country.Countryname : '' %></td>
         <td><%= user.australian_uni ? user.australian_uni.Longuniname : '' %></td>
         <td><%= user.australian_gov ? user.australian_gov.name : '' %></td>
