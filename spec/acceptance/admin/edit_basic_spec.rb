@@ -27,7 +27,7 @@ feature "Edit basic attributes", %q{
     page.should have_content(@user.email)
     
     page.should have_content("Affiliation")
-    page.should have_content(@user.australian_uni.Longuniname)
+    page.should have_content("#{@user.australian_uni.Longuniname} (#{@user.country.Countryname})")
 
     page.should have_content("Type of work")
     page.should have_content(User.new.action_options[0][1])
@@ -41,6 +41,9 @@ feature "Edit basic attributes", %q{
     page.should have_content("Number of accesses")
     page.should have_content("(last 12 months / all time)")
     page.should have_content("0 / 0")
+
+    page.should have_content("Position")
+    page.should have_content(@user.position_s)
 
     page.should have_content("Signed undertaking?")
     page.should have_content(@user.signed_undertaking? ? "Yes" : "No")

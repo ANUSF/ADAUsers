@@ -1,5 +1,5 @@
 <%= form_for :search, :url => search_admin_users_path, :html => {:method => :get} do |f| %>
-  <p><%= f.text_field :q %></p>
+  <p><%= f.text_field :q, :value => @search_query %></p>
   <p>
     <%= f.submit "Search by username" %>
     <%= f.submit "Search by email address" %>

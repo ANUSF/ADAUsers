@@ -10,16 +10,9 @@
       <th>Position</th>
       <th>Date registered</th>
       <th>Signed undertaking?</th>
-      <th>Country</th>
-      <th>University</th>
-      <th>Department</th>
-      <th>Institution type</th>
+      <th>Title</th>
       <th>First name</th>
       <th>Surname</th>
-      <th>Title</th>
-      <th>Australian Institution Type</th>
-      <th>Other Position Details</th>
-      <th>Other Work Type</th>
     </tr>
   </thead>
   <tbody>
@@ -34,16 +27,9 @@
         <td><%= user.position %></td>
         <td><%= user.dateregistered %></td>
         <td><%= user.signed_undertaking? ? "Yes" : "No" %></td>
-        <td><%= user.country ? user.country.Countryname : '' %></td>
-        <td><%= user.australian_uni ? user.australian_uni.Longuniname : '' %></td>
-        <td><%= user.australian_gov ? user.australian_gov.name : '' %></td>
-        <td><%= user.institutiontype %></td>
+        <td><%= user.title %></td>
         <td><%= user.fname %></td>
         <td><%= user.sname %></td>
-        <td><%= user.title %></td>
-        <td><%= user.austinstitution %></td>
-        <td><%= user.otherpd == 'NULL' ? '' : user.otherpd %></td>
-        <td><%= user.otherwt == 'NULL' ? '' : user.otherwt %></td>
       </tr>
     <% end %>
   </tbody>
