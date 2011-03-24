@@ -77,3 +77,4 @@ process_registration_form = ->
 
 $(document).ready ->
   process_registration_form()
+  $("select.filterable").selectFilter()

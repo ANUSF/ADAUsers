@@ -1,5 +1,5 @@
-/* DO NOT MODIFY. This file was compiled Mon, 24 Jan 2011 05:29:29 GMT from
- * /home/olaf/Ruby-Rails/openid-server/app/coffeescripts/application.coffee
+/* DO NOT MODIFY. This file was compiled Thu, 24 Mar 2011 04:32:14 GMT from
+ * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
 (function() {
@@ -92,6 +92,7 @@
     }
   };
   $(document).ready(function() {
-    return process_registration_form();
+    process_registration_form();
+    return $("select.filterable").selectFilter();
   });
 }).call(this);
