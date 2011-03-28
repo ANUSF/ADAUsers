@@ -22,9 +22,9 @@
     <% australian_gov_options = build_australian_gov_options %>
     <%= select_tag("search[departmentid]", grouped_options_for_select(australian_gov_options, nil)) %><br />
 
+    <%= collection_select("search", "australian_other", @institutions_australian_other, :institution, :institution) %><br />
 
-
-    
+    <%= collection_select("search", "non_australian", @institutions_non_australian, :institution, :institution_with_country) %><br />
   </p>
 
   <p>

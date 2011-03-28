@@ -8,6 +8,8 @@ class Admin::UsersController < ApplicationController
 
   def search
     @users = nil
+    @institutions_australian_other = User.australian_institutions
+    @institutions_non_australian = User.non_australian_institutions
     
     if params.has_key? :search
       @search_query = params[:search][:q]
@@ -28,9 +30,9 @@ class Admin::UsersController < ApplicationController
         when "Dept"
           @users = User.where(:departmentid => params[:search][:departmentid])
         when "Other"
-          @users = User.where()
+          @users = User.where(:austinstitution => "Other", :institution => params[:search][:australian_other])
         when "NonAus"
-          @users = User.where()
+          @users = User.where("countryid != ? AND institution = ?", User::AUSTRALIA, params[:search][:non_australian])
         else
           raise "Unknown institution type: #{params[:search][:institution_type]}"
         end

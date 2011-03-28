@@ -50,6 +50,10 @@ class UserWithoutValidations < ActiveRecord::Base
     end
   end
 
+
+  scope :australian_institutions, select("DISTINCT institution").where(:austinstitution => "Other").order("institution")
+  scope :non_australian_institutions, select("DISTINCT institution, countryid").where("countryid != ?", AUSTRALIA).order("countryid, institution")
+
   # -- Default attributes to use in the registration form
 
   def self.defaults
@@ -266,6 +270,10 @@ class UserWithoutValidations < ActiveRecord::Base
 
   def sector
     self.austinstitution ? self.austinstitution.sub(/^Uni$/, "University").sub(/^Dept$/, "Government/Research") : nil
+  end
+
+  def institution_with_country
+    self.country ? "[#{self.country.Countryname}] #{self.institution}" : self.institution
   end
 
   def last_access_time

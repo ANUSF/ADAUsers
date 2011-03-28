@@ -31,6 +31,13 @@ User.blueprint(:gov) do
   australian_gov { AustralianGov.first }
 end
 
+User.blueprint(:other_australian_affiliation) do
+  austinstitution { User.new.austinstitution_options[2] }
+  australian_uni { nil }
+  institution { "Other Australian Institution" }
+  institutiontype { User.new.other_aust_inst_types[0] }
+end
+
 User.blueprint(:foreign) do
   country { Country.find_by_Countryname("New Zealand") }
   austinstitution { nil }

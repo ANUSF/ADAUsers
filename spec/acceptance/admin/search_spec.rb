@@ -78,7 +78,7 @@ feature "Search", %q{
     page.should have_content(user.user)
 
     # Other Australian Institution
-    user = User.make(:other_affiliation)
+    user = User.make(:other_australian_affiliation)
     visit "/admin/users/search"
     choose "Other Australian Institution"
     select user.institution, :from => 'search_australian_other'
@@ -89,7 +89,7 @@ feature "Search", %q{
     user = User.make(:foreign)
     visit "/admin/users/search"
     choose "Non-Australian Institution"
-    select user.institution, :from => 'search_non_australian_other'
+    select user.institution, :from => 'search_non_australian'
     click_button "Search by institution"
     page.should have_content(user.user)
   end
