@@ -15,11 +15,31 @@ class Admin::UsersController < ApplicationController
       when "Search by username"
         @users = User.where("user LIKE ?", "%%#{@search_query}%%")
 
+      when "Search by surname"
+        @users = User.where("sname LIKE ?", "%%#{@search_query}%%")
+
       when "Search by email address"
         @users = User.where("email LIKE ?", "%%#{@search_query}%%")
 
+      when "Search by institution"
+        case params[:search][:institution_type]
+        when "Uni"
+          @users = User.where(:uniid => params[:search][:uniid])
+        when "Dept"
+          @users = User.where(:departmentid => params[:search][:departmentid])
+        when "Other"
+          @users = User.where()
+        when "NonAus"
+          @users = User.where()
+        else
+          raise "Unknown institution type: #{params[:search][:institution_type]}"
+        end
+
       when "List all users"
         @users = User.scoped
+
+      else
+        raise "Unknown search type: #{params[:commit]}"
       end
 
       # This slows things down massively, but would be faster for listing all results

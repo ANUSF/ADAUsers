@@ -36,6 +36,18 @@ feature "Search", %q{
     find("table#search_results").should_not have_content("Bob")
   end
 
+  scenario "searching by surname" do
+    User.make(:user => "Alice", :sname => "Evans")
+    User.make(:user => "Bob", :sname => "Braithestraite")
+
+    visit "/admin/users/search"
+    fill_in "search_q", :with => "Evans"
+    click_button "Search by surname"
+
+    find("table#search_results").should have_content("Alice")
+    find("table#search_results").should_not have_content("Bob")
+  end
+
   scenario "searching by email address" do
     User.make(:user => "Alice", :email => "alice@toyworld.com.au")
     User.make(:user => "Bob",   :email => "bob@magnetmart.com.au")
@@ -46,6 +58,40 @@ feature "Search", %q{
 
     find("table#search_results").should_not have_content("Alice")
     find("table#search_results").should have_content("Bob")
+  end
+
+  scenario "searching by institution" do
+    # Australian uni
+    user = User.make
+    visit "/admin/users/search"
+    choose "Australian uni"
+    select user.australian_uni.Longuniname, :from => 'search_uniid'
+    click_button "Search by institution"
+    page.should have_content(user.user)
+
+    # Australian Government/Research
+    user = User.make(:gov)
+    visit "/admin/users/search"
+    choose "Australian Government/Research"
+    select user.australian_gov.name, :from => 'search_departmentid'
+    click_button "Search by institution"
+    page.should have_content(user.user)
+
+    # Other Australian Institution
+    user = User.make(:other_affiliation)
+    visit "/admin/users/search"
+    choose "Other Australian Institution"
+    select user.institution, :from => 'search_australian_other'
+    click_button "Search by institution"
+    page.should have_content(user.user)
+
+    # Non-Australian Institution
+    user = User.make(:foreign)
+    visit "/admin/users/search"
+    choose "Non-Australian Institution"
+    select user.institution, :from => 'search_non_australian_other'
+    click_button "Search by institution"
+    page.should have_content(user.user)
   end
 
   scenario "displaying full list of users" do
