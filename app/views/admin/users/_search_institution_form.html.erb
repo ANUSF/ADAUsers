@@ -4,34 +4,34 @@
 
   <div class="radio-tabs">
     <div class="radio-tabs-tabs">
-      <%= radio_button_tag 'search[institution_type]', "Uni" %>
+      <%= radio_button_tag 'search[institution_type]', "Uni", @institution_type == "Uni" %>
       <%= label_tag :search_institution_type_Uni, "Australian uni" %>
 
-      <%= radio_button_tag 'search[institution_type]', "Dept" %>
+      <%= radio_button_tag 'search[institution_type]', "Dept", @institution_type == "Dept" %>
       <%= label_tag :search_institution_type_Dept, "Australian Government/Research" %>
 
-      <%= radio_button_tag 'search[institution_type]', "Other" %>
+      <%= radio_button_tag 'search[institution_type]', "Other", @institution_type == "Other" %>
       <%= label_tag :search_institution_type_Other, "Other Australian Institution" %>
 
-      <%= radio_button_tag 'search[institution_type]', "NonAus" %>
+      <%= radio_button_tag 'search[institution_type]', "NonAus", @institution_type == "NonAus" %>
       <%= label_tag :search_institution_type_NonAus, "Non-Australian Institution" %>
     </div>
 
     <div class="radio-tab-option" data-option-name="Uni">
-      <%= collection_select(:search, :uniid, AustralianUni.all, :id, :Longuniname) %>
+      <%= collection_select(:search, :uniid, AustralianUni.all, :id, :Longuniname, :selected => @uniid) %>
     </div>
 
     <div class="radio-tab-option" data-option-name="Dept">
       <% australian_gov_options = build_australian_gov_options %>
-      <%= select_tag("search[departmentid]", grouped_options_for_select(australian_gov_options, nil)) %>
+      <%= select_tag("search[departmentid]", grouped_options_for_select(australian_gov_options, @departmentid)) %>
     </div>
 
     <div class="radio-tab-option" data-option-name="Other">
-      <%= collection_select("search", "australian_other", @institutions_australian_other, :institution, :institution) %>
+      <%= collection_select("search", "australian_other", @institutions_australian_other, :institution, :institution, :selected => @australian_other) %>
     </div>
 
     <div class="radio-tab-option" data-option-name="NonAus">
-      <%= collection_select("search", "non_australian", @institutions_non_australian, :institution, :institution_with_country) %>
+      <%= collection_select("search", "non_australian", @institutions_non_australian, :institution, :institution_with_country, :selected => @non_australian) %>
     </div>
   </div>
 

@@ -24,15 +24,20 @@ class Admin::UsersController < ApplicationController
         @users = User.where("email LIKE ?", "%%#{@search_query}%%")
 
       when "Search by institution"
+        @institution_type = params[:search][:institution_type]
         case params[:search][:institution_type]
         when "Uni"
-          @users = User.where(:uniid => params[:search][:uniid])
+          @uniid = params[:search][:uniid]
+          @users = User.where(:uniid => @uniid)
         when "Dept"
-          @users = User.where(:departmentid => params[:search][:departmentid])
+          @departmentid = params[:search][:departmentid]
+          @users = User.where(:departmentid => @departmentid)
         when "Other"
-          @users = User.where(:austinstitution => "Other", :institution => params[:search][:australian_other])
+          @australian_other = params[:search][:australian_other]
+          @users = User.where(:austinstitution => "Other", :institution => @australian_other)
         when "NonAus"
-          @users = User.where("countryid != ? AND institution = ?", User::AUSTRALIA, params[:search][:non_australian])
+          @non_australian = params[:search][:non_australian]
+          @users = User.where("countryid != ? AND institution = ?", User::AUSTRALIA, @non_australian)
         else
           raise "Unknown institution type: #{params[:search][:institution_type]}"
         end

@@ -1,4 +1,6 @@
 <%= form_for :search, :url => search_admin_users_path, :html => {:method => :get} do |f| %>
+  <h2>Search by user details</h2>
+
   <p><%= f.text_field :q, :value => @search_query %></p>
   <p>
     <%= f.submit "Search by username" %>
