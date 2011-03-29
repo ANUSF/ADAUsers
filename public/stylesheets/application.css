@@ -112,3 +112,10 @@ a img {
 #search {
     text-align: center;
 }
+
+.radio-tabs-tabs label {
+  margin-right: 1em;
+}
+.radio-tabs-tabs {
+  margin-bottom: 1em;
+}
