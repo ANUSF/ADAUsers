@@ -2,30 +2,38 @@
 
   <h2>Search by institution</h2>
 
-  <p>
-    <%= radio_button_tag 'search[institution_type]', "Uni" %>
-    <%= label_tag :search_institution_type_Uni, "Australian uni" %>
+  <div class="radio-tabs">
+    <div class="radio-tabs-tabs">
+      <%= radio_button_tag 'search[institution_type]', "Uni" %>
+      <%= label_tag :search_institution_type_Uni, "Australian uni" %>
 
-    <%= radio_button_tag 'search[institution_type]', "Dept" %>
-    <%= label_tag :search_institution_type_Dept, "Australian Government/Research" %>
+      <%= radio_button_tag 'search[institution_type]', "Dept" %>
+      <%= label_tag :search_institution_type_Dept, "Australian Government/Research" %>
 
-    <%= radio_button_tag 'search[institution_type]', "Other" %>
-    <%= label_tag :search_institution_type_Other, "Other Australian Institution" %>
+      <%= radio_button_tag 'search[institution_type]', "Other" %>
+      <%= label_tag :search_institution_type_Other, "Other Australian Institution" %>
 
-    <%= radio_button_tag 'search[institution_type]', "NonAus" %>
-    <%= label_tag :search_institution_type_NonAus, "Non-Australian Institution" %>
-  </p>
+      <%= radio_button_tag 'search[institution_type]', "NonAus" %>
+      <%= label_tag :search_institution_type_NonAus, "Non-Australian Institution" %>
+    </div>
 
-  <p>
-    <%= collection_select(:search, :uniid, AustralianUni.all, :id, :Longuniname) %><br />
+    <div class="radio-tab-option" data-option-name="Uni">
+      <%= collection_select(:search, :uniid, AustralianUni.all, :id, :Longuniname) %>
+    </div>
 
-    <% australian_gov_options = build_australian_gov_options %>
-    <%= select_tag("search[departmentid]", grouped_options_for_select(australian_gov_options, nil)) %><br />
+    <div class="radio-tab-option" data-option-name="Dept">
+      <% australian_gov_options = build_australian_gov_options %>
+      <%= select_tag("search[departmentid]", grouped_options_for_select(australian_gov_options, nil)) %>
+    </div>
 
-    <%= collection_select("search", "australian_other", @institutions_australian_other, :institution, :institution) %><br />
+    <div class="radio-tab-option" data-option-name="Other">
+      <%= collection_select("search", "australian_other", @institutions_australian_other, :institution, :institution) %>
+    </div>
 
-    <%= collection_select("search", "non_australian", @institutions_non_australian, :institution, :institution_with_country) %><br />
-  </p>
+    <div class="radio-tab-option" data-option-name="NonAus">
+      <%= collection_select("search", "non_australian", @institutions_non_australian, :institution, :institution_with_country) %>
+    </div>
+  </div>
 
   <p>
     <%= f.submit "Search by institution" %>

@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Thu, 24 Mar 2011 04:32:14 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 29 Mar 2011 00:13:22 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
@@ -93,6 +93,7 @@
   };
   $(document).ready(function() {
     process_registration_form();
-    return $("select.filterable").selectFilter();
+    $("select.filterable").selectFilter();
+    return $(".radio-tabs").radioTabs();
   });
 }).call(this);
