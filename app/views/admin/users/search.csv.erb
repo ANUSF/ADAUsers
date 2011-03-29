@@ -1,0 +1,6 @@
+Username,Password,Role,Email,Institution,Type of work,Position,Date registered,Signed undertaking?,Title,First name,Surname
+<%= CSV.generate do |csv|
+  @users.each do |user|
+    csv << [ user.user, user.password, user_roles_to_s(user.user_roles), user.email, user.institution, user.action, user.position, user.dateregistered, signed_undertaking_to_s(user.signed_undertaking), user.title, user.fname, user.sname ]
+  end
+end %>

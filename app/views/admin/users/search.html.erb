@@ -16,6 +16,8 @@
         <% end %>
       <% end %>
 
+      | <%= link_to "Export to CSV", search_admin_users_path(request.parameters.merge({:format => 'csv'})) %>
+
       <%= render 'search_results' %>
 
       <%= will_paginate @users %>

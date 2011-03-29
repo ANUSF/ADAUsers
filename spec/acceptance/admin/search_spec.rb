@@ -151,6 +151,19 @@ feature "Search", %q{
     all("tr").length.should == 30+1 # 1 for heading row
   end
 
+  scenario "export results to CSV" do
+    User.make(:user => "Alice")
+    User.make(:user => "Bob")
+
+    visit "/admin/users/search"
+    fill_in "search_q", :with => "alice"
+    click_button "Search by username"
+
+    find_link("Export to CSV").click
+
+    page.should have_content("Alice")
+    page.should_not have_content("Bob")
+  end
 
   scenario "search is not accessible by non-administrators" do
     log_out

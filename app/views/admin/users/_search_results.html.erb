@@ -20,13 +20,13 @@
       <tr>
         <td><%= link_to user.user, edit_admin_user_path(user) %></td>
         <td><%= user.password %></td>
-        <td><%= user.user_roles.map {|ur| ur.roleID}.join ', ' %></td>
+        <td><%= user_roles_to_s(user.user_roles) %></td>
         <td><%= user.email %></td>
         <td><%= user.institution %></td>
         <td><%= user.action %></td>
         <td><%= user.position %></td>
         <td><%= user.dateregistered %></td>
-        <td><%= user.signed_undertaking? ? "Yes" : "No" %></td>
+        <td><%= signed_undertaking_to_s(user.signed_undertaking) %></td>
         <td><%= user.title %></td>
         <td><%= user.fname %></td>
         <td><%= user.sname %></td>

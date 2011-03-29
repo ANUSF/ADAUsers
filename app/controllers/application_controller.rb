@@ -53,6 +53,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Taken from http://stackoverflow.com/questions/94502/in-rails-how-to-return-records-as-a-csv-file
+  def render_csv(filename = nil)
+    filename ||= params[:action]
+    filename += '.csv'
+
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      headers['Pragma'] = 'public'
+      headers["Content-type"] = "text/plain"
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+      headers['Expires'] = "0"
+    else
+      headers["Content-Type"] ||= 'text/csv'
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+    end
+
+    render :layout => false
+  end
+
   def server
     unless defined? @server
       dir = File.join(Rails.root, 'db', 'openid-store')
