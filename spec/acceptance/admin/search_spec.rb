@@ -130,7 +130,7 @@ feature "Search", %q{
     visit "/admin/users/search"
     click_button "List all users"
     
-    columns = ['Username', 'Password', 'Role', 'Email', 'Institution', 'Type of work', 'Position', 'Date registered', 'Signed undertaking?', 'Title', 'First name', 'Surname']
+    columns = ['Username', 'Password', 'Role', 'Email', 'Institution', 'Type of work', 'Position', 'Date registered', 'Confirmed ACSPRI member?', 'Title', 'First name', 'Surname']
 
     columns.each do |col|
       find("thead").should have_content(col)

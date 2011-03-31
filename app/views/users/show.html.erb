@@ -19,7 +19,7 @@
       <tr><td>Sector:</td><td><%= @user.sector %></td></tr>
       <tr><td>Last search:</td><td><%= @user.last_search_time || "Never" %></td></tr>
       <tr><td>Registered:</td><td><%= @user.dateregistered %></td></tr>
-      <tr><td>Signed undertaking:</td><td><%= signed_undertaking_to_s(@user.signed_undertaking) %></td></tr>
+      <tr><td>Confirmed as ACSPRI member:</td><td><%= confirmed_acspri_member_to_s(@user.confirmed_acspri_member) %></td></tr>
       <tr><td>Type of work:</td><td><%= @user.type_of_work %></td></tr>
     </table>
 

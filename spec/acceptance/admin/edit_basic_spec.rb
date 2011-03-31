@@ -45,8 +45,8 @@ feature "Edit basic attributes", %q{
     page.should have_content("Position")
     page.should have_content(@user.position_s)
 
-    page.should have_content("Signed undertaking?")
-    page.should have_content(@user.signed_undertaking? ? "Yes" : "No")
+    page.should have_content("Confirmed ACSPRI member?")
+    page.should have_content(@user.confirmed_acspri_member? ? "Yes" : "No")
     
     page.should have_content("Role")
     page.should have_content(@user.user_roles.first.roleID)
@@ -54,16 +54,16 @@ feature "Edit basic attributes", %q{
 
 
   scenario "changing undertaking signedness" do
-    @user.signed_undertaking = 2
+    @user.confirmed_acspri_member = 2
     @user.save!
 
     visit "/admin/users/tester/edit"
 
-    find("tr#signed_undertaking").should have_content("Requested")
-    find("tr#signed_undertaking").click_button("Grant access")
-    find("tr#signed_undertaking").should have_content("Yes")
-    find("tr#signed_undertaking").click_button("Revoke access")
-    find("tr#signed_undertaking").should have_content("No")
+    find("tr#confirmed_acspri_member").should have_content("Requested")
+    find("tr#confirmed_acspri_member").click_button("Confirm membership")
+    find("tr#confirmed_acspri_member").should have_content("Yes")
+    find("tr#confirmed_acspri_member").click_button("Revoke membership")
+    find("tr#confirmed_acspri_member").should have_content("No")
   end
 
 
