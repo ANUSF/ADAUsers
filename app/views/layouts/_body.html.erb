@@ -1,0 +1,15 @@
+<h2>
+  ADA Users
+  <% unless yield(:title).blank? %>
+    &mdash;
+    <%= yield :title %>
+  <% end %>
+</h2>
+
+<% flash.each do |name, msg| %>
+  <div id='flash_<%=name%>'><%=h(msg).gsub(/\n/, '<br/>')%></div>
+<% end %>
+
+<div id='main'>
+  <%= yield %>
+</div>
