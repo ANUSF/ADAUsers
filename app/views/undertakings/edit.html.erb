@@ -1,0 +1,6 @@
+<%= semantic_form_for [@user, @undertaking] do |form| %>
+  <%= form.buttons do %>
+    <%= form.hidden_field :agreeedness, :value => 1 %>
+    <%= form.commit_button "I agree" %>
+  <% end %>
+<% end %>

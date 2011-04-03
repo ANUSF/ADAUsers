@@ -8,17 +8,18 @@ feature "Undertaking forms", %q{
 
   scenario "submitting a general undertaking form" do
     # Given a non-acspri user and a dataset
-    user = User.make(:non_acspri) # TODO: Define this blueprint. Resolve the whole acsprimember field debacle.
+    user = User.make(:confirmed_acspri_member => 0)
+    log_in_as(user)
     access_level = AccessLevel.make
     
     # When I visit the general undertaking form
-    visit "/users/#{user.user}/general_undertaking"
+    visit "/users/#{user.user}/undertakings/new"
     
     # And I fill out the first page
-    select access_level.dataset_description, :from => 'undertaking_datasets'
-    check 'undertaking_intended_use_type_government_research'
-    check 'undertaking_intended_use_type_research_consultancy'
-    check 'undertaking_intended_use_type_thesis_or_coursework'
+    select access_level.dataset_description, :from => 'undertaking_dataset_ids'
+    check 'undertaking_intended_use_type_government'
+    check 'undertaking_intended_use_type_consultancy'
+    check 'undertaking_intended_use_type_thesis'
     fill_in 'undertaking_intended_use_other', :with => "Other intended use"
     fill_in 'undertaking_email_supervisor', :with => "supervisor@university.edu.au"
     fill_in 'undertaking_intended_use_description', :with => "World domination or somesuch."
@@ -32,9 +33,7 @@ feature "Undertaking forms", %q{
     undertaking = Undertaking.last
     undertaking.user.should == user
     undertaking.datasets.should == [access_level]
-    undertaking.intended_use_type.should == [Undertaking::INTENDED_USE_GOVERNMENT_RESEARCH,
-                                             Undertaking::INTENDED_USE_RESEARCH_CONSULTANCY,
-                                             Undertaking::INTENDED_USE_THESIS_OR_COURSEWORK]
+    undertaking.intended_use_type.should == [:government, :consultancy, :thesis]
     undertaking.intended_use_other.should == "Other intended use"
     undertaking.email_supervisor.should == "supervisor@university.edu.au"
     undertaking.intended_use_description.should == "World domination or somesuch."

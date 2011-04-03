@@ -13,7 +13,7 @@ class AccessLevel < ActiveRecord::Base
   scope :files_for_dataset, (lambda do |datasetID, category|
     where("datasetID = ? AND accessLevel IN (?) AND fileID IS NOT NULL", datasetID, CATEGORY_ACCESS_LEVELS[category]).order('fileID')
   end)
-
+  scope :not_files, where("fileID IS NULL")
 
   def user_permission(user)
     model = (self.category == :a ? UserPermissionA : UserPermissionB)

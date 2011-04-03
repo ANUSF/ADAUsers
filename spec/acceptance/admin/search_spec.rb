@@ -142,12 +142,12 @@ feature "Search", %q{
     
     visit "/admin/users/search"
     click_button "List all users"
-    find_link("Show all").click
+    click_link("Show all")
 
     all("tr").length.should == 35+1+1 # 1 for heading row, 1 for admin user
 
     # Revert to paginated view
-    find_link("Show in pages").click
+    click_link("Show in pages")
     all("tr").length.should == 30+1 # 1 for heading row
   end
 
@@ -159,7 +159,7 @@ feature "Search", %q{
     fill_in "search_q", :with => "alice"
     click_button "Search by username"
 
-    find_link("Export to CSV").click
+    click_link("Export to CSV")
 
     page.should have_content("Alice")
     page.should_not have_content("Bob")

@@ -3,6 +3,7 @@ ADAUsers::Application.routes.draw do
   resources :decisions
 
   resources :users, :constraints => {:id => /.+/} do
+    resources :undertakings
     match 'reset_password' => 'users#reset_password', :on => :collection
     get :change_password, :on => :member
   end

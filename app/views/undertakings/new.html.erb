@@ -1,0 +1,17 @@
+<%= semantic_form_for [@user, @undertaking] do |form| %>
+  <%= form.inputs do %>
+    <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :html => {:multiple => '1', :class => 'filterable'} %>
+
+    <%= form.input :intended_use_type, :label => "Intended use of data:", :as => :check_boxes, :collection => Undertaking.intended_use_options.invert %>
+    <%= form.input :intended_use_other, :label => "Other:" %>
+    <%= form.input :email_supervisor, :label => "Supervisor's email address:" %>
+    <%= form.input :intended_use_description, :label => "Description" %>
+    <%= form.input :funding_sources, :label => "Sources of funding:" %>
+  <% end %>
+
+
+  <%= form.buttons do %>
+    <%= form.commit_button "Continue" %>
+  <% end %>
+  
+<% end %>

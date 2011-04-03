@@ -53,6 +53,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_admin_or_owner
+    @username = params[:user_id] || params[:username] || params[:id]
+
+    if require_user != false and @username != current_user.user and !current_user.admin?
+      redirect_to root_url, :notice => "You may not access another user's details."
+      return false
+    end
+  end
+
+
   # Taken from http://stackoverflow.com/questions/94502/in-rails-how-to-return-records-as-a-csv-file
   def render_csv(filename = nil)
     filename ||= params[:action]
