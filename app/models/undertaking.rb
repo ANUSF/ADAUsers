@@ -13,6 +13,8 @@ class Undertaking < ActiveRecord::Base
 
   serialize :intended_use_type
 
+  after_save :update_user
+
   def self.intended_use_options
     {:government => "Government research",
      :pure => "Pure research",
@@ -21,5 +23,18 @@ class Undertaking < ActiveRecord::Base
      :teaching => "Teaching purposes",
      :thesis => "Thesis or coursework",
      :personal => "Personal interest"}
+  end
+
+  # Scrub blank value from intended_use_type added by Formtastic check boxes input
+  def intended_use_type=(intended_use_type)
+    write_attribute(:intended_use_type, intended_use_type.reject { |t| t.nil? || t.blank? })
+  end
+
+  def update_user
+    self.user.confirmed_acspri_member = User::ACSPRI_REQUESTED unless self.user.confirmed_acspri_member?
+    self.user.save!
+
+    # Add datasets as pending if not present
+    self.user.add_datasets!(self.datasets.map {|d| d.datasetID}, self.is_restricted ? :b : :a, {0 => 1})
   end
 end

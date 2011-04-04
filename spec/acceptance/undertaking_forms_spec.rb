@@ -14,7 +14,7 @@ feature "Undertaking forms", %q{
     
     # When I visit the general undertaking form
     visit "/users/#{user.user}/undertakings/new"
-    
+
     # And I fill out the first page
     select access_level.dataset_description, :from => 'undertaking_dataset_ids'
     check 'undertaking_intended_use_type_government'
@@ -32,8 +32,10 @@ feature "Undertaking forms", %q{
     # Then my undertaking should be recorded
     undertaking = Undertaking.last
     undertaking.user.should == user
-    undertaking.datasets.should == [access_level]
-    undertaking.intended_use_type.should == [:government, :consultancy, :thesis]
+    undertaking.is_restricted.should be_false
+    undertaking.datasets.count.should == 1
+    undertaking.datasets.first.datasetID.should == access_level.datasetID
+    undertaking.intended_use_type.should == ["government", "consultancy", "thesis"]
     undertaking.intended_use_other.should == "Other intended use"
     undertaking.email_supervisor.should == "supervisor@university.edu.au"
     undertaking.intended_use_description.should == "World domination or somesuch."
@@ -42,7 +44,7 @@ feature "Undertaking forms", %q{
 
     # And I should have ACSPRI status "requested"
     user.reload
-    user.acsprimember.should == User::ACSPRI_REQUESTED # 2
+    user.acsprimember.should == User::ACSPRI_REQUESTED
 
     # And I should have the pending datasets that I requested
     user.permissions_a.count.should == 1

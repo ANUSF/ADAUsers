@@ -1,6 +1,10 @@
 class UserWithoutValidations < ActiveRecord::Base
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
+  ACSPRI_NO = 0
+  ACSPRI_YES = 1
+  ACSPRI_REQUESTED = 2
+
   set_table_name 'userdetails'
   set_primary_key :user
 

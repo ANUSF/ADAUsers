@@ -1,5 +1,6 @@
 <%= semantic_form_for [@user, @undertaking] do |form| %>
   <%= form.inputs do %>
+    <%= form.input :is_restricted, :as => :hidden, :input_html => {:value => 0} %>
     <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :html => {:multiple => '1', :class => 'filterable'} %>
 
     <%= form.input :intended_use_type, :label => "Intended use of data:", :as => :check_boxes, :collection => Undertaking.intended_use_options.invert %>
