@@ -34,6 +34,14 @@ class UndertakingsController < ApplicationController
   end
 
   def update
+    @user = User.find(params[:user_id])
+    @undertaking = Undertaking.find(params[:id])
+
+    if @undertaking.update_attributes(params[:undertaking])
+      redirect_to @user, :notice => 'Thanks you! You should receive an email from us shortly.'
+    else
+      render :edit
+    end
   end
 
 end

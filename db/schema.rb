@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(:version => 20110331044451) do
   end
 
   create_table "access_levels_undertakings", :id => false, :force => true do |t|
-    t.integer "access_level_id"
+    t.string  "datasetID"
     t.integer "undertaking_id"
   end
 
@@ -96,13 +96,14 @@ ActiveRecord::Schema.define(:version => 20110331044451) do
   end
 
   create_table "undertakings", :force => true do |t|
-    t.integer  "user_id"
+    t.string   "user_user"
     t.boolean  "is_restricted"
     t.string   "intended_use_type"
     t.string   "intended_use_other"
     t.text     "intended_use_description"
     t.string   "email_supervisor"
     t.text     "funding_sources"
+    t.boolean  "agreed"
     t.boolean  "processed"
     t.datetime "created_at"
     t.datetime "updated_at"

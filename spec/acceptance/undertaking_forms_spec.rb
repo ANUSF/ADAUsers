@@ -38,6 +38,7 @@ feature "Undertaking forms", %q{
     undertaking.email_supervisor.should == "supervisor@university.edu.au"
     undertaking.intended_use_description.should == "World domination or somesuch."
     undertaking.funding_sources.should == "Numbered Swiss bank account"
+    undertaking.agreed.should be_true
 
     # And I should have ACSPRI status "requested"
     user.reload
