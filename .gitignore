@@ -5,7 +5,6 @@ db/*.bak
 log/*.log
 tmp/**/*
 .rvmrc
-Gemfile.lock
 db/openid-store
 *~
 *.war
