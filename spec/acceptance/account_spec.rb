@@ -10,8 +10,11 @@ feature "Accounts", %q{
     log_out if logged_in?
   end
 
+
   scenario "logging in and out" do
     user = User.make
+
+    log_out if logged_in?
 
     visit "/"
     page.should have_selector("a", :text => "Log in")
