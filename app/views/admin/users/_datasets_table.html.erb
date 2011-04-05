@@ -5,7 +5,7 @@
     <table id="<%= table_name %>">
       <% files = nil %>
       <% table_data.each do |permission| %>
-        <% if permission == table_data[0] || (!files.nil? && files.present?) %>
+        <% if permission.equal? table_data[0] || (!files.nil? && files.present?) %>
           <%= render 'datasets_table_header', :table_name => table_name, :category => category %>
         <% end %>
 
