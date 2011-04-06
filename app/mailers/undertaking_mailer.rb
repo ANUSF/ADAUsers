@@ -1,5 +1,4 @@
 class UndertakingMailer < ActionMailer::Base
-  # TODO: DRY this between mailers
   default :from => "ASSDA <assda@anu.edu.au>"
 
   def confirm_to_admin_email(undertaking)
@@ -9,8 +8,7 @@ class UndertakingMailer < ActionMailer::Base
     subject = "General Undertaking form signed by %s (%s)" % [user.user,
                                                               user.confirmed_acspri_member? ? "ACSPRI" : "Non-ACSPRI"]
 
-    # TODO: DRY: Grab default from address
-    mail(:to => "ASSDA <assda@anu.edu.au>", :subject => subject)
+    mail(:to => self.default_params[:from], :subject => subject)
   end
 
   def confirm_to_user_email(undertaking)
