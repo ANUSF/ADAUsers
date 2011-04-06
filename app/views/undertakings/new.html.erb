@@ -1,15 +1,21 @@
+<p>Apply for access to download unrestricted data.</p>
+<p>User registration, completion of a description of intended use and agreement to an undertaking will give you access to download your choice of unrestricted data.</p>
+
+<% unless current_user.confirmed_acspri_member %>
+  <p><strong>You will be charged $1,000 per dataset</strong></p>
+<% end %>
+
 <%= semantic_form_for [@user, @undertaking] do |form| %>
   <%= form.inputs do %>
     <%= form.input :is_restricted, :as => :hidden, :input_html => {:value => 0} %>
-    <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :html => {:multiple => '1', :class => 'filterable'} %>
+    <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :input_html => {:class => 'filterable'}, :hint => "Please select the datasets that you require: (Use the command or control key to select multiple datasets)" %>
 
-    <%= form.input :intended_use_type, :label => "Intended use of data:", :as => :check_boxes, :collection => Undertaking.intended_use_options.invert %>
-    <%= form.input :intended_use_other, :label => "Other:" %>
+    <%= form.input :intended_use_type, :as => :check_boxes, :collection => Undertaking.intended_use_options.invert, :label => "Intended use of data:", :hint => "Tick all that apply" %>
+    <%= form.input :intended_use_other, :label => "Other (specify):" %>
     <%= form.input :email_supervisor, :label => "Supervisor's email address:" %>
-    <%= form.input :intended_use_description, :label => "Description" %>
-    <%= form.input :funding_sources, :label => "Sources of funding:" %>
+    <%= form.input :intended_use_description, :label => "Description of intended use / research abstract:", :hint => "This section should include a brief summary of the proposed research." %>
+    <%= form.input :funding_sources, :label => "Source(s) of funding:" %>
   <% end %>
-
 
   <%= form.buttons do %>
     <%= form.commit_button "Continue" %>

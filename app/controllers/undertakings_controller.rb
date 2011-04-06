@@ -38,7 +38,7 @@ class UndertakingsController < ApplicationController
     @undertaking = Undertaking.find(params[:id])
 
     if @undertaking.update_attributes(params[:undertaking])
-      redirect_to @user, :notice => 'Thanks you! You should receive an email from us shortly.'
+      redirect_to @user, :notice => 'Thank-you! You should receive an email from us shortly.'
     else
       render :edit
     end

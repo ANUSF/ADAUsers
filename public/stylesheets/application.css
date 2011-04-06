@@ -81,6 +81,10 @@ form.formtastic fieldset ol li.radio fieldset ol li {
     padding-right: 2em;
 }
 
+form.formtastic .select-filter-container {
+  padding-left: 25%;
+}
+
 table {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 12px;
@@ -118,4 +122,9 @@ a img {
 }
 .radio-tabs-tabs {
   margin-bottom: 1em;
+}
+
+.undertaking-edit-actions input {
+  float: left;
+  margin: 0 1em 1em 0;
 }

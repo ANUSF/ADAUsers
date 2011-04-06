@@ -7,9 +7,30 @@ class Undertaking < ActiveRecord::Base
     :insert_sql => proc { |record| "INSERT INTO access_levels_undertakings (datasetID, undertaking_id) VALUES ('#{record.datasetID}', #{id})" }
 
 
-  validates_presence_of :user, :intended_use_type, :intended_use_description, :funding_sources, :datasets
-  validates_presence_of :email_supervisor, :if => lambda { |rec| rec.intended_use_type and rec.intended_use_type.include? :thesis }
-  # TODO: Validate email address
+  validates_presence_of :user
+
+  validates :intended_use_type, {
+    :presence => {
+      :message => 'please specify your intended use of the data',
+      :if => lambda { |rec| rec.intended_use_other.nil? or rec.intended_use_other.blank?}}}
+ 
+  validates :intended_use_description, {
+    :presence => {
+      :message => 'please enter your description of intended use'}}
+
+  validates :funding_sources, {
+    :presence => {
+      :message => 'please enter your funding source(s)'}}
+
+  validates :datasets, {
+    :presence => {
+      :message => 'please select one or more datasets'}}
+
+  validates :email_supervisor, {
+    :presence => {
+      :message => "please enter your supervisor's email address",
+      :if => lambda { |rec| rec.intended_use_type and rec.intended_use_type.include? 'thesis' }}}
+
 
   serialize :intended_use_type
 
