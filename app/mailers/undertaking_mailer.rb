@@ -2,7 +2,7 @@ class UndertakingMailer < ActionMailer::Base
   # TODO: DRY this between mailers
   default :from => "ASSDA <assda@anu.edu.au>"
 
-  def confirm_to_assda_email(undertaking)
+  def confirm_to_admin_email(undertaking)
     @undertaking = undertaking
     user = undertaking.user
 
