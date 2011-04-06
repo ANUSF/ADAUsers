@@ -1,7 +1,7 @@
 <p>Apply for access to download unrestricted data.</p>
 <p>User registration, completion of a description of intended use and agreement to an undertaking will give you access to download your choice of unrestricted data.</p>
 
-<% unless current_user.confirmed_acspri_member %>
+<% unless current_user.confirmed_acspri_member? %>
   <p><strong>You will be charged $1,000 per dataset</strong></p>
 <% end %>
 
