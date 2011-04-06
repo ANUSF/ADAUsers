@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
+<html>
+  <head></head>
+  <body>
+    General Undertaking ACSPRI form signed by <%= @undertaking.user.user %><br />
+    <br />
+    The following datasets have been requested:<br />
+    <br />
+    <% @undertaking.datasets.each do |dataset| %>
+      <%= dataset.dataset_description %><br />
+    <% end %>
+    <br />
+    To approve access see: <%= link_to edit_admin_user_path(@undertaking.user) %>
+    <br />
+    <br />
+  </body>
+</html>
