@@ -169,7 +169,7 @@ feature "Search", %q{
     log_out
     visit "/admin/users/search"
     page.should have_content("You must be an administrator or publisher to access this page.")
-    should_be_on("/")
+    current_path.should == "/"
   end
 
 end

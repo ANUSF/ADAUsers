@@ -143,7 +143,7 @@ feature "Create", %q{
 #    log_out
 #    visit "/admin/users/#{@user.user}/edit"
 #    page.should have_content("You must be an administrator or publisher to access this page.")
-#    should_be_on("/")
+#    current_path.should == "/"
 #    
 #
 #    log_in_as(@user)
@@ -157,7 +157,7 @@ feature "Create", %q{
 #    user2 = User.make
 #    visit "/admin/users/#{user2.user}/edit"
 #    page.should have_content("You may not access another user's details.")
-#    should_be_on("/")
+#    current_path.should == "/"
 #
 #    log_out
 #  end

@@ -1,7 +1,6 @@
 module HelperMethods
-  def should_be_on(path)
-    current_path = URI.parse(current_url).path
-    current_path.should == path
+  def current_path
+    URI.parse(current_url).path
   end
 
   def log_in_with(details={})

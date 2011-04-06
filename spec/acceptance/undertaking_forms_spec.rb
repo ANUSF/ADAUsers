@@ -6,6 +6,11 @@ feature "Undertaking forms", %q{
   I want to submit general and resticted undertaking forms
 } do
 
+  after(:each) do
+    log_out if logged_in?
+  end
+
+
   scenario "submitting a general undertaking form" do
     # Given a dataset
     access_level = AccessLevel.make
@@ -86,7 +91,6 @@ feature "Undertaking forms", %q{
     Undertaking.where(:id => undertaking.id).count.should == 0
 
     # And I should be on my profile page
-    current_path = URI.parse(current_url).path
     current_path.should == "/users/#{user.user}"
   end
 
@@ -99,11 +103,25 @@ feature "Undertaking forms", %q{
   end
 
   scenario "undertaking forms are only accessible by registered users" do
-    
+    user = User.make
+
+    logged_in?.should be_false
+    visit "/users/#{user.user}/undertakings/new"
+
+    page.should have_content "You must be logged in to access this page."
+    current_path.should == "/login"
   end
 
   scenario "user cannot access another user's undertaking form" do
-    
+    alice = User.make
+    undertaking = Undertaking.make(:user => alice)
+
+    eve = User.make
+    log_in_as eve
+
+    visit "/users/#{alice.user}/undertakings/#{undertaking.id}/edit"
+    page.should have_content "You may not access another user's details."
+    current_path.should == "/"
   end
 
   # TODO: Admin tests

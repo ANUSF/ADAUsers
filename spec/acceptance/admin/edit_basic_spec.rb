@@ -85,7 +85,7 @@ feature "Edit basic attributes", %q{
       log_in_as(user) if user
       visit "/admin/users/#{@user.user}/edit"
       page.should have_content("You must be an administrator or publisher to access this page.")
-      should_be_on("/")
+      current_path.should == "/"
       log_out if logged_in?
     end
   end
