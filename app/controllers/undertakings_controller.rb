@@ -48,4 +48,13 @@ class UndertakingsController < ApplicationController
     end
   end
 
+  def destroy
+    @user = User.find(params[:user_id])
+    @undertaking = Undertaking.find(params[:id])
+
+    @undertaking.destroy
+
+    redirect_to @user, :notice => 'Your undertaking has been cancelled.'
+  end
+
 end

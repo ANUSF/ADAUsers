@@ -73,7 +73,21 @@ feature "Undertaking forms", %q{
   end
 
   scenario "declining a general undertaking form" do
-    
+    # Given a user and an unaccepted undertaking
+    user = User.make
+    undertaking = Undertaking.make(:user => user)
+    log_in_as user
+
+    # When I view the undertaking and do not agree with it
+    visit "/users/#{user.user}/undertakings/#{undertaking.id}/edit"
+    click_button "I do not agree"
+
+    # Then the undertaking should be deleted
+    Undertaking.where(:id => undertaking.id).count.should == 0
+
+    # And I should be on my profile page
+    current_path = URI.parse(current_url).path
+    current_path.should == "/users/#{user.user}"
   end
 
   scenario "submitting a restricted undertaking form" do
@@ -85,6 +99,10 @@ feature "Undertaking forms", %q{
   end
 
   scenario "undertaking forms are only accessible by registered users" do
+    
+  end
+
+  scenario "user cannot access another user's undertaking form" do
     
   end
 

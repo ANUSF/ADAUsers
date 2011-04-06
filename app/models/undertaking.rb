@@ -4,7 +4,8 @@ class Undertaking < ActiveRecord::Base
   has_and_belongs_to_many :datasets,
     :class_name => "AccessLevel",
     :finder_sql => proc { "SELECT * FROM accesslevel INNER JOIN access_levels_undertakings ON (accesslevel.datasetID = access_levels_undertakings.datasetID) WHERE (access_levels_undertakings.undertaking_id = #{id})" },
-    :insert_sql => proc { |record| "INSERT INTO access_levels_undertakings (datasetID, undertaking_id) VALUES ('#{record.datasetID}', #{id})" }
+    :insert_sql => proc { |record| "INSERT INTO access_levels_undertakings (datasetID, undertaking_id) VALUES ('#{record.datasetID}', #{id})" },
+    :delete_sql => proc { |record| "DELETE FROM access_levels_undertakings WHERE datasetID = '#{record.datasetID}' AND undertaking_id = #{id}" }
 
 
   validates_presence_of :user

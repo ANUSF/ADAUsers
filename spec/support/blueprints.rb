@@ -141,3 +141,16 @@ AustralianGov.blueprint(:treasury) do
   name { "The Treasury" }
   acsprimember { 0 }
 end
+
+Undertaking.blueprint do
+  user
+  is_restricted false
+  datasets { [AccessLevel.make] }
+  intended_use_type ["government", "pure", "commercial", "thesis"]
+  intended_use_other "other intended use"
+  intended_use_description "intended use description"
+  email_supervisor "email@supervisor.edu"
+  funding_sources "funding sources"
+  agreed false
+  processed false
+end
