@@ -2,7 +2,7 @@
 <html>
   <head></head>
   <body>
-    General Undertaking ACSPRI form signed by <%= @undertaking.user.user %><br />
+    General Undertaking form (<%= @undertaking.user.confirmed_acspri_member? ? "ACSPRI" : "Non-ACSPRI" %>) signed by <%= @undertaking.user.user %><br />
     <br />
     The following datasets have been requested:<br />
     <br />
@@ -10,7 +10,7 @@
       <%= dataset.dataset_description %><br />
     <% end %>
     <br />
-    To approve access see: <%= link_to edit_admin_user_path(@undertaking.user) %>
+    To approve access see: <%= link_to nil, edit_admin_user_url(@undertaking.user) %>
     <br />
     <br />
   </body>

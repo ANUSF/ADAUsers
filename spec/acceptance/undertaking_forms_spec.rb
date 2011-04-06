@@ -51,7 +51,18 @@ feature "Undertaking forms", %q{
     user.permissions_a.first.datasetID.should == access_level.datasetID
     
     # And some emails should have been sent - to myself and to an admin
-    fail "Write email tests"
+    emails = ActionMailer::Base.deliveries[-2..-1]
+    email_admin = emails.select {|e| e.subject =~ /General Undertaking form signed by/}.first
+    email_user = emails.select {|e| e.subject =~ /ASSDA General Undertaking/}.first
+    email_admin.should_not be_nil
+    email_user.should_not be_nil
+
+    email_admin.encoded.should match(/General Undertaking form \(Non-ACSPRI\) signed by #{undertaking.user.user}/)
+    email_admin.encoded.should match(/#{access_level.dataset_description}/)
+
+    email_user.encoded.should match(/invoiced/)
+    email_user.encoded.should match(/Please keep this email as a copy of the agreement:/)
+    email_user.encoded.should match(/#{access_level.dataset_description}/)
   end
 
   scenario "declining a general undertaking form" do
