@@ -6,7 +6,7 @@ class UndertakingMailer < ActionMailer::Base
     user = undertaking.user
 
     subject = "General Undertaking form signed by %s (%s)" % [user.user,
-                                                              user.confirmed_acspri_member? ? "ACSPRI" : "Non-ACSPRI"]
+                                                              user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI"]
 
     mail(:to => self.default_params[:from], :subject => subject)
   end

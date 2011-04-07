@@ -2,7 +2,7 @@
 <html>
   <head></head>
   <body>
-    <% if @undertaking.user.confirmed_acspri_member? %>
+    <% if @undertaking.user.institution_is_acspri_member %>
       <p>Thank you for signing the ASSDA General Undertaking Agreement and requesting access to the data listed in the copy of the agreement below. Once your request has been processed, you will receive an acknowledgement email and will be given access to the data requested.</p>
     <% else %>
       <p>Thank you for signing the ASSDA General Undertaking Agreement and requesting access to the data listed in the copy of the agreement below. Once your request has been processed you will be invoiced, and notified by email when you have been given access to the data requested.</p>

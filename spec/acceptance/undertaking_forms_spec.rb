@@ -15,14 +15,16 @@ feature "Undertaking forms", %q{
     # Given a dataset
     access_level = AccessLevel.make
 
-    [0, 1].each do |confirmed_acspri_member|
+    [false, true].each do |institution_is_acspri_member|
       # And a user
-      user = User.make(:confirmed_acspri_member => confirmed_acspri_member)
+      name = institution_is_acspri_member ? nil : :foreign
+      user = User.make(name, :confirmed_acspri_member => 0)
+      user.institution_is_acspri_member.should == institution_is_acspri_member
       log_in_as(user)
 
       # When I visit the general undertaking form
       visit "/users/#{user.user}/undertakings/new"
-      page.should have_content "You will be charged $1,000 per dataset" unless confirmed_acspri_member == 1
+      page.should have_content "You will be charged $1,000 per dataset" unless institution_is_acspri_member
 
       # And I fill out the first page
       select access_level.dataset_description, :from => 'undertaking_dataset_ids'
@@ -52,8 +54,9 @@ feature "Undertaking forms", %q{
       undertaking.agreed.should be_true
 
       # And I should have the correct ACSPRI status
+      # TODO: Test user that is already ACSPRI keeps it
       user.reload
-      user.acsprimember.should == (confirmed_acspri_member == 1 ? User::ACSPRI_YES : User::ACSPRI_REQUESTED)
+      user.acsprimember.should == User::ACSPRI_REQUESTED
 
       # And I should have the pending datasets that I requested
       user.permissions_a.count.should == 1
@@ -66,10 +69,10 @@ feature "Undertaking forms", %q{
       email_admin.should_not be_nil
       email_user.should_not be_nil
 
-      email_admin.encoded.should match(/General Undertaking form \(#{"Non-" if confirmed_acspri_member == 0}ACSPRI\) signed by #{undertaking.user.user}/)
+      email_admin.encoded.should match(/General Undertaking form \(#{"Non-" unless institution_is_acspri_member}ACSPRI\) signed by #{undertaking.user.user}/)
       email_admin.encoded.should match(/#{access_level.dataset_description}/)
 
-      email_user.encoded.should match(/invoiced/) unless confirmed_acspri_member == 1
+      email_user.encoded.should match(/invoiced/) unless institution_is_acspri_member
       email_user.encoded.should match(/Please keep this email as a copy of the agreement:/)
       email_user.encoded.should match(/#{access_level.dataset_description}/)
 

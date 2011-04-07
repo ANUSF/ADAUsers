@@ -230,7 +230,7 @@ class UserWithoutValidations < ActiveRecord::Base
       end
     end
 
-    acsprimember
+    acsprimember === true or acsprimember == 1
   end
   
 

@@ -2,7 +2,7 @@
 <html>
   <head></head>
   <body>
-    General Undertaking form (<%= @undertaking.user.confirmed_acspri_member? ? "ACSPRI" : "Non-ACSPRI" %>) signed by <%= @undertaking.user.user %><br />
+    General Undertaking form (<%= @undertaking.user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI" %>) signed by <%= @undertaking.user.user %><br />
     <br />
     The following datasets have been requested:<br />
     <br />
