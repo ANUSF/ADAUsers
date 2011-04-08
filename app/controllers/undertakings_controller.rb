@@ -3,7 +3,7 @@ class UndertakingsController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
-    @undertaking = Undertaking.new
+    @undertaking = Undertaking.new(:is_restricted => params[:is_restricted] || false)
     @datasets = AccessLevel.cat_a
   end
 

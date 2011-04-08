@@ -8,8 +8,8 @@
     File.join(ENV['HOME'], 'etc', 'assda', 'dbconfig.yml')
 
   @conf = File.exist?(file) && YAML::load(File.open(file)) || {}
-  # Fix behaviour of "rails db development_logs"
-  rails_env = Rails.env.gsub('_logs', '')
+  # Fix behaviour of "rails db development_(logs|nesstar)"
+  rails_env = Rails.env.gsub(/_.*$/, '')
 %>
 template: &template
   adapter:  <%= (defined?(JRUBY_VERSION) && @conf[rails_env]['jdbc']) || @conf[rails_env]['adapter'] %>
@@ -27,7 +27,12 @@ production_logs:
   <<: *template
   database: <%= @conf[rails_env+'_logs']['database'] %>
   username: <%= @conf[rails_env+'_logs']['username'] %>
-  
+
+production_nesstar:
+  <<: *template
+  database: <%= @conf[rails_env+'_nesstar']['database'] %>
+  username: <%= @conf[rails_env+'_nesstar']['username'] %>
+
 development:
   <<: *template
 
@@ -35,9 +40,17 @@ development_logs:
   <<: *template
   database: <%= @conf[rails_env+'_logs']['database'] %>
 
+development_nesstar:
+  <<: *template
+  database: <%= @conf[rails_env+'_nesstar']['database'] %>
+
 test:
   <<: *template
 
 test_logs:
   <<: *template
   database: <%= @conf[rails_env+'_logs']['database'] %>
+
+test_nesstar:
+  <<: *template
+  database: <%= @conf[rails_env+'_nesstar']['database'] %>

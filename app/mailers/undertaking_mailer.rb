@@ -5,8 +5,8 @@ class UndertakingMailer < ActionMailer::Base
     @undertaking = undertaking
     user = undertaking.user
 
-    subject = "General Undertaking form signed by %s (%s)" % [user.user,
-                                                              user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI"]
+    subject = "#{undertaking.is_restricted ? "Restricted" : "General"} Undertaking form signed by %s (%s)" %
+      [user.user, user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI"]
 
     mail(:to => self.default_params[:from], :subject => subject)
   end
@@ -14,7 +14,8 @@ class UndertakingMailer < ActionMailer::Base
   def confirm_to_user_email(undertaking)
     @undertaking = undertaking
 
-    mail(:to => undertaking.user.email, :subject => "ASSDA General Undertaking")
+    mail(:to => undertaking.user.email,
+         :subject => "ASSDA #{undertaking.is_restricted ? "Restricted" : "General"} Undertaking")
   end
 
 end

@@ -53,8 +53,10 @@ class Undertaking < ActiveRecord::Base
   end
 
   def update_user
-    self.user.confirmed_acspri_member = User::ACSPRI_REQUESTED unless self.user.confirmed_acspri_member?
-    self.user.save!
+    unless self.is_restricted
+      self.user.confirmed_acspri_member = User::ACSPRI_REQUESTED unless self.user.confirmed_acspri_member?
+      self.user.save!
+    end
 
     # Add datasets as pending if not present
     self.user.add_datasets!(self.datasets.map {|d| d.datasetID}, self.is_restricted ? :b : :a, {0 => 1})
