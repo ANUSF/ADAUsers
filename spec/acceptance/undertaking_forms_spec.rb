@@ -18,20 +18,7 @@ feature "Undertaking forms", %q{
   end
 
   scenario "declining a general undertaking form" do
-    # Given a user and an unaccepted undertaking
-    user = User.make
-    undertaking = Undertaking.make(:user => user)
-    log_in_as user
-
-    # When I view the undertaking and do not agree with it
-    visit "/users/#{user.user}/undertakings/#{undertaking.id}/edit"
-    click_button "I do not agree"
-
-    # Then the undertaking should be deleted
-    Undertaking.where(:id => undertaking.id).count.should == 0
-
-    # And I should be on my profile page
-    current_path.should == "/users/#{user.user}"
+    decline_undertaking_form(false)
   end
 
   scenario "submitting a restricted undertaking form" do
@@ -41,7 +28,7 @@ feature "Undertaking forms", %q{
   end
 
   scenario "declining a restricted undertaking form" do
-    
+    decline_undertaking_form(true)
   end
 
   scenario "undertaking forms are only accessible by registered users" do
@@ -136,6 +123,24 @@ feature "Undertaking forms", %q{
     email_user.encoded.should match(/#{access_level.dataset_description}/)
 
     log_out
+  end
+
+
+  def decline_undertaking_form(is_restricted)
+    # Given a user and an unaccepted undertaking
+    user = User.make
+    undertaking = Undertaking.make(:user => user, :is_restricted => is_restricted)
+    log_in_as user
+
+    # When I view the undertaking and do not agree with it
+    visit "/users/#{user.user}/undertakings/#{undertaking.id}/edit"
+    click_button "I do not agree"
+
+    # Then the undertaking should be deleted
+    Undertaking.where(:id => undertaking.id).count.should == 0
+
+    # And I should be on my profile page
+    current_path.should == "/users/#{user.user}"
   end
 
 
