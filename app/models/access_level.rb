@@ -2,6 +2,8 @@ class AccessLevel < ActiveRecord::Base
   set_table_name 'accesslevel'
   set_primary_keys :datasetID, :fileID, :accessLevel
 
+  belongs_to :series, :class_name => "StatementEjb", :foreign_key => "datasetID", :primary_key => "objectId", :conditions => {:subjectType => 'fCatalog'}
+
   CATEGORY_ACCESS_LEVELS = {:a => ['A', 'G'], :b => ['B', 'S']}
 
   scope :cat_a, where(:accessLevel => ['A', 'G'], :fileID => nil)

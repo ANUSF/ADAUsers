@@ -35,6 +35,8 @@ class Undertaking < ActiveRecord::Base
 
   serialize :intended_use_type
 
+  attr_accessor :catalogue
+
   after_save :update_user
 
   def self.intended_use_options

@@ -128,3 +128,11 @@ a img {
   float: left;
   margin: 0 1em 1em 0;
 }
+
+form.undertaking select {
+  width: 50%
+}
+
+select.loading {
+  background: url(/images/ajax-loader-small.gif) no-repeat 95% 0%;
+}

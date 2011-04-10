@@ -75,7 +75,21 @@ process_registration_form = ->
       .find('input').click(-> institution_change $ this)
 
 
+process_undertaking_form = ->
+  if (form = $("form.undertaking"))? && $("#undertaking_catalogue").length > 0
+    dataset_select = form.find("#undertaking_dataset_ids")
+    dataset_select.empty()
+    form.find("#undertaking_catalogue").change ->
+      dataset_select.empty().addClass("loading")
+      $.ajax
+        url: "/datasets/restricted/"+$(this).val()
+        success: (html) ->
+          dataset_select.html(html)
+        complete: ->
+          dataset_select.removeClass("loading")
+
 $(document).ready ->
   process_registration_form()
+  process_undertaking_form()
   $("select.filterable").selectFilter()
   $(".radio-tabs").radioTabs()

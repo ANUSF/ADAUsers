@@ -13,6 +13,9 @@
 <%= semantic_form_for [@user, @undertaking] do |form| %>
   <%= form.inputs do %>
     <%= form.input :is_restricted, :as => :hidden %>
+    <% if @undertaking.is_restricted %>
+      <%= form.input :catalogue, :collection => series_to_collection(StatementEjb.populated_restricted_series) %>
+    <% end %>
     <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :input_html => {:class => 'filterable'}, :hint => "Please select the datasets that you require: (Use the command or control key to select multiple datasets)" %>
 
     <%= form.input :intended_use_type, :as => :check_boxes, :collection => Undertaking.intended_use_options.invert, :label => "Intended use of data:", :hint => "Tick all that apply" %>
