@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/ANUSF/themenap.git
+  revision: 2128ac9d70d3041e0aa0ceeb6ee051abdd7716a8
+  specs:
+    themenap (0.1.0)
+      nokogiri
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -167,5 +174,6 @@ DEPENDENCIES
   spork (~> 0.9.0.rc)
   sqlite3-ruby
   steak (>= 1.0.0.rc.1)
+  themenap!
   therubyracer
   will_paginate (~> 3.0.pre2)
