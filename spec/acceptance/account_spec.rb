@@ -20,7 +20,7 @@ feature "Accounts", %q{
     page.should have_selector("a", :text => "Log in")
 
     log_in_as(user)
-    find("#header").should have_content(user.user)
+    find("header").should have_content(user.user)
   end
 
   scenario "viewing user details" do
@@ -69,6 +69,11 @@ feature "Accounts", %q{
 
     page.should have_content "Your password has been updated."
 
+    email = ActionMailer::Base.deliveries.last
+    email.subject.should == "ASSDA User Registration - password changed"
+    email.encoded.should match(/Your ASSDA password has been updated./)
+    email.encoded.should match(/#{user.user}/)
+
     log_out
     log_in_with(:username => user.user, :password => "newpass")
   end
@@ -84,7 +89,6 @@ feature "Accounts", %q{
     page.should have_content "Your username and a new password have been emailed to you."
 
     email = ActionMailer::Base.deliveries.last
-
     email.encoded.should match /Username: #{user.user}\r$/
     email.encoded =~ /Password: (.*)\r$/
     new_password = $1

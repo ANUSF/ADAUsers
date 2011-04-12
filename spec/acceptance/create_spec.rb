@@ -31,6 +31,12 @@ feature "Create", %q{
     user = User.find_by_user!(u.user)
     user.email.should == u.email
     page.should have_content("Registration successful!")
+
+    # And I should receive a registration email
+    email = ActionMailer::Base.deliveries.last
+    email.subject.should == "User Nesstar Registration"
+    email.encoded.should match(/Thank you for registering with ASSDA's online Nesstar facility./)
+    email.encoded.should match(/#{user.user}/)
   end
 
 

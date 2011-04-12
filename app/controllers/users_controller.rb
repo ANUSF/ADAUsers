@@ -26,6 +26,7 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     @user.user = params[:user][:user] # primary key, needs to be set manually
     if @user.save
+      UserMailer.register_email(@user, params[:user][:password]).deliver
       redirect_to root_path, :notice => 'Registration successful!'
     else
       flash.now[:alert] = 'Please check the values you filled in.'
@@ -47,7 +48,12 @@ class UsersController < ApplicationController
     @user = User.find_by_user(params[:id])
 
     if @user.update_attributes(params[:user])
-      flash[:notice] = (params[:commit] == "Submit" ? 'Update successful' : 'Your password has been updated.')
+      if params[:commit] == "Submit"
+        flash[:notice] = 'Update successful.'
+      else
+        flash[:notice] = 'Your password has been updated.'
+        UserMailer.change_password_email(@user, params[:user][:password]).deliver
+      end
       redirect_to @user
     else
       render (params[:commit] == "Submit" ? :edit : :change_password)
