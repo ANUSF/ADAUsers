@@ -51,6 +51,12 @@ feature "Modify access to pending datasets", %q{
       # And I should see the second dataset in the pending table, but I should not see it in the accessible table
       find("#category_#{category} table#pending").should        have_content(accessLevels[1].datasetID)
       find("#category_#{category} table#accessible").should_not have_content(accessLevels[1].datasetID)
+
+      # And the user should have received an email specifying the datasets that they have gained access to
+      email = ActionMailer::Base.deliveries.last
+      email.subject.should == "Access approved for #{category == :a ? "General" : "Restricted"} dataset(s)"
+      email.encoded.should match(/You have now been granted access to the following dataset\(s\):/)
+      email.encoded.should match(/#{accessLevels[0].dataset_description}/)
     end
   end
 end

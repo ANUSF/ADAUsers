@@ -53,7 +53,7 @@ feature "Edit basic attributes", %q{
   end
 
 
-  scenario "changing undertaking signedness" do
+  scenario "changing ACSPRI confirmedness" do
     @user.confirmed_acspri_member = 2
     @user.save!
 

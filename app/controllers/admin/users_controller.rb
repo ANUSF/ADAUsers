@@ -79,6 +79,13 @@ class Admin::UsersController < ApplicationController
   def update
     @user = UserWithoutValidations.find_by_user(params[:id])
     @user.update_attributes(params[:user])
+
+    if @user.datasets_cat_a_pending_to_grant.present?
+      UserMailer.pending_datasets_access_approved_email(@user, :a).deliver
+    elsif @user.datasets_cat_b_pending_to_grant.present?
+      UserMailer.pending_datasets_access_approved_email(@user, :b).deliver
+    end
+
     redirect_to edit_admin_user_path(@user), :notice => 'Update successful'
   end
 
