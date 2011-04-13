@@ -7,6 +7,8 @@ class Undertaking < ActiveRecord::Base
     :insert_sql => proc { |record| "INSERT INTO access_levels_undertakings (datasetID, undertaking_id) VALUES ('#{record.datasetID}', #{id})" },
     :delete_sql => proc { |record| "DELETE FROM access_levels_undertakings WHERE datasetID = '#{record.datasetID}' AND undertaking_id = #{id}" }
 
+  scope :agreed, where(:agreed => true)
+
 
   validates_presence_of :user
 
@@ -35,8 +37,6 @@ class Undertaking < ActiveRecord::Base
 
   serialize :intended_use_type
   
-  default_scope order("created_at ASC")
-
   attr_accessor :catalogue
 
   after_save :update_user
@@ -64,5 +64,9 @@ class Undertaking < ActiveRecord::Base
 
     # Add datasets as pending if not present
     self.user.add_datasets!(self.datasets.map {|d| d.datasetID}, self.is_restricted ? :b : :a, {0 => 1})
+  end
+
+  def dataset_descriptions
+    self.datasets.map { |d| d.dataset_description }.uniq
   end
 end

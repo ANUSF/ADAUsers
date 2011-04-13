@@ -1,9 +1,9 @@
-/* DO NOT MODIFY. This file was compiled Sun, 10 Apr 2011 23:25:00 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 13 Apr 2011 01:35:49 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
 (function() {
-  var $, action_change, country_change, institution_change, patterns, position_change, process_registration_form, process_undertaking_form;
+  var $, action_change, country_change, institution_change, patterns, position_change, process_admin_undertaking_form, process_registration_form, process_undertaking_form;
   $ = jQuery;
   patterns = {
     form: 'form.user',
@@ -110,9 +110,18 @@
       });
     }
   };
+  process_admin_undertaking_form = function() {
+    if ($("table.admin-undertakings").length > 0) {
+      $("tr.admin-undertaking-details div").hide();
+      return $("tr.admin-undertaking-summary").click(function() {
+        return $(this).next().find("div").slideToggle();
+      });
+    }
+  };
   $(document).ready(function() {
     process_registration_form();
     process_undertaking_form();
+    process_admin_undertaking_form();
     $("select.filterable").selectFilter();
     return $(".radio-tabs").radioTabs();
   });

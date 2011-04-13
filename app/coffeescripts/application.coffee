@@ -88,8 +88,15 @@ process_undertaking_form = ->
         complete: ->
           dataset_select.removeClass("loading")
 
+process_admin_undertaking_form = ->
+  if $("table.admin-undertakings").length > 0
+    $("tr.admin-undertaking-details div").hide()
+    $("tr.admin-undertaking-summary").click ->
+      $(this).next().find("div").slideToggle()
+
 $(document).ready ->
   process_registration_form()
   process_undertaking_form()
+  process_admin_undertaking_form()
   $("select.filterable").selectFilter()
   $(".radio-tabs").radioTabs()

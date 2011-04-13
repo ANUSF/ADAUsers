@@ -6,57 +6,61 @@
       <th>Username</th>
       <th>Type</th>
       <th>Submitted</th>
+      <th>Processed</th>
   </thead>
   
   <tbody>
     <% @undertakings.each do |undertaking| %>
-      <tr>
+      <tr class="admin-undertaking-summary">
 	<td><%= undertaking.user.user %></td>
 	<td><%= undertaking.is_restricted ? "Restricted" : "General" %></td>
 	<td><%= time_ago_in_words(undertaking.created_at)+undertaking.created_at.strftime(" ago (%d-%m-%Y)") %></td>
+	<td><%= undertaking.processed ? "Yes" : "No" %></td>
       </tr>
 
-    <tr>
-      <td colspan="3">
-	<p class="admin-undertaking-actions">
-	  <%= link_to "Process request", edit_admin_user_path(undertaking.user) %><br /><br />
-	  <%= link_to "Mark as complete", admin_undertaking_mark_complete_path(undertaking, :processed => 1) %>
-	</p>
+    <tr class="admin-undertaking-details">
+      <td colspan="4">
+	<div>
+	  <p class="admin-undertaking-actions">
+	    <%= link_to "Process request", edit_admin_user_path(undertaking.user) %><br /><br />
+	    <%= link_to "Mark as complete", admin_undertaking_mark_complete_path(undertaking, :processed => 1) %>
+	  </p>
 
-	<p>
-	  <strong>Datasets:</strong><br />
-	  <ul>
-	    <% undertaking.datasets.each do |dataset| %>
-	      <li><%= dataset.dataset_description %></li>
-	    <% end %>
-	  </ul>
-	</p>
+	  <p>
+	    <strong>Datasets:</strong><br />
+	    <ul>
+	      <% undertaking.datasets.each do |dataset| %>
+	        <li><%= dataset.dataset_description %></li>
+	      <% end %>
+	    </ul>
+	  </p>
 
-	<p class="admin-undertaking-intended-use">
-	  <strong>Intended use:</strong><br />
-	  <ul>
-	    <% undertaking.intended_use_type.each do |iut| %>
-	      <li><%= Undertaking.intended_use_options[iut.to_sym] %></li>
-	    <% end %>
-	    <% unless undertaking.intended_use_other.nil? or undertaking.intended_use_other.blank? %>
-	      <li>Other: <%= undertaking.intended_use_other %></li>
-	    <% end %>
-	  </ul>
-	  
-	  <%= undertaking.intended_use_description %>
-	</p>
+	  <p class="admin-undertaking-intended-use">
+	    <strong>Intended use:</strong><br />
+	    <ul>
+	      <% undertaking.intended_use_type.each do |iut| %>
+	        <li><%= Undertaking.intended_use_options[iut.to_sym] %></li>
+	      <% end %>
+	      <% unless undertaking.intended_use_other.nil? or undertaking.intended_use_other.blank? %>
+	        <li>Other: <%= undertaking.intended_use_other %></li>
+	      <% end %>
+	    </ul>
+	    
+	    <%= undertaking.intended_use_description %>
+	  </p>
 
-	<% unless undertaking.email_supervisor.nil? or undertaking.email_supervisor.blank? %>
-	<p>
-	  <strong>Supervisor email:</strong><br />
-	  <%= undertaking.email_supervisor %>
-	</p>
-	<% end %>
+	  <% unless undertaking.email_supervisor.nil? or undertaking.email_supervisor.blank? %>
+	  <p>
+	    <strong>Supervisor email:</strong><br />
+	    <%= undertaking.email_supervisor %>
+	  </p>
+	  <% end %>
 
-	<p>
-	  <strong>Funding sources:</strong><br />
-	  <%= undertaking.funding_sources %>
-	</p>
+	  <p>
+	    <strong>Funding sources:</strong><br />
+	    <%= undertaking.funding_sources %>
+	  </p>
+	</div>
       </td>
     </tr>
     <% end %>

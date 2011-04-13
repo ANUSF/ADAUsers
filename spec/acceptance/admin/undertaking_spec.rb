@@ -20,18 +20,20 @@ feature "Administer undertakings", %q{
 
   scenario "view undertakings and details" do
     # Given a user with a general and restricted undertaking
-    undertakings = [@user.undertakings.make(:is_restricted => false), @user.undertakings.make(:is_restricted => true)]
+    undertakings = [@user.undertakings.make(:agreed => true, :is_restricted => false),
+                    @user.undertakings.make(:agreed => true, :is_restricted => true)]
 
     # When I visit the admin undertakings page
     visit "/admin/undertakings"
 
     # Then I should see both undertakings and their details
-    ["Username", "Type", "Submitted"].each { |header| page.should have_selector("th", :text => header) }
+    ["Username", "Type", "Submitted", "Processed"].each { |header| page.should have_selector("th", :text => header) }
     undertakings.each do |undertaking|
       # Basic info
       page.should have_selector("td", :text => undertaking.user.user)
       page.should have_selector("td", :text => undertaking.is_restricted ? "Restricted" : "General")
       page.should have_selector("td", :text => "less than a minute ago ("+Time.now.utc.strftime("%d-%m-%Y")+")")
+      page.should have_selector("td", :text => undertaking.processed ? "Yes" : "No")
 
       # Datasets
       undertaking.datasets.each { |dataset| page.should have_selector("li", :text => dataset.dataset_description) }
@@ -55,11 +57,11 @@ feature "Administer undertakings", %q{
 
 
   scenario "marking an undertaking as complete" do
-    
+    fail
   end
 
 
   scenario "reopening a completed undertaking" do
-    
+    fail
   end
 end
