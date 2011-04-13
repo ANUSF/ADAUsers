@@ -34,7 +34,11 @@
 	<div>
 	  <p class="admin-undertaking-actions">
 	    <%= link_to "Process request", edit_admin_user_path(undertaking.user) %><br /><br />
-	    <%= link_to "Mark as complete", admin_undertaking_mark_complete_path(undertaking, :processed => 1) %>
+	    <% if undertaking.processed %>
+	      <%= link_to "Reopen", admin_undertaking_mark_complete_path(undertaking, :processed => 0) %>
+	    <% else %>
+	      <%= link_to "Mark as complete", admin_undertaking_mark_complete_path(undertaking, :processed => 1) %>
+	    <% end %>
 	  </p>
 
 	  <p>

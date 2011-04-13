@@ -60,7 +60,17 @@ feature "Administer undertakings", %q{
 
 
   scenario "marking an undertaking as complete" do
-    fail
+    # Given a user and an undertaking
+    undertaking = @user.undertakings.make(:agreed => true)
+
+    # When I go to the admin page and mark the undertaking as complete
+    visit "/admin/undertakings"
+    click_link "Mark as complete"
+
+    # Then the undertaking should be marked as complete
+    page.should have_content("That undertaking has been marked as complete.")
+    page.should have_selector("tr.admin-undertaking-summary td", :text => "Yes")
+    page.should have_selector(".admin-undertaking-actions a", :text => "Reopen")
   end
 
 
