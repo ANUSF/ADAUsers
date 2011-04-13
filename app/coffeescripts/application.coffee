@@ -76,7 +76,18 @@ process_registration_form = ->
 
 
 process_undertaking_form = ->
+  if $("#undertaking_intended_use_type_input").length > 0
+    # Show/hide supervisor's email address field based on whether thesis/coursework is an intended use
+    handle_use_intended_use_type_thesis_click = ->
+      checked = $("#undertaking_intended_use_type_thesis").is(":checked")
+      field = $("li#undertaking_email_supervisor_input")
+      if checked then field.slideDown() else field.slideUp()
+    $("#undertaking_intended_use_type_thesis").click(handle_use_intended_use_type_thesis_click)
+    handle_use_intended_use_type_thesis_click()
+
+
   if (form = $("form.undertaking"))? && $("#undertaking_catalogue").length > 0
+    # For restricted form, handle catalogue dataset selection
     dataset_select = form.find("#undertaking_dataset_ids")
     dataset_select.empty()
     form.find("#undertaking_catalogue").change ->
