@@ -123,3 +123,13 @@ form.undertaking select {
 select.loading {
   background: url(/images/ajax-loader-small.gif) no-repeat 95% 0%;
 }
+
+table.admin-undertakings {
+  width: 100%;
+}
+p.admin-undertaking-actions {
+  float: right;
+  padding: 5px;
+  background-color: #f1f1f1;
+  border: 1px solid #1F5E2F;
+}
