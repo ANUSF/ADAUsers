@@ -88,5 +88,4 @@ class Admin::UsersController < ApplicationController
 
     redirect_to edit_admin_user_path(@user), :notice => 'Update successful'
   end
-
 end

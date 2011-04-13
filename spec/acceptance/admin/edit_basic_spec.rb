@@ -13,6 +13,10 @@ feature "Edit basic attributes", %q{
     @user = User.make(:user => 'tester')
   end
 
+  after(:all) do
+    log_out if logged_in?
+  end
+
   scenario "viewing user details page" do
     visit "/admin/users/tester/edit"
 

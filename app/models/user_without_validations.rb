@@ -44,6 +44,12 @@ class UserWithoutValidations < ActiveRecord::Base
     :primary_key => :user,
     :foreign_key => :userId }
 
+  has_many :undertakings, {
+    :class_name => "Undertaking",
+    :primary_key => :user,
+    :foreign_key => :user_user }
+
+
   def permissions(category)
     if category == :a
       self.permissions_a

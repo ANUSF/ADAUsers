@@ -34,6 +34,8 @@ class Undertaking < ActiveRecord::Base
 
 
   serialize :intended_use_type
+  
+  default_scope order("created_at ASC")
 
   attr_accessor :catalogue
 

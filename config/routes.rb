@@ -11,10 +11,13 @@ ADAUsers::Application.routes.draw do
   end
 
   namespace "admin" do
-    resources :users, :constraints => {:id => /.+/} do
+    resources :users, :except => :show, :constraints => {:id => /.+/} do
       get :search, :on => :collection
       resources :permissions_a, :controller => "user_permissions_a"
       resources :permissions_b, :controller => "user_permissions_b"
+    end
+    resources :undertakings do
+      match 'mark_complete/:processed', :to => 'undertakings#mark_complete', :as => 'mark_complete'
     end
   end
 
