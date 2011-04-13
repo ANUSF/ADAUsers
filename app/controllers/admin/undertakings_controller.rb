@@ -7,7 +7,9 @@ class Admin::UndertakingsController < ApplicationController
 
   def mark_complete
     @undertaking = Undertaking.find(params[:undertaking_id])
-    @undertaking.update_attribute(:processed, params[:processed] == "1")
-    redirect_to admin_undertakings_path, :notice => "That undertaking has been marked as complete."
+    @processed = params[:processed] == "1"
+    @undertaking.update_attribute(:processed, @processed)
+    flash[:notice] = "That undertaking has been "+(@processed ? "marked as complete." : "reopened.")
+    redirect_to admin_undertakings_path
   end
 end

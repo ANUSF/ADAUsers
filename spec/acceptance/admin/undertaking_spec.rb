@@ -75,6 +75,16 @@ feature "Administer undertakings", %q{
 
 
   scenario "reopening a completed undertaking" do
-    fail
+    # Given a user and a processed undertaking
+    undertaking = @user.undertakings.make(:agreed => true, :processed => true)
+
+    # When I go to the admin page and reopen the undertaking
+    visit "/admin/undertakings"
+    click_link "Reopen"
+
+    # Then the undertaking should be reopened
+    page.should have_content("That undertaking has been reopened.")
+    page.should have_selector("tr.admin-undertaking-summary td", :text => "No")
+    page.should have_selector(".admin-undertaking-actions a", :text => "Mark as complete")
   end
 end
