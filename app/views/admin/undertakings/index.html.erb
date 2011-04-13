@@ -1,5 +1,16 @@
 <% content_for(:title) { "Manage access requests" } %>
 
+<div class="admin-undertakings-stats">
+  <% num_unprocessed_requests = Undertaking.agreed.unprocessed.count %>
+  <% if num_unprocessed_requests > 0 %>
+    <%= Undertaking.agreed.unprocessed.count %> unprocessed access requests.
+  <% else %>
+    All done!
+  <% end %>
+</div>
+
+<%= will_paginate @undertakings %>
+
 <table class="admin-undertakings">
   <thead>
     <tr>

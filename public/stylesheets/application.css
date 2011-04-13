@@ -124,8 +124,17 @@ select.loading {
   background: url(/images/ajax-loader-small.gif) no-repeat 95% 0%;
 }
 
+.admin-undertakings-stats {
+  float: right;
+  margin-bottom: 2em;
+  padding: 5px;
+  font-size: 14px;
+  background-color: #f1f1f1;
+  border: 1px solid #1F5E2F;
+}
 table.admin-undertakings {
   width: 100%;
+  margin-top: 4em;
 }
 p.admin-undertaking-actions {
   float: right;
