@@ -3,7 +3,7 @@
 <div class="admin-undertakings-stats">
   <% num_unprocessed_requests = Undertaking.agreed.unprocessed.count %>
   <% if num_unprocessed_requests > 0 %>
-    <%= Undertaking.agreed.unprocessed.count %> unprocessed access requests.
+    <%= pluralize(Undertaking.agreed.unprocessed.count, "unprocessed access request") %>
   <% else %>
     All done!
   <% end %>
