@@ -27,7 +27,7 @@ feature "Administer undertakings", %q{
     visit "/admin/undertakings"
 
     # Then I should see the number of unprocessed undertakings
-    page.should have_selector(".admin-undertakings-stats", :text => "2 unprocessed access requests.")
+    page.should have_selector(".admin-undertakings-stats", :text => "2 unprocessed access requests")
 
     # And I should see both undertakings and their details
     ["Username", "Type", "Submitted", "Processed"].each { |header| page.should have_selector("th", :text => header) }

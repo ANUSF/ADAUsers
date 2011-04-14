@@ -1,13 +1,15 @@
 class UsersController < ApplicationController
-  before_filter :require_admin_or_owner, :only => [:show, :change_password, :edit, :change_password, :update]
+  before_filter :require_admin_or_owner, :only => [:change_password, :edit, :change_password, :update]
   before_filter :require_no_user, :only => [:new, :create]
 
 
   def show
+    @username = params[:user_id] || params[:username] || params[:id]
     @user = User.find_by_user(@username)
 
     respond_to do |format|
       format.html do
+        require_admin_or_owner
         response.headers['X-XRDS-Location'] = xrds_user_url(@username)
       end
       format.xrds do
