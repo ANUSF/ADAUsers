@@ -2,16 +2,22 @@ ADAUsers::Application.routes.draw do
   resource :session
   resources :decisions
 
-  match 'datasets/restricted/:series' => 'access_levels#datasets_restricted', :constraints => {:series => /.+/}
+  match 'datasets/restricted/:series' => 'access_levels#datasets_restricted', :constraints => {:series => /[^\/]+/}
 
-  resources :users, :constraints => {:id => /.+/} do
+  resources :users, :constraints => {:id => /[^\/]+/} do
     resources :undertakings
     match 'reset_password' => 'users#reset_password', :on => :collection
     get :change_password, :on => :member
+
+    member do
+      get :role
+      get :details
+      match 'access/:resource' => 'users#access'
+    end
   end
 
   namespace "admin" do
-    resources :users, :except => :show, :constraints => {:id => /.+/} do
+    resources :users, :except => :show, :constraints => {:id => /[^\/]+/} do
       get :search, :on => :collection
       resources :permissions_a, :controller => "user_permissions_a"
       resources :permissions_b, :controller => "user_permissions_b"

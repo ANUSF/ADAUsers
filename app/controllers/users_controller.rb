@@ -74,4 +74,13 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Your username and a new password have been emailed to you.'
     end
   end
+
+
+  ############################################################
+  # JSON API
+
+  def role
+    @user = User.find_by_user(params[:id])
+    render :json => @user.user_role
+  end
 end
