@@ -361,4 +361,21 @@ class UserWithoutValidations < ActiveRecord::Base
       end
     end
   end
+
+
+  def access_permissions(accessLevel)
+    category = (AccessLevel::CATEGORY_ACCESS_LEVELS[:a].include? accessLevel.accessLevel) ? :a : :b
+    permission = self.permissions(category).where(:datasetID => accessLevel.datasetID, :fileID => nil).first
+    v = permission ? permission.permissionvalue : 0
+
+    # Category A datasets with browse access also have analyse and download access
+    if category == :a and v == 1
+      v *= UserPermissionB::PERMISSION_VALUES[:analyse] * UserPermissionB::PERMISSION_VALUES[:download]
+    end
+
+    {:browse   => v > 0 && v % UserPermissionB::PERMISSION_VALUES[:browse] == 0,
+     :analyse  => v > 0 && v % UserPermissionB::PERMISSION_VALUES[:analyse] == 0,
+     :download => v > 0 && v % UserPermissionB::PERMISSION_VALUES[:download] == 0}
+  end
+
 end

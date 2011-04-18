@@ -12,8 +12,6 @@ describe User do
       user = User.make_unsaved(:user => '')
       user.should_not be_valid
     end
-
-    # ...
   end
 
   describe "getters" do
@@ -78,6 +76,49 @@ describe User do
       user.other_australian_type.should == nil
       user.non_australian_affiliation.should == nil
       user.non_australian_type.should == nil
+    end
+
+    it "checks access to general datasets" do
+      user = User.make
+
+      accessLevel = AccessLevel.make
+      accessLevelPending = AccessLevel.make
+      accessLevelNoAccess = AccessLevel.make
+      user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
+      user.permissions_a.create(:datasetID => accessLevelPending.datasetID, :permissionvalue => 0)
+
+      user.access_permissions(accessLevel).should == {:browse => true, :analyse => true, :download => true}
+      user.access_permissions(accessLevelPending).should == {:browse => false, :analyse => false, :download => false}
+      user.access_permissions(accessLevelNoAccess).should == {:browse => false, :analyse => false, :download => false}
+    end
+
+    it "checks access to restricted datasets" do
+      user = User.make
+
+      accessLevelNoAccess,
+      accessLevelPending,
+      accessLevelBrowse,
+      accessLevelAnalyse,
+      accessLevelDownload,
+      accessLevelAnalyseDownload = [].fill(0, 6) { |i| AccessLevel.make(:b) }
+
+      user.permissions_b.create(:datasetID => accessLevelPending.datasetID, :permissionvalue => 0)
+      user.permissions_b.create(:datasetID => accessLevelBrowse.datasetID,
+                                :permissionvalue => UserPermissionB::PERMISSION_VALUES[:browse])
+      user.permissions_b.create(:datasetID => accessLevelAnalyse.datasetID,
+                                :permissionvalue => UserPermissionB::PERMISSION_VALUES[:analyse])
+      user.permissions_b.create(:datasetID => accessLevelDownload.datasetID,
+                                :permissionvalue => UserPermissionB::PERMISSION_VALUES[:download])
+      user.permissions_b.create(:datasetID => accessLevelAnalyseDownload.datasetID,
+                                :permissionvalue => UserPermissionB::PERMISSION_VALUES[:analyse] *
+                                                    UserPermissionB::PERMISSION_VALUES[:download])
+
+      user.access_permissions(accessLevelNoAccess).should == {:browse => false, :analyse => false, :download => false}
+      user.access_permissions(accessLevelPending).should == {:browse => false, :analyse => false, :download => false}
+      user.access_permissions(accessLevelBrowse).should == {:browse => true, :analyse => false, :download => false}
+      user.access_permissions(accessLevelAnalyse).should == {:browse => true, :analyse => true, :download => false}
+      user.access_permissions(accessLevelDownload).should == {:browse => true, :analyse => false, :download => true}
+      user.access_permissions(accessLevelAnalyseDownload).should == {:browse => true, :analyse => true, :download => true}
     end
   end
 

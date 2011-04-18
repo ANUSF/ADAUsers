@@ -83,4 +83,17 @@ class UsersController < ApplicationController
     @user = User.find_by_user(params[:id])
     render :json => @user.user_role
   end
+
+  def details
+    @user = User.find_by_user(params[:id])
+    render :json => @user
+  end
+
+  def access
+    @user = User.find_by_user(params[:id])
+    @accessLevels = AccessLevel.where(:datasetID => params[:resource])
+    access = @accessLevels.map { |al| @user.can_access?(al) }.include? true
+
+    render :json => access
+  end
 end
