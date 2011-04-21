@@ -3,7 +3,13 @@ class UndertakingsController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
-    @undertaking = Undertaking.new(:is_restricted => params[:is_restricted] || false)
+
+    # TODO: If we get params[:datasetID] (optionally also params[:fileID]), then:
+    #         Find whether it's restricted. Set @is_restricted appropriately.
+    #         Select this dataset in the list
+
+    @is_restricted = params[:is_restricted]
+    @undertaking = Undertaking.new(:is_restricted => @is_restricted || false)
     @datasets = AccessLevel.cat_a
   end
 
