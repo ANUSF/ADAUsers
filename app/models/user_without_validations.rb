@@ -60,6 +60,14 @@ class UserWithoutValidations < ActiveRecord::Base
     end
   end
 
+  def permissions_for_dataset(category, datasetID, fileID=nil)
+    permissions = self.permissions(category).where(:datasetID => datasetID)
+    permissions = permissions.where("fileID IS NULL") unless fileID
+    permissions = permissions.where("fileID=? OR fileID IS NULL", fileID) if fileID
+
+    permissions
+  end
+
 
   scope :australian_institutions, select("DISTINCT institution").where(:austinstitution => "Other").order("institution")
   scope :non_australian_institutions, select("DISTINCT institution, countryid").where("countryid != ?", AUSTRALIA).order("countryid, institution")

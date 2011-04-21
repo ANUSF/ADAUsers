@@ -89,11 +89,24 @@ class UsersController < ApplicationController
     render :json => @user
   end
 
+  # Expects resource to be "datasetID[/fileID]"
   def access
     @user = User.find_by_user(params[:id])
-    @accessLevels = AccessLevel.where(:datasetID => params[:resource])
-    access = @accessLevels.map { |al| @user.can_access?(al) }.include? true
+    @datasetID, @fileID = params[:resource].split '/'
 
-    render :json => access
+    is_restricted = AccessLevel.dataset_is_restricted(datasetID)
+    category = is_restricted ? :b : :a
+
+    permissions = @user.permissions_for_dataset(category, @datasetID, @fileID)
+
+    pv = permissions
+      .reject { |e| e.permissionvalue == 0 }
+      .inject(0) { |a, e| a == 0 ? e.permissionvalue : a * e.permissionvalue }
+
+    result = {:browse   => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:browse] == 0,
+              :analyse  => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:analyse] == 0,
+              :download => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:download] == 0}
+
+    render :json => result
   end
 end

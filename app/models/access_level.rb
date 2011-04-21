@@ -17,6 +17,13 @@ class AccessLevel < ActiveRecord::Base
   end)
   scope :not_files, where("fileID IS NULL")
 
+  def self.dataset_is_restricted(datasetID)
+    accessLevels = self.where(:datasetID => datasetID)
+    accessLevelCategories = accessLevels.map { |al| al.accessLevel }
+
+    accessLevelCategories.includes? 'B' or accessLevelCategories.includes? 'S'
+  end
+
   def user_permission(user)
     model = (self.category == :a ? UserPermissionA : UserPermissionB)
     p = model.find_or_initialize_by_userID_and_datasetID_and_fileID(user.user, self.datasetID, self.fileID)

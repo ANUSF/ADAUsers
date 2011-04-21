@@ -28,13 +28,13 @@ feature "API", %q{
     user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
 
     visit "/users/#{user.user}/access/#{accessLevelNoAccess.datasetID}"
-    page.should have_content {:browse => false, :analyse => false, :download => false}.to_json
+    page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
     
     visit "/users/#{user.user}/access/#{accessLevelPending.datasetID}"
-    page.should have_content {:browse => false, :analyse => false, :download => false}.to_json
+    page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
 
     visit "/users/#{user.user}/access/#{accessLevel.datasetID}"
-    page.should have_content {:browse => true, :analyse => true, :download => true}.to_json
+    page.should have_content({:browse => true, :analyse => true, :download => true}.to_json)
   end
 
   scenario "enquiring about user access rights to category B datasets" do
