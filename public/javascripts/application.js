@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 13 Apr 2011 03:44:14 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 21 Apr 2011 02:07:27 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
@@ -127,8 +127,17 @@
   process_admin_undertaking_form = function() {
     if ($("table.admin-undertakings").length > 0) {
       $("tr.admin-undertaking-details div").hide();
-      return $("tr.admin-undertaking-summary").click(function() {
+      $("tr.admin-undertaking-summary").click(function() {
         return $(this).next().find("div").slideToggle();
+      });
+      return $("p.admin-undertaking-actions a").colorbox({
+        iframe: true,
+        fastIframe: false,
+        width: "80%",
+        height: "90%",
+        onComplete: function() {
+          return $("iframe.cboxIframe").contents().find("header, nav").hide();
+        }
       });
     }
   };
