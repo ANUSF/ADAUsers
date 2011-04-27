@@ -86,19 +86,6 @@ process_undertaking_form = ->
     handle_use_intended_use_type_thesis_click()
 
 
-  if (form = $("form.undertaking"))? && $("#undertaking_catalogue").length > 0
-    # For restricted form, handle catalogue dataset selection
-    dataset_select = form.find("#undertaking_dataset_ids")
-    dataset_select.empty()
-    form.find("#undertaking_catalogue").change ->
-      dataset_select.empty().addClass("loading")
-      $.ajax
-        url: "/datasets/restricted/"+$(this).val()
-        success: (html) ->
-          dataset_select.html(html)
-        complete: ->
-          dataset_select.removeClass("loading")
-
 process_admin_undertaking_form = ->
   if $("table.admin-undertakings").length > 0
     $("tr.admin-undertaking-details div").hide()

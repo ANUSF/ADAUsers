@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Thu, 21 Apr 2011 02:07:27 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 27 Apr 2011 00:21:43 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
@@ -92,7 +92,7 @@
     }
   };
   process_undertaking_form = function() {
-    var dataset_select, form, handle_use_intended_use_type_thesis_click;
+    var handle_use_intended_use_type_thesis_click;
     if ($("#undertaking_intended_use_type_input").length > 0) {
       handle_use_intended_use_type_thesis_click = function() {
         var checked, field;
@@ -105,23 +105,7 @@
         }
       };
       $("#undertaking_intended_use_type_thesis").click(handle_use_intended_use_type_thesis_click);
-      handle_use_intended_use_type_thesis_click();
-    }
-    if (((form = $("form.undertaking")) != null) && $("#undertaking_catalogue").length > 0) {
-      dataset_select = form.find("#undertaking_dataset_ids");
-      dataset_select.empty();
-      return form.find("#undertaking_catalogue").change(function() {
-        dataset_select.empty().addClass("loading");
-        return $.ajax({
-          url: "/datasets/restricted/" + $(this).val(),
-          success: function(html) {
-            return dataset_select.html(html);
-          },
-          complete: function() {
-            return dataset_select.removeClass("loading");
-          }
-        });
-      });
+      return handle_use_intended_use_type_thesis_click();
     }
   };
   process_admin_undertaking_form = function() {

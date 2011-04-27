@@ -56,7 +56,7 @@ feature "Undertaking forms", %q{
 
   def submit_undertaking_form(is_restricted, institution_is_acspri_member)
     # Given a dataset
-    access_level = AccessLevel.make
+    access_level = AccessLevel.make(is_restricted ? :b : :a)
 
     # And a user
     name = institution_is_acspri_member ? nil : :foreign
@@ -64,13 +64,13 @@ feature "Undertaking forms", %q{
     user.institution_is_acspri_member.should == institution_is_acspri_member
     log_in_as(user)
 
-    # When I visit the general undertaking form
+    # When I visit the undertaking form
     visit "/users/#{user.user}/undertakings/new?is_restricted=#{is_restricted ? 1 : 0}"
     page.should have_content "Apply for access to download #{"un" unless is_restricted}restricted data."
     page.should have_content "You will be charged $1,000 per dataset" unless institution_is_acspri_member
 
     # And I fill out the first page
-    #fail "TODO: Category selection for restricted dataset" if is_restricted
+    
     select access_level.dataset_description, :from => 'undertaking_dataset_ids'
     check 'undertaking_intended_use_type_government'
     check 'undertaking_intended_use_type_consultancy'

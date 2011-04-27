@@ -8,9 +8,10 @@ class UndertakingsController < ApplicationController
     #         Find whether it's restricted. Set @is_restricted appropriately.
     #         Select this dataset in the list
 
-    @is_restricted = params[:is_restricted]
+    @is_restricted = params[:is_restricted] == '1'
     @undertaking = Undertaking.new(:is_restricted => @is_restricted || false)
-    @datasets = AccessLevel.cat_a
+
+    @datasets = @is_restricted ? AccessLevel.cat_b : AccessLevel.cat_a
   end
 
   def create
