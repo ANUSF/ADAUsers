@@ -38,7 +38,38 @@ feature "API", %q{
   end
 
   scenario "enquiring about user access rights to category B datasets" do
-    fail "Not yet implemented"
+    user = User.make
+
+    accessLevelNoAccess = AccessLevel.make(:b)
+    accessLevelPending = AccessLevel.make(:b)
+    accessLevelBrowse = AccessLevel.make(:b)
+    accessLevelAnalyse = AccessLevel.make(:b)
+    accessLevelDownload = AccessLevel.make(:b)
+    accessLevelAnalyseDownload = AccessLevel.make(:b)
+
+    user.permissions_b.create(:datasetID => accessLevelPending.datasetID, :permissionvalue => 0)
+    user.permissions_b.create(:datasetID => accessLevelBrowse.datasetID, :permissionvalue => 1)
+    user.permissions_b.create(:datasetID => accessLevelAnalyse.datasetID, :permissionvalue => 3)
+    user.permissions_b.create(:datasetID => accessLevelDownload.datasetID, :permissionvalue => 2)
+    user.permissions_b.create(:datasetID => accessLevelAnalyseDownload.datasetID, :permissionvalue => 6)
+
+    visit "/users/#{user.user}/access/#{accessLevelNoAccess.datasetID}"
+    page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
+
+    visit "/users/#{user.user}/access/#{accessLevelPending.datasetID}"
+    page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
+
+    visit "/users/#{user.user}/access/#{accessLevelBrowse.datasetID}"
+    page.should have_content({:browse => true, :analyse => false, :download => false}.to_json)
+
+    visit "/users/#{user.user}/access/#{accessLevelAnalyse.datasetID}"
+    page.should have_content({:browse => true, :analyse => true, :download => false}.to_json)
+
+    visit "/users/#{user.user}/access/#{accessLevelDownload.datasetID}"
+    page.should have_content({:browse => true, :analyse => false, :download => true}.to_json)
+
+    visit "/users/#{user.user}/access/#{accessLevelAnalyseDownload.datasetID}"
+    page.should have_content({:browse => true, :analyse => true, :download => true}.to_json)
   end
 
   scenario "accessing the API without permission" do
