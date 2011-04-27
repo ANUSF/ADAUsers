@@ -78,6 +78,9 @@ class UsersController < ApplicationController
 
   ############################################################
   # JSON API
+  #
+  # TODO: Should we make this more RESTful?
+  #
 
   def role
     @user = User.find_by_user(params[:id])
@@ -102,6 +105,11 @@ class UsersController < ApplicationController
     pv = permissions
       .reject { |e| e.permissionvalue == 0 }
       .inject(0) { |a, e| a == 0 ? e.permissionvalue : a * e.permissionvalue }
+
+    # General datasets have analyse and download permissions if browse access is granted
+    if !is_restricted
+      pv *= UserPermissionB::PERMISSION_VALUES[:analyse] * UserPermissionB::PERMISSION_VALUES[:download]
+    end
 
     result = {:browse   => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:browse] == 0,
               :analyse  => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:analyse] == 0,
