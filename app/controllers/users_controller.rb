@@ -94,7 +94,7 @@ class UsersController < ApplicationController
     @user = User.find_by_user(params[:id])
     @datasetID, @fileID = params[:resource].split '/'
 
-    is_restricted = AccessLevel.dataset_is_restricted(datasetID)
+    is_restricted = AccessLevel.dataset_is_restricted(@datasetID)
     category = is_restricted ? :b : :a
 
     permissions = @user.permissions_for_dataset(category, @datasetID, @fileID)

@@ -4,7 +4,7 @@ ADAUsers::Application.routes.draw do
 
   match 'datasets/restricted/:series' => 'access_levels#datasets_restricted', :constraints => {:series => /[^\/]+/}
 
-  resources :users, :constraints => {:id => /[^\/]+/} do
+  resources :users, :constraints => {:id => /[^\/]+/, :resource => /[^\/]+/} do
     resources :undertakings
     match 'reset_password' => 'users#reset_password', :on => :collection
     get :change_password, :on => :member
