@@ -21,7 +21,7 @@ class AccessLevel < ActiveRecord::Base
     accessLevels = self.where(:datasetID => datasetID)
     accessLevelCategories = accessLevels.map { |al| al.accessLevel }
 
-    accessLevelCategories.includes? 'B' or accessLevelCategories.includes? 'S'
+    accessLevelCategories.include? 'B' or accessLevelCategories.include? 'S'
   end
 
   def user_permission(user)
