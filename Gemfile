@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.0.7'
 
 if defined?(JRUBY_VERSION)
   gem 'jruby-openssl'
@@ -13,12 +13,13 @@ else
 end
 
 gem 'ruby-openid',  :require => 'openid'
-gem 'formtastic'
+gem 'composite_primary_keys' # For support of Nesstar database
 gem 'json_pure', :require => 'json'
 gem 'barista'
 gem 'therubyracer'
+
+gem 'formtastic'
 gem 'will_paginate', '~> 3.0.pre2'
-gem 'composite_primary_keys' # For support of Nesstar database
 
 gem 'themenap', :git => 'git://github.com/ANUSF/themenap.git'
 
