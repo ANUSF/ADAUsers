@@ -13,6 +13,7 @@ else
 end
 
 gem 'ruby-openid',  :require => 'openid'
+gem 'bcrypt-ruby'
 gem 'composite_primary_keys' # For support of Nesstar database
 gem 'json_pure', :require => 'json'
 gem 'barista'

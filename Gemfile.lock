@@ -41,6 +41,7 @@ GEM
       ZenTest (>= 4.4.1)
     barista (1.0.0)
       coffee-script (~> 2.1.1)
+    bcrypt-ruby (2.1.4)
     builder (2.1.2)
     capybara (0.4.1.2)
       celerity (>= 0.7.9)
@@ -156,6 +157,7 @@ PLATFORMS
 DEPENDENCIES
   autotest
   barista
+  bcrypt-ruby
   capybara
   composite_primary_keys
   database_cleaner

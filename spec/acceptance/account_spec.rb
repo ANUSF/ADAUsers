@@ -58,7 +58,7 @@ feature "Accounts", %q{
 
   scenario "changing password" do
     user = User.make(:password => "oldpass")
-    log_in_as(user)
+    log_in_with(:username => user.user, :password => "oldpass")
 
     click_link "Change password"
 

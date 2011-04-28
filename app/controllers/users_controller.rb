@@ -64,9 +64,9 @@ class UsersController < ApplicationController
 
   def reset_password
     if params[:reset_password]
-      @user = User.find_by_email(params[:reset_password][:email])
+      @user = UserWithoutValidations.find_by_email(params[:reset_password][:email])
       new_password = (('a'..'z').to_a + (0..9).to_a).sample(8).join
-      @user.change_password! new_password
+      @user.password = new_password
       @user.save!
 
       UserMailer.reset_password_email(@user, new_password).deliver

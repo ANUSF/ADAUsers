@@ -109,15 +109,7 @@ class User < UserWithoutValidations
   # -- Other validations:
 
   validates_each :password_old, :if => lambda { |rec| rec.password_changed? and !rec.new_record? } do |rec, attr, value|
-    rec.errors.add(attr, 'password does not match') if value != rec.password_was
+    rec.errors.add(attr, 'password does not match') unless Password.new(rec.password_was) == value
   end
 
-
-  # -- Setters and getters
-
-  def change_password!(new_password)
-    self.password_old = self.password_was
-    self.password = new_password
-    save!
-  end
 end

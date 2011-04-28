@@ -1,4 +1,8 @@
+require 'bcrypt'
+
 class UserWithoutValidations < ActiveRecord::Base
+  include BCrypt
+
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
   ACSPRI_NO = 0
@@ -252,6 +256,16 @@ class UserWithoutValidations < ActiveRecord::Base
 
   def name
     [self.title, self.fname, self.sname].join(' ')
+  end
+
+  def password
+    password_hash = read_attribute(:password)
+    @password ||= Password.new(password_hash) unless password_hash.nil? or password_hash.blank?
+  end
+
+  def password=(new_password)
+    @password = Password.create(new_password)
+    write_attribute(:password, @password)
   end
 
   def affiliation

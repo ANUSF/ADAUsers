@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110331044451) do
+ActiveRecord::Schema.define(:version => 20110428004748) do
 
   create_table "ProjectEJB", :id => false, :force => true do |t|
     t.text     "comment"
@@ -60,6 +60,10 @@ ActiveRecord::Schema.define(:version => 20110331044451) do
     t.text   "fileContent"
     t.string "accessLevel", :limit => 1
   end
+
+  add_index "accesslevel", ["accessLevel"], :name => "accesslevel_accesslevel"
+  add_index "accesslevel", ["datasetID"], :name => "accesslevel_datasetID"
+  add_index "accesslevel", ["fileID"], :name => "accesslevel_fileID"
 
   create_table "agenciesdept", :id => false, :force => true do |t|
     t.integer "id",                                          :null => false

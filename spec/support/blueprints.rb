@@ -11,7 +11,7 @@ end
 
 User.blueprint do
   user { Sham.name }
-  password { Sham.password }
+  password { object.user }
   title { User.new.title_options[0] }
   fname { Sham.name }
   sname { Sham.name }
