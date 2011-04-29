@@ -24,6 +24,8 @@ gem 'will_paginate', '~> 3.0.pre2'
 
 gem 'themenap', :git => 'git://github.com/ANUSF/themenap.git'
 
+gem 'capistrano-ext'
+
 group :development, :test do
   gem 'rspec-rails', '= 2.0.1'
   gem 'capybara'
@@ -36,4 +38,5 @@ group :development, :test do
   gem 'spork', '~> 0.9.0.rc'
   gem 'simplecov', '>= 0.4.0', :require => false, :group => :test
   gem 'newrelic_rpm'
+  gem 'capistrano'
 end
