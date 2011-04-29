@@ -2,7 +2,6 @@
   <thead>
     <tr>
       <th>Username</th>
-      <th>Password</th>
       <th>Role</th>
       <th>Email</th>
       <th>Institution</th>
@@ -19,7 +18,6 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.user, edit_admin_user_path(user) %></td>
-        <td><%= user.password %></td>
         <td><%= user_roles_to_s(user.user_roles) %></td>
         <td><%= user.email %></td>
         <td><%= user.institution %></td>
