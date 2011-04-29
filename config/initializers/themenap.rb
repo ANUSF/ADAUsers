@@ -2,7 +2,7 @@ Themenap::Config.server = 'http://testada'
 Themenap::Config.snippets =
   [ { :css => 'title',
       :text => 'ADA Users <%= yield :title %>' },
-    { :css => 'head',
+    { :css => 'head:first',
       :text => '<%= render "layouts/includes" %>',
       :mode => :append },
     { :css => 'body',
