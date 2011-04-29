@@ -32,17 +32,21 @@ ssh_options[:compression] = false
 # If you are using Passenger mod_rails uncomment this:
 
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  task :start do
+    run "#{current_path}/script/rails server -d -p 4000"
   end
+  task :stop do
+    run "kill `cat #{current_path}/tmp/pids/server.pid`"
+  end
+  #task :restart, :roles => :app, :except => { :no_release => true } do
+  #end
 end
 
 set(:branch) do
   Capistrano::CLI.ui.ask "Open the hatch door please HAL: (specify a tag name to deploy):"
 end
 
+after 'deploy:update', :symlinks
 after 'deploy:update', :deploy_log
 before 'deploy:update_code', :echo_ruby_env
 
@@ -50,6 +54,10 @@ task :echo_ruby_env do
   puts "Checking ruby env ..."
   run "ruby -v"
   run "export RAILS_ENV='#{rails_env}'"
+end
+
+task :symlinks, :roles => :app do
+  run "ln -nfs #{shared_path}/db/* #{current_path}/db/"
 end
 
 task :deploy_log, :roles => :app do
