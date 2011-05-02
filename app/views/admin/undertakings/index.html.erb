@@ -9,6 +9,10 @@
   <% end %>
 </div>
 
+<%= link_to admin_undertakings_path(:show_processed_requests => 1-@show_processed_requests) do %>
+  <%= @show_processed_requests == 1 ? "Hide processed access requests" : "Show processed access requests" %>
+<% end %>
+
 <%= will_paginate @undertakings %>
 
 <table class="admin-undertakings">
