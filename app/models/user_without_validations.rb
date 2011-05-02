@@ -343,6 +343,9 @@ class UserWithoutValidations < ActiveRecord::Base
 
     self.user_roles.build(:roleID => role.id)  if  self.new_record?
     self.user_roles.create(:roleID => role.id) if !self.new_record?
+
+    self.user_ejb.admin = (['administrator', 'publisher'].include?(role_id) ? 1 : 0)
+    self.user_ejb.save!
   end
 
   # Add permission to the supplied datasets in the specified category, which may be :a or :b

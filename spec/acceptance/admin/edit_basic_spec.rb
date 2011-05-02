@@ -74,11 +74,21 @@ feature "Edit basic attributes", %q{
   scenario "changing role" do
     visit "/admin/users/tester/edit"
     find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
+    @user.user_ejb.admin.should == 0
 
+    # Change to administrator
     find("select#user_user_role").select("administrator")
     find("tr#role").click_button("Change")
 
     find("select#user_user_role option[selected='selected']").should have_content("administrator")
+    @user.user_ejb.reload.admin.should == 1
+
+    # Change back to affiliateuser
+    find("select#user_user_role").select("affiliateusers")
+    find("tr#role").click_button("Change")
+
+    find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
+    @user.user_ejb.reload.admin.should == 0
   end
 
 
