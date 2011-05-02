@@ -1,4 +1,4 @@
-Themenap::Config.server = 'http://testada'
+Themenap::Config.server = 'http://178.79.149.181'
 Themenap::Config.snippets =
   [ { :css => 'title',
       :text => 'ADA Users <%= yield :title %>' },
