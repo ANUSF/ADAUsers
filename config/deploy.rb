@@ -33,13 +33,15 @@ ssh_options[:compression] = false
 
 namespace :deploy do
   task :start do
-    run "#{current_path}/script/rails server -d -p 4000"
+    run "cd #{current_path} && nohup script/rails server -d -p 4000"
   end
   task :stop do
     run "kill `cat #{current_path}/tmp/pids/server.pid`"
   end
-  #task :restart, :roles => :app, :except => { :no_release => true } do
-  #end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "kill `cat #{current_path}/tmp/pids/server.pid`"
+    run "cd #{current_path} && nohup script/rails server -d -p 4000"
+  end
 end
 
 set(:branch) do

@@ -43,6 +43,14 @@ class SessionsController < ApplicationController
       else
         reset_session
         session[:username] = username
+
+        # When a new admin logs in for the first time, we replace their UserEJB token password
+        # with their real password as this is required for them to access Nesstar's admin features.
+        if user.admin? and user.user_ejb.password == UserEjb::TOKEN_PASSWORD
+          user.user_ejb.password = params[:session][:password]
+          user.user_ejb.save!
+        end
+
         if oidreq
           session[:approvals] = [oidreq.trust_root]
           render_response(positive_response(oidreq, username))

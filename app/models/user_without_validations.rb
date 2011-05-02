@@ -76,6 +76,7 @@ class UserWithoutValidations < ActiveRecord::Base
   scope :australian_institutions, select("DISTINCT institution").where(:austinstitution => "Other").order("institution")
   scope :non_australian_institutions, select("DISTINCT institution, countryid").where("countryid != ?", AUSTRALIA).order("countryid, institution")
 
+
   # -- Default attributes to use in the registration form
 
   def self.defaults
@@ -129,7 +130,7 @@ class UserWithoutValidations < ActiveRecord::Base
       :creationDate => dateregistered,
       :label => 'registered user',
       :modificationDate => dateregistered,
-      :password => password,
+      :password => UserEjb::TOKEN_PASSWORD,
       :active => 1)
   end
 
@@ -343,6 +344,9 @@ class UserWithoutValidations < ActiveRecord::Base
 
     self.user_roles.build(:roleID => role.id)  if  self.new_record?
     self.user_roles.create(:roleID => role.id) if !self.new_record?
+
+    self.user_ejb.admin = (['administrator', 'publisher'].include?(role_id) ? 1 : 0)
+    self.user_ejb.save!
   end
 
   # Add permission to the supplied datasets in the specified category, which may be :a or :b

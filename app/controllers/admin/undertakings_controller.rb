@@ -2,7 +2,11 @@ class Admin::UndertakingsController < ApplicationController
   before_filter :require_admin
 
   def index
-    @undertakings = Undertaking.agreed.order("processed ASC, created_at ASC").paginate(:page => params[:page])
+    @show_processed_requests = params[:show_processed_requests].to_i || 0
+
+    @undertakings = Undertaking.agreed.order("processed ASC, created_at ASC")
+    @undertakings = @undertakings.unprocessed unless @show_processed_requests == 1
+    @undertakings = @undertakings.paginate(:page => params[:page])
   end
 
   def mark_complete
