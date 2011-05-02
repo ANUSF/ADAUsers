@@ -1,16 +1,31 @@
 class SessionsController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => :destroy
+  #TODO these tests may not be sensible when acting as an OpenID provider
+  #before_filter :require_no_user, :only => [:new, :create]
+  #before_filter :require_user, :only => :destroy
 
   def new
     oidreq = session[:last_oidreq]
     @username = username_for oidreq.identity if oidreq and not oidreq.id_select
+    @username ||= current_user.user if current_user
+    unless session[:username].blank?
+      if @username
+        flash[:notice] =
+          "You are already logged in as #{session[:username]}." +
+          " Do not press 'Login' unless you want to end that session."
+      elsif oidreq and oidreq.id_select
+        if (session[:approvals] ||= []).include? oidreq.trust_root
+          render_response(positive_response(oidreq, session[:username]))
+        else
+          redirect_to new_decision_path
+        end
+      end
+    end
   end
 
   def create
     oidreq = session[:last_oidreq]
 
-    if params[:commit] != 'Log in'
+    if params[:commit] and params[:commit] != 'Log in'
       reset_session
       if oidreq
         redirect_to oidreq.cancel_url
