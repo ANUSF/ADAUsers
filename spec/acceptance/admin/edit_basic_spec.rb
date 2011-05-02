@@ -92,6 +92,27 @@ feature "Edit basic attributes", %q{
   end
 
 
+  scenario "when a new admin logs in for the first time, their UserEJB token password is replaced by their real password" do
+    # When I make tester an admin
+    visit "/admin/users/tester/edit"
+    find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
+    @user.user_ejb.admin.should == 0
+    find("select#user_user_role").select("administrator")
+    find("tr#role").click_button("Change")
+    find("select#user_user_role option[selected='selected']").should have_content("administrator")
+    @user.user_ejb.reload
+    @user.user_ejb.admin.should == 1
+    @user.user_ejb.password.should == UserEjb::TOKEN_PASSWORD
+
+    # And tester logs in
+    log_out
+    log_in_as @user
+
+    # Then tester's UserEJB password should be set to their cleartext password
+    @user.user_ejb.reload.password.should == @user.user
+  end
+
+
   scenario "accessing the edit page without permission" do
     log_out
 

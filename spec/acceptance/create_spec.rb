@@ -30,6 +30,7 @@ feature "Create", %q{
     # Then a new user should exist, and I should see "Registration successful!"
     user = User.find_by_user!(u.user)
     user.email.should == u.email
+    user.user_ejb.password.should == UserEjb::TOKEN_PASSWORD
     page.should have_content("Registration successful!")
 
     # And I should receive a registration email
