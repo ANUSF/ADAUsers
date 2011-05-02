@@ -69,6 +69,7 @@ feature "Administer undertakings", %q{
 
     # Then the undertaking should be marked as complete
     page.should have_content("That undertaking has been marked as complete.")
+    visit "/admin/undertakings?show_processed_requests=1"
     page.should have_selector("tr.admin-undertaking-summary td", :text => "Yes")
     page.should have_selector(".admin-undertaking-actions a", :text => "Reopen")
   end
@@ -79,7 +80,7 @@ feature "Administer undertakings", %q{
     undertaking = @user.undertakings.make(:agreed => true, :processed => true)
 
     # When I go to the admin page and reopen the undertaking
-    visit "/admin/undertakings"
+    visit "/admin/undertakings?show_processed_requests=1"
     click_link "Reopen"
 
     # Then the undertaking should be reopened
