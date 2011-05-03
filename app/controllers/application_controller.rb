@@ -18,11 +18,12 @@ class ApplicationController < ActionController::Base
 
   def username_for(identity)
     name = identity.sub /.*\/user\/(.*)/, '\\1'
-    name if user_url(:username => name) == identity
+    name if oid_user_url(:username => name) == identity
   end
 
   def is_logged_in_as(identity)
-    session[:username] and user_url(:username => session[:username]) == identity
+    session[:username] and
+      oid_user_url(:username => session[:username]) == identity
   end
 
   def current_user
@@ -142,7 +143,7 @@ class ApplicationController < ActionController::Base
   end
 
   def positive_response(oidreq, username)
-    oidresp = oidreq.answer(true, server_url, user_url(username))
+    oidresp = oidreq.answer(true, server_url, oid_user_url(username))
     add_ax(oidreq, oidresp, username)
     add_sreg(oidreq, oidresp, username)
     add_pape(oidreq, oidresp, username)
