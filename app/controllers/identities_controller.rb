@@ -1,5 +1,7 @@
 class IdentitiesController < ApplicationController
   def root
+    flash[:notice] = "Hello, Passenger!"
+
     respond_to do |format|
       format.html do
         response.headers['X-XRDS-Location'] = xrds_idp_url
