@@ -33,14 +33,11 @@ ssh_options[:compression] = false
 
 namespace :deploy do
   task :start do
-    run "cd #{current_path} && nohup script/rails server -d -p 4000"
   end
   task :stop do
-    run "kill `cat #{current_path}/tmp/pids/server.pid`"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "kill `cat #{current_path}/tmp/pids/server.pid`"
-    run "cd #{current_path} && nohup script/rails server -d -p 4000"
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 end
 
