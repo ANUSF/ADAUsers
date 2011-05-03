@@ -93,17 +93,24 @@ class ApplicationController < ActionController::Base
   end
 
   def add_ax(oidreq, oidresp, username)
-    axreq = OpenID::AX::FetchRequest.from_openid_request(oidreq)
+    ax_req = OpenID::AX::FetchRequest.from_openid_request(oidreq)
 
-    unless axreq.nil?
+    unless ax_req.nil?
       user = User.find_by_user username
 
-      axresp = OpenID::AX::FetchResponse.new
-      #TODO do this in a cleaner way:
-# http://rakuto.blogspot.com/2008/03/ruby-fetch-and-store-some-attributes.html
-      axresp.set_values 'http://users.ada.edu.au/role', [user.user_role]
-      axresp.set_values 'http://users.ada.edu.au/email', [user.email]
-      oidresp.add_extension(axresp)
+      ax_args = {
+        'mode'        => 'fetch_response',
+        'type.email'  => 'http://users.ada.edu.au/email',
+        'value.email' => user.email,
+        'type.role'   => 'http://users.ada.edu.au/role',
+        'value.role'  => user.user_role
+      }
+
+      ax_resp = OpenID::AX::FetchResponse.new
+      ax_resp.parse_extension_args(ax_args)
+      ax_req_args = ax_resp.get_extension_args(ax_req) # for validation
+      ax_resp.parse_extension_args(ax_req_args)
+      oidresp.add_extension(ax_resp)
     end
   end
 
