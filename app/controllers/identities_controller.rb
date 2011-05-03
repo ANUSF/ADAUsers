@@ -26,7 +26,7 @@ class IdentitiesController < ApplicationController
       render_response(server.handle_request(oidreq))
     elsif oidreq.immediate
       render_response(oidreq.answer(false, root_url))
-    elsif is_logged_in_as(oidreq.identity) and not oidreq.id_select
+    elsif is_logged_in_as(oidreq.identity) or (oidreq.id_select and current_user)
       if (session[:approvals] || []).include? oidreq.trust_root
         render_response(positive_response(oidreq, session[:username]))
       else
