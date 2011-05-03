@@ -1,4 +1,5 @@
 require "openid"
+require 'openid/extensions/ax'
 require 'openid/extensions/sreg'
 require 'openid/extensions/pape'
 require 'openid/store/filesystem'
@@ -91,6 +92,21 @@ class ApplicationController < ActionController::Base
     @server
   end
 
+  def add_ax(oidreq, oidresp, username)
+    axreq = OpenID::AX::FetchRequest.from_openid_request(oidreq)
+
+    unless axreq.nil?
+      user = User.find_by_user username
+
+      axresp = OpenID::AX::FetchResponse.new
+      #TODO do this in a cleaner way:
+# http://rakuto.blogspot.com/2008/03/ruby-fetch-and-store-some-attributes.html
+      axresp.set_values 'http://users.ada.edu.au/role', [user.user_role]
+      axresp.set_values 'http://users.ada.edu.au/email', [user.email]
+      oidresp.add_extension(axresp)
+    end
+  end
+
   def add_sreg(oidreq, oidresp, username)
     sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
 
@@ -120,6 +136,7 @@ class ApplicationController < ActionController::Base
 
   def positive_response(oidreq, username)
     oidresp = oidreq.answer(true, server_url, user_url(username))
+    add_ax(oidreq, oidresp, username)
     add_sreg(oidreq, oidresp, username)
     add_pape(oidreq, oidresp, username)
     oidresp
