@@ -18,6 +18,7 @@ User.blueprint do
   email { Sham.email }
   confirmed_acspri_member { 1 }
   user_roles { [UserRole.make(:id => object.id)] }
+  role_cms { User::DEFAULT_ROLE_CMS }
   position { User.new.position_options[0] }
   action { User.new.action_options[0][1] }
   country { User::AUSTRALIA }

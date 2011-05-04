@@ -9,6 +9,8 @@ class UserWithoutValidations < ActiveRecord::Base
   ACSPRI_YES = 1
   ACSPRI_REQUESTED = 2
 
+  DEFAULT_ROLE_CMS = 'member'
+
   set_table_name 'userdetails'
   set_primary_key :user
 
@@ -124,6 +126,7 @@ class UserWithoutValidations < ActiveRecord::Base
     self.user_roles << UserRole.new(
       :roleID => 'affiliateusers',
       :rolegroup => '')
+    self.role_cms = DEFAULT_ROLE_CMS
 
     self.user_ejb = UserEjb.new(
       :comment => 'registered user',
