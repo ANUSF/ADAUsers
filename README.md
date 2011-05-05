@@ -1,6 +1,14 @@
-The ADA user management server (in development).
+# The ADA user management server (in development).
 
 Authors: Olaf Delgado-Friedrichs and Rohan Mitchell
+
+
+## Getting Started
+
+Run `rake db:test:initialise` to prepare a test database.
+
+
+## Copyright
 
 Copyright (c) 2011 The Australian National University
 
