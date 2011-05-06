@@ -1,5 +1,6 @@
 class Admin::UndertakingsController < ApplicationController
   before_filter :require_admin
+  layout 'ada_admin'
 
   def index
     @show_processed_requests = params[:show_processed_requests].to_i || 0

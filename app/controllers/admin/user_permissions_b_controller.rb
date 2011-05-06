@@ -1,5 +1,6 @@
 class Admin::UserPermissionsBController < ApplicationController
   before_filter :require_admin
+  layout 'ada_admin'
 
   def destroy
     @permission = UserPermissionB.where(:userID => params[:user_id], :datasetID => params[:id])

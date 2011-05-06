@@ -7,6 +7,8 @@ Themenap::Config.snippets =
       :mode => :append },
     { :css => 'body',
       :mode => :setattr, :key => 'id', :value => 'social_science' },
+    { :css => '.masthead',
+      :mode => :setattr, :key => 'class', :value => 'masthead{{= yield :masthead_class }}' },
     { :css => 'section.content nav', :text => '' },
     { :css => 'article',
       :text => '<%= render "layouts/body" %>' },

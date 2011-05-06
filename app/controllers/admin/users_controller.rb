@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_filter :require_admin
+  layout 'ada_admin'
 
 
   def index
