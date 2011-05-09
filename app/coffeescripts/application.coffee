@@ -92,7 +92,7 @@ process_admin_undertaking_form = ->
     $("tr.admin-undertaking-summary").click ->
       $(this).next().find("div").slideToggle()
 
-    $("p.admin-undertaking-actions a").colorbox
+    $("p.admin-undertaking-actions a.process-request").colorbox
       iframe: true
       fastIframe: false
       width: "80%"

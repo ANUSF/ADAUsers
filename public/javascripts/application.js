@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 27 Apr 2011 00:21:43 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 09 May 2011 04:29:02 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
@@ -114,7 +114,7 @@
       $("tr.admin-undertaking-summary").click(function() {
         return $(this).next().find("div").slideToggle();
       });
-      return $("p.admin-undertaking-actions a").colorbox({
+      return $("p.admin-undertaking-actions a.process-request").colorbox({
         iframe: true,
         fastIframe: false,
         width: "80%",
