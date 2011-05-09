@@ -25,17 +25,27 @@ class IdentitiesController < ApplicationController
     elsif not oidreq.kind_of?(OpenID::Server::CheckIDRequest)
       render_response(server.handle_request(oidreq))
     elsif oidreq.immediate
-      render_response(oidreq.answer(false, root_url))
-    elsif is_logged_in_as(oidreq.identity) or (oidreq.id_select and current_user)
-      if (session[:approvals] || []).include? oidreq.trust_root
-        render_response(positive_response(oidreq, session[:username]))
+      if current_user
+        handle_existing_login oidreq
       else
-        session[:last_oidreq] = oidreq
-        redirect_to new_decision_url
+        render_response(oidreq.answer(false, root_url))
       end
+    elsif is_logged_in_as(oidreq.identity) or (oidreq.id_select and current_user)
+      handle_existing_login oidreq
     else
       session[:last_oidreq] = oidreq
       redirect_to new_session_url
+    end
+  end
+
+  private
+
+  def handle_existing_login(oidreq)
+    if (session[:approvals] || []).include? oidreq.trust_root
+      render_response(positive_response(oidreq, session[:username]))
+    else
+      session[:last_oidreq] = oidreq
+      redirect_to new_decision_url
     end
   end
 end
