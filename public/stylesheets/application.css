@@ -67,6 +67,10 @@ form.formtastic fieldset.inputs > ol > li textarea {
     width: 40%;
     max-width: 40%;
 }
+form.formtastic fieldset.inputs > ol > li.check_boxes input {
+    width: auto;
+    max-width: auto;
+}
 
 form.formtastic fieldset > ol > li fieldset ol li {
     list-style-type: none;
