@@ -99,18 +99,27 @@ class ApplicationController < ActionController::Base
     unless ax_req.nil?
       user = User.find_by_user username
 
-      ax_args = {
-        'mode'        => 'fetch_response',
-        'type.email'  => 'http://users.ada.edu.au/email',
-        'value.email' => user.email,
-        'type.role'   => 'http://users.ada.edu.au/role',
-        'value.role'  => user.user_role
+      ax_available = {
+        'http://users.ada.edu.au/email'         => user.email,
+        'http://users.ada.edu.au/role'          => user.user_role,
+        'http://axschema.org/namePerson/prefix' => user.title,
+        'http://axschema.org/namePerson/first'  => user.fname,
+        'http://axschema.org/namePerson/last'   => user.sname,
+        'http://axschema.org/contact/email'     => user.email
+      }
+      mapped = ax_available.reduce([]) { |acc, item|
+        key, value = item
+        if ax_req.requested_attributes.include? key
+          n = acc.size
+          acc + ["type.x#{n}", key, "value.x#{n}", value]
+        else
+          acc
+        end
       }
 
+      ax_args = Hash[*mapped.flatten].merge({'mode' => 'fetch_response'})
       ax_resp = OpenID::AX::FetchResponse.new
       ax_resp.parse_extension_args(ax_args)
-      ax_req_args = ax_resp.get_extension_args(ax_req) # for validation
-      ax_resp.parse_extension_args(ax_req_args)
       oidresp.add_extension(ax_resp)
     end
   end
@@ -124,7 +133,7 @@ class ApplicationController < ActionController::Base
       sreg_data = {
         'nickname' => user.user,
         'fullname' => [user.title, user.fname, user.sname].compact.join(' '),
-        'email' => user.email
+        'email'    => user.email
       }
 
       sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)
