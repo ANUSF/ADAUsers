@@ -2,8 +2,8 @@
   <%= f.inputs do %>
     <% if @user.new_record? %>
       <%= f.input :user, :label => 'Username' %>
-      <%= f.input :password, :label => 'Password' %>
-      <%= f.input :password_confirmation, :label => 'Re-type Password' %>
+      <%= f.input :password, :label => 'Password', :input_html => {:value => ""} %>
+      <%= f.input :password_confirmation, :label => 'Re-type Password', :input_html => {:value => ""} %>
     <% end %>
     <%= f.input :title, :as => :select,
                 :collection => @user.title_options %>

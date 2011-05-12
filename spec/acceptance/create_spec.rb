@@ -55,6 +55,10 @@ feature "Create", %q{
     # And I should see some errors
     page.should have_selector("p.inline-errors")
 
+    # And the password fields should be blank
+    page.should have_selector("#user_password[value='']")
+    page.should have_selector("#user_password_confirmation[value='']")
+
     # And I should see "Please check the values you filled in."
     page.should have_content("Please check the values you filled in.")
   end
