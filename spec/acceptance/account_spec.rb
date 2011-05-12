@@ -95,4 +95,14 @@ feature "Accounts", %q{
 
     log_in_with(:username => user.user, :password => new_password)
   end
+
+  scenario "resetting password on unkonwn email address" do
+    visit "/session/new"
+    click_link "Recover your account"
+
+    fill_in :reset_password_email, :with => "ajskdljfkl@jdklfjs.com"
+    click_button "Reset password"
+
+    page.should have_content "That email address was not found."
+  end
 end

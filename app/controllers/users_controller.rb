@@ -64,14 +64,18 @@ class UsersController < ApplicationController
 
   def reset_password
     if params[:reset_password]
-      @user = UserWithoutValidations.find_by_email(params[:reset_password][:email])
-      new_password = (('a'..'z').to_a + (0..9).to_a).sample(8).join
-      @user.password = new_password
-      @user.save!
+      if @user = UserWithoutValidations.find_by_email(params[:reset_password][:email])
+        new_password = (('a'..'z').to_a + (0..9).to_a).sample(8).join
+        @user.password = new_password
+        @user.save!
 
-      UserMailer.reset_password_email(@user, new_password).deliver
+        UserMailer.reset_password_email(@user, new_password).deliver
 
-      redirect_to root_path, :notice => 'Your username and a new password have been emailed to you.'
+        redirect_to root_path, :notice => 'Your username and a new password have been emailed to you.'
+
+      else
+        flash[:notice] = "That email address was not found."
+      end
     end
   end
 
