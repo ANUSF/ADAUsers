@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 09 May 2011 04:29:02 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 13 May 2011 04:08:30 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
