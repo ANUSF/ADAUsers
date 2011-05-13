@@ -79,24 +79,47 @@ feature "Accounts", %q{
   end
 
   scenario "resetting password" do
+    # Given a user
     user = User.make
     visit "/session/new"
     click_link "Recover your account"
 
+    # When I click the reset password link,
+    # an email should be sent to me containing reset instructions
     fill_in :reset_password_email, :with => user.email
     click_button "Reset password"
-
-    page.should have_content "Your username and a new password have been emailed to you."
+    page.should have_content "An email has been sent to you containing instructions to reset your password."
 
     email = ActionMailer::Base.deliveries.last
-    email.encoded.should match /Username: #{user.user}\r$/
-    email.encoded =~ /Password: (.*)\r$/
-    new_password = $1
+    email.encoded.should match(/password reset for this account/)
 
-    log_in_with(:username => user.user, :password => new_password)
+    # When I fetch the link from the email and visit that page,
+    # Then I should see a change password form.
+    email.encoded =~ /^http:\/\/[^\/]+(.*)$/
+    visit $1
+    page.should have_selector("h2", :text => "Reset your password")
+
+    # When I fill it out...
+    fill_in 'user_password', :with => "newpass"
+    fill_in 'user_password_confirmation', :with => "newpass"
+    click_button "Change Password"
+
+    # My password should be changed,
+    # and I should be able to log in with the new password
+    puts body
+    page.should have_content "Your password has been updated."
+    log_in_with(:username => user.user, :password => "newpass")
   end
 
-  scenario "resetting password on unkonwn email address" do
+  scenario "attempting a password reset with a bogus token" do
+    fail "Test not yet implemented."
+  end
+
+  scenario "attempting a password change using a bogus token" do
+    fail "Test not yet implemented."
+  end
+
+  scenario "resetting password on unknown email address" do
     visit "/session/new"
     click_link "Recover your account"
 

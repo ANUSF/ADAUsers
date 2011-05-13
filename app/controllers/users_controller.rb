@@ -42,6 +42,8 @@ class UsersController < ApplicationController
 
   def change_password
     @user = User.find_by_user(params[:id])
+    @reset_password = params[:token] && @user.token_reset_password == params[:token]
+    # TODO: This var needs to be set by update() on error
   end
 
   def update
@@ -65,16 +67,28 @@ class UsersController < ApplicationController
   def reset_password
     if params[:reset_password]
       if @user = UserWithoutValidations.find_by_email(params[:reset_password][:email])
-        new_password = (('a'..'z').to_a + (0..9).to_a).sample(8).join
-        @user.password = new_password
+        @user.token_reset_password = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(16).join
         @user.save!
 
-        UserMailer.reset_password_email(@user, new_password).deliver
+        UserMailer.reset_password_email(@user).deliver
 
-        redirect_to root_path, :notice => 'Your username and a new password have been emailed to you.'
+        redirect_to root_path, :notice => 'An email has been sent to you containing instructions to reset your password.'
 
       else
         flash[:notice] = "That email address was not found."
+      end
+
+    elsif params[:token]
+      if @user = UserWithoutValidations.find_by_token_reset_password(params[:token])
+        # Log the user in and redirect them to the change password page
+        # TODO: On change password page, don't ask for or require old password if token given and valid
+        reset_session
+        session[:username] = @user.user
+
+        redirect_to change_password_user_path(@user, :token => params[:token])
+
+      else
+        flash[:notice] = "That reset password link is invalid. Please try again."
       end
     end
   end

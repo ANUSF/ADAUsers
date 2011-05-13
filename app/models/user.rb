@@ -1,5 +1,5 @@
 class User < UserWithoutValidations
-  attr_accessor :password_old
+  attr_accessor :password_old, :token_reset_password_confirmation
 
   # -- Validations for attributes available in the registration form go here:
 
@@ -110,6 +110,10 @@ class User < UserWithoutValidations
 
   validates_each :password_old, :if => lambda { |rec| rec.password_changed? and !rec.new_record? } do |rec, attr, value|
     rec.errors.add(attr, 'password does not match') unless Password.new(rec.password_was) == value
+  end
+
+  validates_each :token_reset_password_confirmation, :if => lambda { |rec| rec.password_changed? and !rec.new_record? and (rec.password_old.nil? or rec.password_old.blank?) } do |rec, attr, value|
+    rec.errors.add(attr, 'password reset token is invalid') unless rec.token_reset_password == value
   end
 
 end
