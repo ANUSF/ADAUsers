@@ -99,15 +99,15 @@ feature "Accounts", %q{
     visit $1
     page.should have_selector("h2", :text => "Reset your password")
 
-    # When I fill it out...
+    # When I fill it out and submit it
     fill_in 'user_password', :with => "newpass"
     fill_in 'user_password_confirmation', :with => "newpass"
     click_button "Change Password"
 
-    # My password should be changed,
+    # Then my password should be changed,
     # and I should be able to log in with the new password
-    puts body
     page.should have_content "Your password has been updated."
+    log_out
     log_in_with(:username => user.user, :password => "newpass")
   end
 

@@ -42,7 +42,7 @@ class UsersController < ApplicationController
 
   def change_password
     @user = User.find_by_user(params[:id])
-    @reset_password = params[:token] && @user.token_reset_password == params[:token]
+    @token_reset_password = @user.token_reset_password == params[:token] && params[:token]
     # TODO: This var needs to be set by update() on error
   end
 
