@@ -29,7 +29,8 @@ ADAUsers::Application.routes.draw do
   match 'logout', :to => 'sessions#destroy'
 
   match 'server', :to => 'identities#index', :as => 'server'
-  get 'user/*username', :to => 'users#show', :as => 'oid_user', :format => false
+  get 'user/*username', :to => 'users#discover', :as => 'discover_user',
+                        :format => false
 
 
   # A bit of trickery to serve XRDS from bare URLs
