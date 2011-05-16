@@ -9,12 +9,11 @@ class UsersController < ApplicationController
   end
 
   def discover
-    @user = User.find_by_user params[:username]
+    @username = params[:username]
 
     respond_to do |format|
       format.html do
         response.headers['X-XRDS-Location'] = xrds_user_url(@username)
-        render :layout => false
       end
       format.xrds do
         render :text => render_xrds(OpenID::OPENID_2_0_TYPE,
