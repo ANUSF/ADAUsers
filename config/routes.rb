@@ -37,7 +37,7 @@ ADAUsers::Application.routes.draw do
 
   match 'xrds/user/*username', :as => 'xrds_user', :to => lambda { |env|
     env['HTTP_ACCEPT'] = 'application/xrds+xml'
-    UsersController.action(:show).call(env)
+    UsersController.action(:discover).call(env)
   }
 
   match 'xrds/idp', :to => lambda { |env|
