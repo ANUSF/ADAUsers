@@ -17,7 +17,7 @@ gem 'bcrypt-ruby'
 gem 'composite_primary_keys' # For support of Nesstar database
 gem 'json_pure', :require => 'json'
 gem 'barista'
-gem 'therubyracer'
+#gem 'therubyracer'
 
 gem 'formtastic'
 gem 'will_paginate', '~> 3.0.pre2'
