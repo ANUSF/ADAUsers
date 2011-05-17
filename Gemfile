@@ -9,7 +9,7 @@ if defined?(JRUBY_VERSION)
 else
   gem 'mongrel', '~> 1.2.0.pre2'
   gem 'mysql2'
-  gem 'sqlite3-ruby', :require => 'sqlite3'
+  gem 'sqlite3-ruby', '~> 1.2.5', :require => 'sqlite3'
 end
 
 gem 'ruby-openid',  :require => 'openid'
