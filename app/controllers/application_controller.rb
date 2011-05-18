@@ -84,6 +84,10 @@ class ApplicationController < ActionController::Base
     render :layout => false
   end
 
+  def headless?
+    session[:headless] == true
+  end
+
   def server
     unless defined? @server
       dir = File.join(Rails.root, 'db', 'openid-store')
