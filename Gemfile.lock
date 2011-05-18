@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ANUSF/themenap.git
-  revision: 2128ac9d70d3041e0aa0ceeb6ee051abdd7716a8
+  revision: 036eb6a88bfee7b3d40696775b1f10ae65dc0852
   specs:
     themenap (0.1.0)
       nokogiri
@@ -183,7 +183,7 @@ DEPENDENCIES
   launchy
   machinist (= 1.0.6)
   mongrel (~> 1.2.0.pre2)
-  mysql2
+  mysql2 (~> 0.2.7)
   newrelic_rpm
   rails (= 3.0.7)
   rspec-rails (= 2.0.1)

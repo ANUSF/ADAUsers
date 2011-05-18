@@ -8,7 +8,7 @@ if defined?(JRUBY_VERSION)
   gem 'activerecord-jdbcsqlite3-adapter'
 else
   gem 'mongrel', '~> 1.2.0.pre2'
-  gem 'mysql2'
+  gem 'mysql2', '~> 0.2.7' # the 0.3.x versions need Rails 3.1
   gem 'sqlite3-ruby', '~> 1.2.5', :require => 'sqlite3'
 end
 
