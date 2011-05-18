@@ -81,14 +81,13 @@ class UsersController < ApplicationController
     elsif params[:token]
       if @user = UserWithoutValidations.find_by_token_reset_password(params[:token])
         # Log the user in and redirect them to the change password page
-        # TODO: On change password page, don't ask for or require old password if token given and valid
         reset_session
         session[:username] = @user.user
 
         redirect_to change_password_user_path(@user, :token => params[:token])
 
       else
-        flash[:notice] = "That reset password link is invalid. Please try again."
+        flash[:notice] = "That reset password link is invalid. Please make sure that the URL you entered is correct."
       end
     end
   end

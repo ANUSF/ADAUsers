@@ -111,12 +111,29 @@ feature "Accounts", %q{
     log_in_with(:username => user.user, :password => "newpass")
   end
 
-  scenario "attempting a password reset with a bogus token" do
-    fail "Test not yet implemented."
+  scenario "attempting to access the password reset page with a bogus token" do
+    visit "/users/reset_password?token=abc123"
+    page.should have_content "That reset password link is invalid. Please make sure that the URL you entered is correct."
   end
 
   scenario "attempting a password change using a bogus token" do
-    fail "Test not yet implemented."
+    bogus_token = "abc123"
+    password = "asdf4321"
+    user = User.make
+
+    tests = [{:user => nil,       :response => "You must be logged in to access this page."},
+             {:user => User.make, :response => "You may not access another user's details."}]
+
+    tests.each do |test|
+      log_in_as test[:user] if test[:user]
+
+      page.driver.post("/users/#{user.user}", {"user" => {"token_reset_password_confirmation" => bogus_token, "password" => password, "password_confirmation" => password}, "commit"=>"Change Password", "id" => user.user, "_method" => "put"})
+      click_link "redirected"
+
+      page.should have_content test[:response]
+    end
+
+    log_out
   end
 
   scenario "resetting password on unknown email address" do
