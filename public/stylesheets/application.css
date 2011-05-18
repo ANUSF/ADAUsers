@@ -13,6 +13,9 @@ article {
     background-color: #F1F1F1;
     margin: 1em 0;
 }
+#flash_alert {
+    border: 1px solid #f00;
+}
 
 .status {
     border: 1px solid gray;
@@ -74,6 +77,10 @@ form.formtastic fieldset.inputs > ol > li.check_boxes input {
 
 form.formtastic fieldset > ol > li fieldset ol li {
     list-style-type: none;
+}
+
+form.formtastic fieldset > ol > li p.inline-errors {
+    margin-left: 0;
 }
 
 form.formtastic fieldset.buttons {
