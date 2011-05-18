@@ -8,9 +8,8 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "User Nesstar Registration")
   end
 
-  def reset_password_email(user, new_password)
+  def reset_password_email(user)
     @user = user
-    @new_password = new_password
 
     mail(:to => user.email, :subject => "ASSDA User Password Reset")
   end

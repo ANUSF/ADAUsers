@@ -79,24 +79,64 @@ feature "Accounts", %q{
   end
 
   scenario "resetting password" do
+    # Given a user
     user = User.make
     visit "/session/new"
     click_link "Recover your account"
 
+    # When I click the reset password link,
+    # an email should be sent to me containing reset instructions
     fill_in :reset_password_email, :with => user.email
     click_button "Reset password"
-
-    page.should have_content "Your username and a new password have been emailed to you."
+    page.should have_content "An email has been sent to you containing instructions to reset your password."
 
     email = ActionMailer::Base.deliveries.last
-    email.encoded.should match /Username: #{user.user}\r$/
-    email.encoded =~ /Password: (.*)\r$/
-    new_password = $1
+    email.encoded.should match(/password reset for this account/)
 
-    log_in_with(:username => user.user, :password => new_password)
+    # When I fetch the link from the email and visit that page,
+    # Then I should see a change password form.
+    email.encoded =~ /^http:\/\/[^\/]+(.*)$/
+    visit $1
+    page.should have_selector("h2", :text => "Reset your password")
+
+    # When I fill it out and submit it
+    fill_in 'user_password', :with => "newpass"
+    fill_in 'user_password_confirmation', :with => "newpass"
+    click_button "Change Password"
+
+    # Then my password should be changed,
+    # and I should be able to log in with the new password
+    page.should have_content "Your password has been updated."
+    log_out
+    log_in_with(:username => user.user, :password => "newpass")
   end
 
-  scenario "resetting password on unkonwn email address" do
+  scenario "attempting to access the password reset page with a bogus token" do
+    visit "/users/reset_password?token=abc123"
+    page.should have_content "That reset password link is invalid. Please make sure that the URL you entered is correct."
+  end
+
+  scenario "attempting a password change using a bogus token" do
+    bogus_token = "abc123"
+    password = "asdf4321"
+    user = User.make
+
+    tests = [{:user => nil,       :response => "You must be logged in to access this page."},
+             {:user => User.make, :response => "You may not access another user's details."}]
+
+    tests.each do |test|
+      log_in_as test[:user] if test[:user]
+
+      page.driver.post("/users/#{user.user}", {"user" => {"token_reset_password_confirmation" => bogus_token, "password" => password, "password_confirmation" => password}, "commit"=>"Change Password", "id" => user.user, "_method" => "put"})
+      click_link "redirected"
+
+      page.should have_content test[:response]
+    end
+
+    log_out
+  end
+
+  scenario "resetting password on unknown email address" do
     visit "/session/new"
     click_link "Recover your account"
 
