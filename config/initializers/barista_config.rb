@@ -1,5 +1,7 @@
 # Configure barista.
 Barista.configure do |c|
+  # Run only in development mode
+  c.env = :development
   
   # Change the root to use app/scripts
   # c.root = Rails.root.join("app", "scripts")

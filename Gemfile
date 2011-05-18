@@ -17,7 +17,6 @@ gem 'bcrypt-ruby'
 gem 'composite_primary_keys' # For support of Nesstar database
 gem 'json_pure', :require => 'json'
 gem 'barista'
-#gem 'therubyracer'
 
 gem 'formtastic'
 gem 'will_paginate', '~> 3.0.pre2'
@@ -27,6 +26,7 @@ gem 'themenap', :git => 'git://github.com/ANUSF/themenap.git'
 gem 'capistrano-ext'
 
 group :development, :test do
+  gem 'therubyracer'
   gem 'rspec-rails', '= 2.0.1'
   gem 'capybara'
   gem 'launchy'    # So you can do Then show me the page
