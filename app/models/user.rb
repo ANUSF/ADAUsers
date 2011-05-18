@@ -1,5 +1,5 @@
 class User < UserWithoutValidations
-  attr_accessor :password_old
+  attr_accessor :password_old, :token_reset_password_confirmation
 
   # -- Validations for attributes available in the registration form go here:
 
@@ -108,8 +108,18 @@ class User < UserWithoutValidations
 
   # -- Other validations:
 
-  validates_each :password_old, :if => lambda { |rec| rec.password_changed? and !rec.new_record? } do |rec, attr, value|
-    rec.errors.add(attr, 'password does not match') unless Password.new(rec.password_was) == value
-  end
+  # Provides appropriate security when changing the user's password
+  # If changing the password via the change password form, the user must enter their old password correctly.
+  # If changing their password via the reset password process, the user must have used a link with a correct
+  # reset password token.
+  validate :if => lambda { |user| user.password_changed? and !user.new_record? } do |user|
+    if user.token_reset_password_confirmation.present?
+      if user.token_reset_password_was != user.token_reset_password_confirmation
+        user.errors[:base] << 'password reset token is invalid'
+      end
 
+    elsif Password.new(user.password_was) != user.password_old
+      user.errors.add(:password_old, 'password does not match')
+    end
+  end
 end
