@@ -147,3 +147,10 @@ p.admin-undertaking-actions {
   background-color: #f1f1f1;
   border: 1px solid #1F5E2F;
 }
+
+#category_a form.edit_user, #category_b form.edit_user {
+  margin-bottom: 3em;
+}
+#category_a table, #category_b table, #category_a select, #category_b select {
+  margin-bottom: 0.5em;
+}
