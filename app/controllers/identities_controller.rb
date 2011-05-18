@@ -33,7 +33,7 @@ class IdentitiesController < ApplicationController
     elsif is_logged_in_as(oidreq.identity) or (oidreq.id_select and current_user)
       handle_existing_login oidreq
     else
-      session[:last_oidreq] = oidreq
+      store_request oidreq
       redirect_to new_session_url
     end
   end
@@ -44,8 +44,15 @@ class IdentitiesController < ApplicationController
     if (session[:approvals] || []).include? oidreq.trust_root
       render_response(positive_response(oidreq, session[:username]))
     else
-      session[:last_oidreq] = oidreq
+      store_request oidreq
       redirect_to new_decision_url
     end
+  end
+
+  def store_request(oidreq)
+    session[:last_oidreq] = oidreq
+
+    # Special hack to allow Nesstar logins within a frame set
+    session[:headless] = (oidreq.return_to =~ /[?&]headless=/)
   end
 end

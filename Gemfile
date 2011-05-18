@@ -9,15 +9,13 @@ if defined?(JRUBY_VERSION)
 else
   gem 'mongrel', '~> 1.2.0.pre2'
   gem 'mysql2'
-  gem 'sqlite3-ruby', :require => 'sqlite3'
+  gem 'sqlite3-ruby', '~> 1.2.5', :require => 'sqlite3'
 end
 
 gem 'ruby-openid',  :require => 'openid'
 gem 'bcrypt-ruby'
 gem 'composite_primary_keys' # For support of Nesstar database
 gem 'json_pure', :require => 'json'
-gem 'barista'
-gem 'therubyracer'
 
 gem 'formtastic'
 gem 'will_paginate', '~> 3.0.pre2'
@@ -27,6 +25,8 @@ gem 'themenap', :git => 'git://github.com/ANUSF/themenap.git'
 gem 'capistrano-ext'
 
 group :development, :test do
+  gem 'barista'
+  gem 'therubyracer'
   gem 'rspec-rails', '= 2.0.1'
   gem 'capybara'
   gem 'launchy'    # So you can do Then show me the page

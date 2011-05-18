@@ -7,12 +7,15 @@ class SessionsController < ApplicationController
     oidreq = session[:last_oidreq]
     @username = username_for oidreq.identity if oidreq and not oidreq.id_select
     @username ||= current_user.user if current_user
+    show_form = true
+
     unless session[:username].blank?
       if @username
         flash[:notice] =
           "You are already logged in as #{session[:username]}." +
           " Do not press 'Login' unless you want to end that session."
       elsif oidreq and oidreq.id_select
+        show_form = false
         if (session[:approvals] ||= []).include? oidreq.trust_root
           render_response(positive_response(oidreq, session[:username]))
         else
@@ -20,6 +23,7 @@ class SessionsController < ApplicationController
         end
       end
     end
+    render :layout => false if show_form && headless?
   end
 
   def create

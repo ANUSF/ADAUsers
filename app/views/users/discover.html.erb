@@ -1,0 +1,6 @@
+<% content_for :head_extras do %>
+  <meta http-equiv="X-XRDS-Location" content="<%= xrds_user_url(@username) %>" />
+  <link rel="openid.server" href="<%= server_url %>" />
+<% end %>
+This is the OpenID discovery page for user
+<%= link_to @username, user_url(:id => @username) %>.

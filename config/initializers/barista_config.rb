@@ -1,6 +1,6 @@
 # Configure barista.
+if Rails.env.development?
 Barista.configure do |c|
-  
   # Change the root to use app/scripts
   # c.root = Rails.root.join("app", "scripts")
   
@@ -46,4 +46,5 @@ Barista.configure do |c|
   # e.g. vendoring CoffeeScript in your application:
   # c.js_path = Rails.root.join('public', 'javascripts', 'coffee-script.js')
   
+end
 end
