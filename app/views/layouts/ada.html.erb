@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta charset="UTF-8">
+<title>ADA Users <%= yield :title %></title>
+<!-- Include this BEFORE the body to ensure older browsers can read new html5 elements --><script src="http://test.ada.edu.au/javascripts/modernizr-1.5.min.js?1305704203" type="text/javascript"></script><link href="http://test.ada.edu.au/stylesheets/import.css?1305704203" media="screen" rel="stylesheet" type="text/css">
+<link href="http://test.ada.edu.au/stylesheets/theme.css?1305704203" media="screen" rel="stylesheet" type="text/css">
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="U/Zp+T4wZgaCzQhfcycq5hLtNH+WxXEb6myr0GQsbps="><%= render "layouts/includes" %></head>
+<body class="default" id="social_science">
+		<header><div class="login"><%= render "layouts/login" %></div>
+			
+			<div class="masthead<%= yield :masthead_class %>"><a href="http://test.ada.edu.au/ada/home">Australian Data Archive</a></div>
+	</header><nav class="mainnav clearfix"><ul>
+<li> <a href="http://test.ada.edu.au/ada/home">Home</a> 
+				</li>
+				<li> <a href="http://test.ada.edu.au/ada/about">About</a> 
+				</li>
+				<li> <a href="http://test.ada.edu.au/ada/subarchives">Subarchives</a> 
+				</li>
+				<li> <a href="http://test.ada.edu.au/ada/data-access">Data Access</a> 
+						<ul>
+<li> <a href="http://test.ada.edu.au/ada/browse-ada-catalogue">Browse ADA Catalogue</a> </li>
+									<li> <a href="http://test.ada.edu.au/ada/search-ada">Search ADA</a> </li>
+									<li> <a href="http://test.ada.edu.au/ada/register-for-ada">Register for ADA</a> </li>
+									<li> <a href="http://test.ada.edu.au/ada/ada-undertaking-forms">ADA undertaking forms</a> </li>
+						</ul>
+</li>
+<li> <a href="http://test.ada.edu.au/ada/data-deposit">Data Deposit</a> 
+						<ul>
+<li> <a href="http://test.ada.edu.au/ada/why-deposit-data-">Why Deposit Data?</a> </li>
+									<li> <a href="http://test.ada.edu.au/ada/sharing-data-and-access-conditions">Sharing data and access conditions</a> </li>
+									<li> <a href="http://test.ada.edu.au/ada/how-to-deposit-data">How to deposit data</a> </li>
+									<li> <a href="http://test.ada.edu.au/ada/deposit-forms">Deposit forms</a> </li>
+						</ul>
+</li>
+<li> <a href="http://test.ada.edu.au/ada/user-guides">User Guides</a> 
+				</li>
+				<li> <a href="http://test.ada.edu.au/ada/ada-news">ADA News</a> 
+				</li>
+				<li> <a href="http://test.ada.edu.au/ada/contact">Contact</a> 
+				</li>
+				<li> <a href="http://test.ada.edu.au/ada/my-account">My Account</a> 
+				</li>
+     </ul>
+<div class="searchContainer">
+		    <form action="/search" method="get" id="search-form" class="formtastic">
+		      <label for="menusearch"></label>
+		      <input type="text" name="term" id="search_term" value="Search this site"><input type="hidden" name="archive_id" id="archive_id" value="7"><input type="submit" alt="Go" value="go" id="search_button">
+</form>
+	    </div>	
+  </nav><nav class="subnav"><%= render "layouts/links" %></nav><nav class="breadcrumbs"><p><strong>YOU ARE HERE:</strong><a href="http://test.ada.edu.au/"> 	/ada/home
+</a></p>
+		</nav><section class="content"><nav class="archive_menu"></nav><div class="notice"></div>
+    <div class="alert"></div>
+
+  	<!-- page partial start -->
+		<section class="main"><article><%= render "layouts/body" %></article></section><!-- page partial end --></section><section class="partners"><div class="captions">
+				<p>Funding Partners </p>
+				<p>Collaboration Partners</p>
+		  </div>
+			
+            <div class="logos">
+				<img src="http://test.ada.edu.au/images/content/logo_arc.gif" alt="logo_arc" width="90" height="56" class="partnersFirst"><img src="http://test.ada.edu.au/images/content/logo_ncr.gif" alt="logo_nrc" width="109" height="56"><img src="http://test.ada.edu.au/images/content/logo_anu.gif" width="90" height="56" alt="Logo_anu"><img src="http://test.ada.edu.au/images/content/logo_uwa.gif" width="114" height="56" alt="logo_uwa"><img src="http://test.ada.edu.au/images/content/logo_uts.gif" width="110" height="56" alt="logo_uts"><img src="http://test.ada.edu.au/images/content/logo_um.gif" width="110" height="56" alt="logo_um"><img src="http://test.ada.edu.au/images/content/logo_uq.gif" width="110" height="56" alt="logo_uq">
+</div>
+		<footer><p>General Enquiries: <a href="http://test.ada.edu.au/#">assda@anu.edu.au</a></p>
+		  <p>Web Enquiries: <a href="http://test.ada.edu.au/#">webmaster@assda.anu.edu.au</a></p>
+		  <p> <em>Deployed 1b2cea5ff00cd4f96720789b3830181722bbf9d9 at 2011-05-18 05:36
+</em></p>
+		  <p> &#169; Australian Data Archive</p>
+      <p><em>Deployed 1b2cea5ff00cd4f96720789b3830181722bbf9d9 at 2011-05-18 05:36
+</em></p>
+    </footer></section>
+</body>
+<script src="http://test.ada.edu.au/javascripts/jquery.min.js?1305704203" type="text/javascript"></script><script src="http://test.ada.edu.au/javascripts/rails.js?1305704203" type="text/javascript"></script><script src="http://test.ada.edu.au/javascripts/jquery.effects.core.js?1305704203" type="text/javascript"></script><script src="http://test.ada.edu.au/javascripts/scripts.js?1305704203" type="text/javascript"></script><script src="http://test.ada.edu.au/javascripts/application.js?1305704203" type="text/javascript"></script><script type="text/javascript">
+      $(document).ready(function(){
+      
+     });
+    </script>
+</html>
