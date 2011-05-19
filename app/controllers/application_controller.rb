@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_identity, :username_for, :current_user
 
+  layout 'ada'
+
   protected
 
   def current_identity
