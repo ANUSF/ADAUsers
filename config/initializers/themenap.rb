@@ -1,4 +1,6 @@
-Themenap::Config.server = 'http://178.79.149.181'
+#Themenap::Config.server = 'http://178.79.149.181'
+Themenap::Config.server = 'http://test.ada.edu.au'
+Themenap::Config.verify_ssl = false # while we're not using a proper certificate
 Themenap::Config.snippets =
   [ { :css => 'title',
       :text => 'ADA Users <%= yield :title %>' },

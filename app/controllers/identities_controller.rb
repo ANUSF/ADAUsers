@@ -53,6 +53,6 @@ class IdentitiesController < ApplicationController
     session[:last_oidreq] = oidreq
 
     # Special hack to allow Nesstar logins within a frame set
-    session[:headless] = (oidreq.return_to =~ /[?&]headless=/)
+    session[:headless] = true if  oidreq.return_to =~ /[?&]headless=/
   end
 end
