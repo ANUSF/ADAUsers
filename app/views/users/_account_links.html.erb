@@ -1,6 +1,6 @@
-<p>
-  <%= link_to "Edit", edit_user_path(@user) %>
-  <%= link_to "Change password", change_password_user_path(@user) %>
-  <%= link_to "Request access to general datasets", new_user_undertaking_path(@user, :is_restricted => 0) %>
-  <%= link_to "Request access to restricted datasets", new_user_undertaking_path(@user, :is_restricted => 1) %>
-</p>
+<div class="clearfix">
+  <%= link_to "Edit", edit_user_path(@user), :class => "button" %>
+  <%= link_to "Change password", change_password_user_path(@user), :class => "button" %>
+  <%= link_to "Request access to general datasets", new_user_undertaking_path(@user, :is_restricted => 0), :class => "button" %>
+  <%= link_to "Request access to restricted datasets", new_user_undertaking_path(@user, :is_restricted => 1), :class => "button" %>
+</div>

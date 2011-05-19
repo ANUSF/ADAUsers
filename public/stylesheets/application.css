@@ -13,6 +13,9 @@ article {
     background-color: #F1F1F1;
     margin: 1em 0;
 }
+#flash_alert {
+    border: 1px solid #f00;
+}
 
 .status {
     border: 1px solid gray;
@@ -31,6 +34,24 @@ article {
     font-weight: bolder;
     text-align: right;
     margin-right: 1em;
+}
+
+a.button {
+    display: block;
+    float: left;
+    margin: 0 8px 8px 0;
+    padding: 4px 8px;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#666), to(#333));
+    background: -moz-linear-gradient(#666, #333);
+    background: linear-gradient(#666, #333);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #CCC;
+    text-transform: uppercase;
+    text-decoration: none;
 }
 
 form.formtastic fieldset ol li.radio fieldset ol li {
@@ -74,6 +95,10 @@ form.formtastic fieldset.inputs > ol > li.check_boxes input {
 
 form.formtastic fieldset > ol > li fieldset ol li {
     list-style-type: none;
+}
+
+form.formtastic fieldset > ol > li p.inline-errors {
+    margin-left: 0;
 }
 
 form.formtastic fieldset.buttons {
@@ -146,4 +171,11 @@ p.admin-undertaking-actions {
   padding: 5px;
   background-color: #f1f1f1;
   border: 1px solid #1F5E2F;
+}
+
+#category_a form.edit_user, #category_b form.edit_user {
+  margin-bottom: 3em;
+}
+#category_a table, #category_b table, #category_a select, #category_b select {
+  margin-bottom: 0.5em;
 }

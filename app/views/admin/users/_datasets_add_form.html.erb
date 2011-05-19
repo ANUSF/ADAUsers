@@ -1,8 +1,6 @@
 <h3>Add access to a dataset</h3>
 <%= form_for [:admin, @user] do |form| %>
   <%= form.collection_select "datasets_cat_#{category}_to_add".to_sym, datasets, :datasetID, :dataset_description, {}, {:multiple => '1', :class => 'filterable'} %>
-  <br />
-  <br />
   <%= form.submit (category == :a ? "Add dataset(s)" : "Add/Update dataset(s)") %>
 
   <% if category == :b %>
