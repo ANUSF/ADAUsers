@@ -36,6 +36,24 @@ article {
     margin-right: 1em;
 }
 
+a.button {
+    display: block;
+    float: left;
+    margin: 0 8px 8px 0;
+    padding: 4px 8px;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#666), to(#333));
+    background: -moz-linear-gradient(#666, #333);
+    background: linear-gradient(#666, #333);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #CCC;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
 form.formtastic fieldset ol li.radio fieldset ol li {
     float: left;
     padding-right: 2em;
