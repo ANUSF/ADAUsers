@@ -20,7 +20,22 @@ feature "Accounts", %q{
     page.should have_selector("a", :text => "Log in")
 
     log_in_as(user)
+    current_path.should == "/users/#{user.user}"
     find("header").should have_content(user.user)
+  end
+
+  scenario "logging in with redirect link" do
+    user = User.make
+
+    visit "/session/new?redirect_to=#{new_user_undertaking_path(user)}"
+
+    fill_in "session_username", :with => user.user
+    fill_in "session_password", :with => user.user
+    click_button "Log in"
+
+    page.should have_content("Login successful")
+    page.should have_content("Apply for access to download")
+    current_path.should == new_user_undertaking_path(user)
   end
 
   scenario "viewing user details" do

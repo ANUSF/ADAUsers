@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
     oidreq = session[:last_oidreq]
     @username = username_for oidreq.identity if oidreq and not oidreq.id_select
     @username ||= current_user.user if current_user
+    @redirect_to = params[:redirect_to]
     show_form = true
 
     unless session[:username].blank?
@@ -60,7 +61,10 @@ class SessionsController < ApplicationController
           session[:approvals] = [oidreq.trust_root]
           render_response(positive_response(oidreq, username))
         else
-          redirect_to user_url(username), :notice => 'Login successful'
+          @redirect_to = params[:session][:redirect_to]
+          @redirect_to = user_url(username) if @redirect_to.nil? or @redirect_to.blank?
+
+          redirect_to @redirect_to, :notice => 'Login successful'
         end
       end
     end

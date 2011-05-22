@@ -2,6 +2,7 @@
 
 <%= semantic_form_for :session, :url => session_path do |f| %>
   <%= f.inputs do %>
+    <%= f.hidden_field :redirect_to, :value => @redirect_to %>
     <% if @username.nil? %>
       <%= f.input :username %>
     <% else %>
