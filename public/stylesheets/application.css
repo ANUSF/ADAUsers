@@ -1,10 +1,9 @@
-section.main {
-    padding-left: 0;
-    margin-left: 0;
+header .login {
+    position: relative;
 }
 
-article {
-    padding-left: 40px;
+.main {
+    margin-left: 40px;
 }
 
 #flash_notice, #flash_alert {
