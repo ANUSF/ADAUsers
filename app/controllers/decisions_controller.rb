@@ -9,10 +9,17 @@ class DecisionsController < ApplicationController
     session.delete :headless
 
     if params[:commit] == 'yes'
-      (session[:approvals] << oidreq.trust_root).uniq!
+      add_trusted oidreq.trust_root
       render_response(positive_response(oidreq, session[:username]))
     else
       redirect_to oidreq.cancel_url
     end
+  end
+
+  private
+
+  def add_trusted(root)
+    session[:approvals] ||= []
+    session[:approvals] << root unless session[:approvals].include? root
   end
 end
