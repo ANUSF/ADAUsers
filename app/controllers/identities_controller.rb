@@ -3,6 +3,7 @@ class IdentitiesController < ApplicationController
     respond_to do |format|
       format.html do
         response.headers['X-XRDS-Location'] = xrds_idp_url
+        @user = current_user
       end
       format.xrds do
         render :text => render_xrds(OpenID::OPENID_IDP_2_0_TYPE)

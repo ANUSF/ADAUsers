@@ -2,4 +2,9 @@
   <meta http-equiv="X-XRDS-Location" content="<%= xrds_idp_url %>" />
   <link rel="openid.server" href="<%= server_url %>" />
 <% end %>
-Welcome to the ADA user management system. Please log in or register to continue!
+
+<% if current_user %>
+  <%= render 'users/details' %>
+<% else %>
+  Welcome to the ADA user management system. Please <%= link_to "log in", new_session_path %> or <%= link_to "register", new_user_path %> to continue!
+<% end %>

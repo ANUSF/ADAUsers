@@ -1,0 +1,19 @@
+<%= render 'users/account_links' %>
+
+<table>
+  <tr><td>User:</td><td><%= @user.user %></td></tr>
+  <tr><td>Role:</td><td><%= @user.user_role %></td></tr>
+  <tr><td>Name:</td><td><%= @user.name %></td></tr>
+  <tr><td>Email:</td><td><%= @user.email %></td></tr>
+  <tr><td>Institution:</td><td><%= @user.affiliation %></td></tr>
+  <tr><td>Type of institution:</td><td><%= @user.institutiontype %></td></tr>
+  <tr><td>Position:</td><td><%= @user.position_s %></td></tr>
+  <tr><td>Country:</td><td><%= @user.country ? @user.country.Countryname : "" %></td></tr>
+  <tr><td>Sector:</td><td><%= @user.sector %></td></tr>
+  <tr><td>Last search:</td><td><%= @user.last_search_time || "Never" %></td></tr>
+  <tr><td>Registered:</td><td><%= @user.dateregistered %></td></tr>
+  <tr><td>Confirmed as ACSPRI member:</td><td><%= confirmed_acspri_member_to_s(@user.confirmed_acspri_member) %></td></tr>
+  <tr><td>Type of work:</td><td><%= @user.type_of_work %></td></tr>
+</table>
+
+<%= render 'users/account_links' %>
