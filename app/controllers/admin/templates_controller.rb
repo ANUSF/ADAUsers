@@ -26,4 +26,17 @@ class Admin::TemplatesController < ApplicationController
     end
   end
 
+  def edit
+    @template = Template.find(params[:id])
+  end
+
+  def update
+    @template = Template.find(params[:id])
+
+    if @template.update_attributes(params[:template])
+      redirect_to admin_templates_path, :notice => "Your template has been updated."
+    else
+      render :edit
+    end
+  end
 end

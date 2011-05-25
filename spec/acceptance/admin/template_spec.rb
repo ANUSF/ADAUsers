@@ -47,10 +47,40 @@ feature "Administer templates", %q{
     fill_in 'template_body', :with => "body"
     click_button "Create Template"
 
-    # Then I should see flash confirm + the new template in the table
+    # Then I should see a flash confirmation message and the new template in the table
     page.should have_content "Your template has been created."
     page.should have_selector "td a", :text => "name"
     page.should have_selector "td", :text => "title"
   end
 
+
+  scenario "editing a template" do
+    # Given a template
+    Template.destroy_all
+    Template.make(:page)
+
+    # When I go to the edit template page for the first template
+    visit "/"
+    click_link "Manage templates"
+    click_link Template.first.name
+
+    # And I change all the fields and click submit
+    select "Email", :from => 'template_doc_type'
+    fill_in 'template_name', :with => "edited name"
+    fill_in 'template_title', :with => "edited title"
+    fill_in 'template_body', :with => "edited body"
+    click_button "Update Template"
+
+    # Then I should see a flash confirmation message and the modified template in the table
+    page.should have_content "Your template has been updated."
+    page.should have_selector "td a", :text => "edited name"
+    page.should have_selector "td", :text => "edited title"
+    t = Template.last
+    t.doc_type.should == "email"
+    t.body.should == "edited body"
+  end
+
+  scenario "deleting a template" do
+    
+  end
 end

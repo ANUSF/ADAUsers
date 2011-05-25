@@ -156,8 +156,16 @@ Undertaking.blueprint do
 end
 
 Template.blueprint do
-  doc_type { Sham.name }
+  doc_type { Template::DOC_TYPES[0] }
   name { Sham.name }
   title { Sham.name }
   body { Sham.name }
+end
+
+Template.blueprint(:page) do
+  doc_type { Template::DOC_TYPES[0] }
+end
+
+Template.blueprint(:email) do
+  doc_type { Template::DOC_TYPES[1] }
 end

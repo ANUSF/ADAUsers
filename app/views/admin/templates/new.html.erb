@@ -1,14 +1,3 @@
 <% content_for(:title) { "Create a new template" } %>
 
-<%= semantic_form_for [:admin, @template] do |form| %>
-  <%= form.inputs do %>
-    <%= form.input :doc_type, :as => :select, :collection => ::Template::DOC_TYPES.map { |dt| [dt.capitalize, dt] } %>
-    <%= form.input :name %>
-    <%= form.input :title, :label => "Page title or email subject", :hint => "For page templates, enter the page title here. For email templates, please provide the email's subject." %>
-    <%= form.input :body %>
-  <% end %>
-
-  <%= form.buttons do %>
-    <%= form.commit_button %>
-  <% end %>
-<% end %>
+<%= render 'form' %>
