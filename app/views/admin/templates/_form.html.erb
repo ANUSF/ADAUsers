@@ -8,5 +8,8 @@
 
   <%= form.buttons do %>
     <%= form.commit_button %>
+    <% unless @template.new_record? %>
+      <%= link_to "Delete template", [:admin, @template], :method => :delete, :confirm => "Are you sure you want to delete this template? This action is irreversible." %>
+    <% end %>
   <% end %>
 <% end %>

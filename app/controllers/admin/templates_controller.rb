@@ -39,4 +39,10 @@ class Admin::TemplatesController < ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    @template = Template.find(params[:id])
+    @template.destroy
+    redirect_to admin_templates_path, :notice => "Your template has been deleted."
+  end
 end

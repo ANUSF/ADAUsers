@@ -1,7 +1,7 @@
 <% content_for(:title) { "Manage templates" } %>
 
 <% @template_groups.each_pair do |doc_type, templates| %>
-  <h3><%= doc_type %></h3>
+  <h3><%= doc_type.capitalize.pluralize %></h3>
 
   <table>
     <% templates.each do |t| %>

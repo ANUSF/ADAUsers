@@ -81,6 +81,19 @@ feature "Administer templates", %q{
   end
 
   scenario "deleting a template" do
-    
+    # Given a template
+    Template.destroy_all
+    t = Template.make
+
+    # When I delete the template
+    visit "/"
+    click_link "Manage templates"
+    click_link t.name
+    click_link "Delete template"
+
+    # Then I should see a flash confirmation, and I should not see the template in the table
+    page.should have_content "Your template has been deleted."
+    page.should_not have_selector "td a", :text => t.name
+    page.should_not have_selector "td", :text => t.title
   end
 end
