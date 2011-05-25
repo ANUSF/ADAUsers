@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
   end
 
   create_table "templates", :force => true do |t|
-    t.string   "type"
+    t.string   "doc_type"
     t.string   "name"
     t.string   "title"
     t.text     "body"

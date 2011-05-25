@@ -1,0 +1,16 @@
+<% content_for(:title) { "Manage templates" } %>
+
+<% @template_groups.each_pair do |doc_type, templates| %>
+  <h3><%= doc_type %></h3>
+
+  <table>
+    <% templates.each do |t| %>
+      <tr>
+	<td><%= link_to t.name, edit_admin_template_path(t) %></td>
+	<td><%= t.title %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<p><%= link_to "Create new template", new_admin_template_path, :class => "button" %></p>

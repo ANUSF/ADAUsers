@@ -20,9 +20,12 @@ ADAUsers::Application.routes.draw do
       resources :permissions_a, :controller => "user_permissions_a"
       resources :permissions_b, :controller => "user_permissions_b"
     end
+
     resources :undertakings do
       match 'mark_complete/:processed', :to => 'undertakings#mark_complete', :as => 'mark_complete'
     end
+
+    resources :templates
   end
 
   match 'login',  :to => 'sessions#new'

@@ -1,4 +1,6 @@
 class Template < ActiveRecord::Base
-  validates_presence_of :type, :name
-  validates_uniqueness_of :name, :scope => :type
+  validates_presence_of :doc_type, :name
+  validates_uniqueness_of :name, :scope => :doc_type
+
+  default_scope order('doc_type, name')
 end

@@ -154,3 +154,10 @@ Undertaking.blueprint do
   agreed false
   processed false
 end
+
+Template.blueprint do
+  doc_type { Sham.name }
+  name { Sham.name }
+  title { Sham.name }
+  body { Sham.name }
+end
