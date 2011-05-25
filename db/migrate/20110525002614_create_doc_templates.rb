@@ -1,6 +1,6 @@
-class CreateTemplates < ActiveRecord::Migration
+class CreateDocTemplates < ActiveRecord::Migration
   def self.up
-    create_table :templates do |t|
+    create_table :doc_templates do |t|
       t.string :doc_type
       t.string :name
       t.string :title
@@ -11,6 +11,6 @@ class CreateTemplates < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :templates
+    drop_table :doc_templates
   end
 end

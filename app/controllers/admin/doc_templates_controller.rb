@@ -1,9 +1,9 @@
-class Admin::TemplatesController < ApplicationController
+class Admin::DocTemplatesController < ApplicationController
   before_filter :require_admin
   layout 'ada_admin'
 
   def index
-    templates = Template.all
+    templates = DocTemplate.all
     @template_groups = {}
 
     templates.each do |t|
@@ -13,36 +13,36 @@ class Admin::TemplatesController < ApplicationController
   end
 
   def new
-    @template = Template.new
+    @template = DocTemplate.new
   end
 
   def create
-    @template = Template.new(params[:template])
+    @template = DocTemplate.new(params[:doc_template])
 
     if @template.save
-      redirect_to admin_templates_path, :notice => "Your template has been created."
+      redirect_to admin_doc_templates_path, :notice => "Your template has been created."
     else
       render :new
     end
   end
 
   def edit
-    @template = Template.find(params[:id])
+    @template = DocTemplate.find(params[:id])
   end
 
   def update
-    @template = Template.find(params[:id])
+    @template = DocTemplate.find(params[:id])
 
-    if @template.update_attributes(params[:template])
-      redirect_to admin_templates_path, :notice => "Your template has been updated."
+    if @template.update_attributes(params[:doc_template])
+      redirect_to admin_doc_templates_path, :notice => "Your template has been updated."
     else
       render :edit
     end
   end
 
   def destroy
-    @template = Template.find(params[:id])
+    @template = DocTemplate.find(params[:id])
     @template.destroy
-    redirect_to admin_templates_path, :notice => "Your template has been deleted."
+    redirect_to admin_doc_templates_path, :notice => "Your template has been deleted."
   end
 end

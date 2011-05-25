@@ -19,7 +19,7 @@ feature "Administer templates", %q{
   scenario "listing templates" do
     # Given there are some templates
     templates = []
-    3.times { templates << Template.make }
+    3.times { templates << DocTemplate.make }
 
     # When I go to the templates page
     visit "/"
@@ -41,11 +41,11 @@ feature "Administer templates", %q{
     click_link "Create new template"
 
     # And I fill out the form and click submit
-    select "Email", :from => 'template_doc_type'
-    fill_in 'template_name', :with => "name"
-    fill_in 'template_title', :with => "title"
-    fill_in 'template_body', :with => "body"
-    click_button "Create Template"
+    select "Email", :from => 'doc_template_doc_type'
+    fill_in 'doc_template_name', :with => "name"
+    fill_in 'doc_template_title', :with => "title"
+    fill_in 'doc_template_body', :with => "body"
+    click_button "Create template"
 
     # Then I should see a flash confirmation message and the new template in the table
     page.should have_content "Your template has been created."
@@ -56,34 +56,34 @@ feature "Administer templates", %q{
 
   scenario "editing a template" do
     # Given a template
-    Template.destroy_all
-    Template.make(:page)
+    DocTemplate.destroy_all
+    DocTemplate.make(:page)
 
     # When I go to the edit template page for the first template
     visit "/"
     click_link "Manage templates"
-    click_link Template.first.name
+    click_link DocTemplate.first.name
 
     # And I change all the fields and click submit
-    select "Email", :from => 'template_doc_type'
-    fill_in 'template_name', :with => "edited name"
-    fill_in 'template_title', :with => "edited title"
-    fill_in 'template_body', :with => "edited body"
-    click_button "Update Template"
+    select "Email", :from => 'doc_template_doc_type'
+    fill_in 'doc_template_name', :with => "edited name"
+    fill_in 'doc_template_title', :with => "edited title"
+    fill_in 'doc_template_body', :with => "edited body"
+    click_button "Update template"
 
     # Then I should see a flash confirmation message and the modified template in the table
     page.should have_content "Your template has been updated."
     page.should have_selector "td a", :text => "edited name"
     page.should have_selector "td", :text => "edited title"
-    t = Template.last
+    t = DocTemplate.last
     t.doc_type.should == "email"
     t.body.should == "edited body"
   end
 
   scenario "deleting a template" do
     # Given a template
-    Template.destroy_all
-    t = Template.make
+    DocTemplate.destroy_all
+    t = DocTemplate.make
 
     # When I delete the template
     visit "/"
