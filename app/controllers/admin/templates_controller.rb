@@ -11,4 +11,19 @@ class Admin::TemplatesController < ApplicationController
       @template_groups[t.doc_type] << t
     end
   end
+
+  def new
+    @template = Template.new
+  end
+
+  def create
+    @template = Template.new(params[:template])
+
+    if @template.save
+      redirect_to admin_templates_path, :notice => "Your template has been created."
+    else
+      render :new
+    end
+  end
+
 end
