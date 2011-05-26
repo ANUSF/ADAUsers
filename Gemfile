@@ -2,6 +2,9 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.7'
 
+# Rake 0.9.0 has this problem: http://stackoverflow.com/questions/5287121/undefined-method-task-using-rake-0-9-0-beta-4
+gem 'rake', '~> 0.8.7'
+
 if defined?(JRUBY_VERSION)
   gem 'jruby-openssl'
   gem 'activerecord-jdbcmysql-adapter'
