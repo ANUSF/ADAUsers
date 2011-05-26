@@ -155,17 +155,17 @@ Undertaking.blueprint do
   processed false
 end
 
-DocTemplate.blueprint do
-  doc_type { DocTemplate::DOC_TYPES[0] }
+Template.blueprint do
+  doc_type { Template::DOC_TYPES[0] }
   name { Sham.name }
   title { Sham.name }
   body { Sham.name }
 end
 
-DocTemplate.blueprint(:page) do
-  doc_type { DocTemplate::DOC_TYPES[0] }
+Template.blueprint(:page) do
+  doc_type { Template::DOC_TYPES[0] }
 end
 
-DocTemplate.blueprint(:email) do
-  doc_type { DocTemplate::DOC_TYPES[1] }
+Template.blueprint(:email) do
+  doc_type { Template::DOC_TYPES[1] }
 end

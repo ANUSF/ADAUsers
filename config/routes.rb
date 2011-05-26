@@ -25,7 +25,7 @@ ADAUsers::Application.routes.draw do
       match 'mark_complete/:processed', :to => 'undertakings#mark_complete', :as => 'mark_complete'
     end
 
-    resources :doc_templates
+    resources :templates
   end
 
   match 'login',  :to => 'sessions#new'

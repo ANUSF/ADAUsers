@@ -6,11 +6,11 @@
   <table>
     <% templates.each do |t| %>
       <tr>
-	<td><%= link_to t.name, edit_admin_doc_template_path(t) %></td>
+	<td><%= link_to t.name, edit_admin_template_path(t) %></td>
 	<td><%= t.title %></td>
       </tr>
     <% end %>
   </table>
 <% end %>
 
-<p><%= link_to "Create new template", new_admin_doc_template_path, :class => "button" %></p>
+<p><%= link_to "Create new template", new_admin_template_path, :class => "button" %></p>

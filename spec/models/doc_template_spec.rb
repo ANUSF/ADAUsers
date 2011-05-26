@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe DocTemplate do
+describe Template do
 end
