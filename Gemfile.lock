@@ -1,7 +1,8 @@
-PATH
-  remote: /home/rmm900/dev/themenap
+GIT
+  remote: git://github.com/ANUSF/themenap.git
+  revision: 6f58088bcf3af609673f08d8eeb7a5bef554e280
   specs:
-    themenap (0.1.3)
+    themenap (0.1.4)
       highline
       httparty
       nokogiri
