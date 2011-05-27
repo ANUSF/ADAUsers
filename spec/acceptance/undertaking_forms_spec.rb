@@ -70,7 +70,6 @@ feature "Undertaking forms", %q{
     page.should have_content "You will be charged $1,000 per dataset" unless institution_is_acspri_member
 
     # And I fill out the first page
-    
     select access_level.dataset_description, :from => 'undertaking_dataset_ids'
     check 'undertaking_intended_use_type_government'
     check 'undertaking_intended_use_type_consultancy'
@@ -83,6 +82,8 @@ feature "Undertaking forms", %q{
     # And I click "Continue", then "I agree"
     click_button "Continue"
     Undertaking.last.agreed.should be_false
+    page.should have_content "I HEREBY UNDERTAKE that I will use the data file(s)"
+    page.should have_content access_level.dataset_description
     click_button "I agree"
 
     # Then my undertaking should be recorded
