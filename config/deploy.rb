@@ -57,6 +57,7 @@ end
 
 task :symlinks, :roles => :app do
   run "ln -nfs #{shared_path}/db/* #{current_path}/db/"
+  run "ln -nfs #{shared_path}/database.yml #{current_path}/config/"
 end
 
 task :deploy_log, :roles => :app do
