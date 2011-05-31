@@ -14,9 +14,10 @@
         <%= link_to search_admin_users_path(request.parameters.merge({:paginate => (@paginate ? 0 : 1), :page => 1})) do %>
           <%= @paginate ? "Show all" : "Show in pages" %>
         <% end %>
+	|
       <% end %>
 
-      | <%= link_to "Export to CSV", search_admin_users_path(request.parameters.merge({:format => 'csv'})) %>
+      <%= link_to "Export to CSV", search_admin_users_path(request.parameters.merge({:format => 'csv'})) %>
 
       <%= render 'search_results' %>
 
