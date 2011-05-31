@@ -54,7 +54,7 @@ class UndertakingsController < ApplicationController
         UndertakingMailer.confirm_to_admin_email(@undertaking).deliver
         UndertakingMailer.confirm_to_user_email(@undertaking).deliver
       end
-      redirect_to @user, :notice => 'Thank-you! You should receive an email from us shortly.'
+      redirect_to @user, :notice => 'Thank you! You should receive an email from us shortly.'
     else
       render :edit
     end
