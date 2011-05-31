@@ -30,6 +30,9 @@ feature "Modify access to pending datasets", %q{
 
 
   scenario "adding access to a pending dataset" do
+    # Given a template for the email
+    Template.make(:study_access_approval)
+
     [:a, :b].each do |category|
       # Given that I have two pending datasets
       accessLevels = [AccessLevel.make(category), AccessLevel.make(category)]
@@ -44,6 +47,17 @@ feature "Modify access to pending datasets", %q{
       find("#category_#{category} table#pending").check("pending_#{ddi_to_id(accessLevels[0].datasetID)}")
       find("#category_#{category}").click_button("Add Access")
       
+      # Then I should be on the email page, and I should see the template for this email
+      puts body
+      current_path.should == "/admin/email/new"
+      page.should have_content "Update successful. You may edit the confirmation email below before it is sent."
+      page.should have_selector("#email_subject[value='Access approved for #{category == :a ? "General" : "Restricted"} dataset(s)']")
+      page.should have_selector("#email_body", :text => /You have now been granted access to the following dataset\(s\):/)
+      page.should have_selector("#email_body", :text => /#{accessLevels[0].dataset_description}/)
+
+      # When I submit the form
+      click_button "Send"
+
       # Then I should not see the first dataset in the pending table, but I should see it in the accessible table
       find("#category_#{category} table#pending").should_not have_content(accessLevels[0].datasetID)
       find("#category_#{category} table#accessible").should  have_content(accessLevels[0].datasetID)

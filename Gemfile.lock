@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ANUSF/themenap.git
-  revision: 6f58088bcf3af609673f08d8eeb7a5bef554e280
+  revision: a8aceb9026c355c5dfb92d95195e5b8ff86c8b04
   specs:
     themenap (0.1.4)
       highline
@@ -157,7 +157,7 @@ GEM
     simplecov (0.4.2)
       simplecov-html (~> 0.4.4)
     simplecov-html (0.4.5)
-    spork (0.9.0.rc7)
+    spork (0.9.0.rc8)
     sqlite3-ruby (1.2.5)
     steak (1.1.0)
       rspec (>= 1.3)

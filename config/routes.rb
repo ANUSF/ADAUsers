@@ -26,6 +26,7 @@ ADAUsers::Application.routes.draw do
     end
 
     resources :templates
+    resource :email
   end
 
   match 'login',  :to => 'sessions#new'

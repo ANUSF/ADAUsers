@@ -1,6 +1,7 @@
 class Admin::UsersController < ApplicationController
   before_filter :require_admin
   layout 'ada_admin'
+  include TemplatesHelper
 
 
   def index
@@ -81,12 +82,28 @@ class Admin::UsersController < ApplicationController
     @user = UserWithoutValidations.find_by_user(params[:id])
     @user.update_attributes(params[:user])
 
-    if @user.datasets_cat_a_pending_to_grant.present?
-      UserMailer.pending_datasets_access_approved_email(@user, :a).deliver
-    elsif @user.datasets_cat_b_pending_to_grant.present?
-      UserMailer.pending_datasets_access_approved_email(@user, :b).deliver
-    end
+    @category = nil
+    @category = :b if @user.datasets_cat_b_pending_to_grant.present?
+    @category = :a if @user.datasets_cat_a_pending_to_grant.present?
 
-    redirect_to edit_admin_user_path(@user), :notice => 'Update successful'
+    if @category
+      flash[:notice] = "Update successful. You may review and edit the confirmation email below before you send it."
+
+      @redirect_to = edit_admin_user_path(@user)
+      @datasets = @category == :a ? @user.datasets_cat_a_pending_to_grant : @user.datasets_cat_b_pending_to_grant
+      @datasets.map! { |datasetID| AccessLevel.find_by_datasetID(datasetID) }
+
+      locals = {:user => @user, :category => @category, :datasets => @datasets}
+
+      template = Template.find_by_doc_type_and_name('email', 'study_access_approval')
+      # TODO: to and from fields
+      @email = Email.new(:subject => render_template_field(template.title, locals),
+                         :body =>    render_template_field(template.body,  locals))
+
+      render 'admin/emails/new'
+
+    else
+      redirect_to edit_admin_user_path(@user), :notice => 'Update successful.'
+    end
   end
 end

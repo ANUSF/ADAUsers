@@ -7,12 +7,12 @@ require 'openid/store/filesystem'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery :except => :index
-
   helper_method :current_identity, :username_for, :current_user
-
   layout 'ada'
 
   protected
+
+  # -- Authentication / authorisation
 
   def current_identity
     url_for :username => session[:username]
@@ -67,6 +67,8 @@ class ApplicationController < ActionController::Base
   end
 
 
+  # -- Misc
+
   # Taken from http://stackoverflow.com/questions/94502/in-rails-how-to-return-records-as-a-csv-file
   def render_csv(filename = nil)
     filename ||= params[:action]
@@ -85,6 +87,9 @@ class ApplicationController < ActionController::Base
 
     render :layout => false
   end
+
+
+  # -- OpenID
 
   def headless?
     session[:headless] == true
