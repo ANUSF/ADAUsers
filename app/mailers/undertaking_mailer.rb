@@ -1,5 +1,5 @@
 class UndertakingMailer < ActionMailer::Base
-  default :from => "ASSDA <assda@anu.edu.au>"
+  default :from => Email::DEFAULT_FROM
 
   def confirm_to_admin_email(undertaking)
     @undertaking = undertaking

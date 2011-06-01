@@ -3,6 +3,8 @@ class Email
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
+  DEFAULT_FROM = "ASSDA <assda@anu.edu.au>"
+
   attr_accessor :from, :to, :subject, :body
 
   validates_presence_of :subject, :body

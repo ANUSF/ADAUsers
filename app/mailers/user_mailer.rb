@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "ASSDA <assda@anu.edu.au>"
+  default :from => Email::DEFAULT_FROM
 
   def register_email(user, password)
     @user = user

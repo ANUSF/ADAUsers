@@ -97,8 +97,10 @@ class Admin::UsersController < ApplicationController
 
       template = Template.find_by_doc_type_and_name('email', 'study_access_approval')
       # TODO: to and from fields
-      @email = Email.new(:subject => render_template_field(template.title, locals),
-                         :body =>    render_template_field(template.body,  locals))
+      @email = Email.new(:from    => Email::DEFAULT_FROM,
+                         :to      => @user.email,
+                         :subject => render_template_field(template.title, locals),
+                         :body    => render_template_field(template.body,  locals))
 
       render 'admin/emails/new'
 
