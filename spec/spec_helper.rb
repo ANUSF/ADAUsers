@@ -48,6 +48,7 @@ Spork.prefork do
       AustralianGov.make
       AustralianGov.make(:treasury)
       RoleEjb.make(:id => "affiliateusers")
+      RoleEjb.make(:id => "publisher")
       RoleEjb.make(:id => "administrator")
     end
 

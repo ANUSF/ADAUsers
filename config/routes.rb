@@ -6,6 +6,7 @@ ADAUsers::Application.routes.draw do
     resources :undertakings
     match 'reset_password' => 'users#reset_password', :on => :collection
     get :change_password, :on => :member
+    get :privileged, :on => :collection
 
     member do
       get :role

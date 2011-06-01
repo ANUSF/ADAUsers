@@ -15,7 +15,16 @@ feature "API", %q{
   scenario "fetching user details" do
     user = User.make
     visit "/users/#{user.user}/details"
-    page.should have_content user.to_json
+    page.should have_content user.attributes_api.to_json
+  end
+
+  scenario "fetching list of privileged users" do
+    users = [User.make(:administrator), User.make(:publisher)]
+    visit "/users/privileged"
+
+    users.each do |user|
+      page.should have_content user.attributes_api.to_json
+    end
   end
 
   scenario "enquiring about user access rights to category A datasets" do
@@ -74,6 +83,6 @@ feature "API", %q{
 
   scenario "accessing the API without permission" do
     # TODO: Perhaps IP address filtering for these actions?
-    fail "Not yet implemented"
+    fail "TODO: Implement API access restriction - perhaps by IP?"
   end
 end

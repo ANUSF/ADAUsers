@@ -75,7 +75,9 @@ class UserWithoutValidations < ActiveRecord::Base
 
   scope :australian_institutions, select("DISTINCT institution").where(:austinstitution => "Other").order("institution")
   scope :non_australian_institutions, select("DISTINCT institution, countryid").where("countryid != ?", AUSTRALIA).order("countryid, institution")
-
+  def self.privileged
+    UserRole.where(:roleID => ["administrator", "publisher"]).map { |ur| ur.user }.reject { |u| u.nil? }
+  end
 
   # -- Default attributes to use in the registration form
 
@@ -322,6 +324,10 @@ class UserWithoutValidations < ActiveRecord::Base
     logs.count
   end
 
+  # Get attributes in a form suitable for the API - removes sensitive fields and adds role
+  def attributes_api
+    self.attributes.reject { |k| k =~ /password/ }.merge({'user_role' => self.user_role})
+  end
 
 
   def admin?

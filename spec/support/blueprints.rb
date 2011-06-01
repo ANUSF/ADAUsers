@@ -57,6 +57,11 @@ User.blueprint(:administrator) do
   user_roles { [UserRole.make(:id => object.user, :role => RoleEjb.find_by_id("administrator"))] }
 end
 
+User.blueprint(:publisher) do
+  user { Sham.name }
+  user_roles { [UserRole.make(:id => object.user, :role => RoleEjb.find_by_id("publisher"))] }
+end
+
 UserRole.blueprint do
   role { RoleEjb.find_by_id("affiliateusers") }
 end

@@ -109,7 +109,7 @@ class UsersController < ApplicationController
 
   def details
     @user = User.find_by_user(params[:id])
-    render :json => @user
+    render :json => @user.attributes_api
   end
 
   # Expects resource to be "datasetID[/fileID]"
@@ -136,5 +136,10 @@ class UsersController < ApplicationController
               :download => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:download] == 0}
 
     render :json => result
+  end
+
+  def privileged
+    @users = User.privileged
+    render :json => @users.map { |user| user.attributes_api }
   end
 end
