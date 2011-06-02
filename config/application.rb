@@ -1,5 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
+YAML::ENGINE.yamler = 'syck' # psych may handle merges incorrectly in Ruby 1.9.2
+
 require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
