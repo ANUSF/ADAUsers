@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
         end
       end
     end
-    render :layout => false if show_form && headless?
+    render :layout => 'headless' if show_form && headless?
   end
 
   def create

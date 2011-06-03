@@ -1,7 +1,7 @@
 class DecisionsController < ApplicationController
   def new
     flash[:notice] = "Do you trust this site with your identity?"
-    render :layout => false if headless?
+    render :layout => 'headless' if headless?
   end
 
   def create
