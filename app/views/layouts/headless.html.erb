@@ -5,6 +5,16 @@
     <%= stylesheet_link_tag 'headless' %>
   </head>
   <body>
+    <iframe
+      src="http://nesstar.ada.edu.au/webview/velocity?mode=documentation&submode=bookmark"
+      id="loginmenu" frameborder="0" scrolling="no" height="60px"
+      style="width:100%">
+    </iframe>
+    <script language="javascript" type="text/javascript">
+      document.getElementById("loginmenu").src =
+        top.rightFrameHref.replace(/([?&])mode=[a-z]*/,
+                                   "\$1mode=documentation&submode=abstract");
+    </script>
     <%= yield %>
   </body>
 </html>
