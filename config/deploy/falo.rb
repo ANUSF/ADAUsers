@@ -4,13 +4,11 @@ require 'rvm/capistrano'
 set :rvm_ruby_string, 'ruby-1.9.2-p180@ada-users'
 set :rvm_type, :user
 
-set :application, "staging"
-
 role :web, "falo"                   # Your HTTP server, Apache/etc
 role :app, "falo"                   # This may be the same as your `Web` server
 role :db,  "falo", :primary => true # This is where Rails migrations will run
 
-set :rails_env, "development"
+set :rails_env, "production"
 
 set :user,        "olaf"
 set :use_sudo,    true
