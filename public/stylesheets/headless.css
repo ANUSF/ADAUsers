@@ -42,3 +42,6 @@ input[type=submit] {
 a, a:visited {
     color: #666666;
 }
+a:hover {
+    color: #003399;
+}
