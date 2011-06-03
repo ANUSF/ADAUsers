@@ -5,6 +5,9 @@ body, form, fieldset, ol, input, p {
 body {
     font: 11px/16px Arial,Helvetica,sans-serif;
 }
+div {
+    padding: 0 18px;
+}
 h2 {
     color: #1F5E2F;
     font-size: 16px;
