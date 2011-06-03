@@ -1,7 +1,11 @@
 class DecisionsController < ApplicationController
   def new
-    flash[:notice] = "Do you trust this site with your identity?"
-    render :layout => 'headless' if headless?
+    if session[:last_oidreq]
+      flash[:notice] = "Do you trust this site with your identity?"
+      render :layout => 'headless' if headless?
+    else
+      redirect_to root_url, :notice => 'No current OpenID request'
+    end
   end
 
   def create
@@ -12,7 +16,11 @@ class DecisionsController < ApplicationController
       add_trusted oidreq.trust_root
       render_response(positive_response(oidreq, session[:username]))
     else
-      redirect_to oidreq.cancel_url
+      if oidreq
+        redirect_to oidreq.cancel_url
+      else
+        redirect_to root_url, :notice => 'No current OpenID request.'
+      end
     end
   end
 
