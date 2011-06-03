@@ -1,0 +1,44 @@
+body, form, fieldset, ol, input, p {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font: 11px/16px Arial,Helvetica,sans-serif;
+}
+h2 {
+    color: #1F5E2F;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 0 7px 0;
+    margin: 0;
+    text-transform: none;
+}
+fieldset {
+    border: 0 none;
+}
+li {
+    list-style: none;
+    padding-bottom: 1.5em;
+}
+label {
+    display: block;
+    float: none;
+}
+abbr {
+    border: 0 none;
+}
+input {
+    max-width: 40%;
+    width: 40%;
+    font-size: 11px;
+}
+fieldset.buttons li {
+    float: left;
+}
+input[type=submit] {
+    width: 100%;
+    max-width: 100%;
+}
+a, a:visited {
+    color: #666666;
+}
