@@ -6,8 +6,16 @@ feature "Undertaking forms", %q{
   I want to submit general and resticted undertaking forms
 } do
 
+  before(:all) do
+    Template.make(:undertaking_agreement)
+  end
+
   after(:each) do
     log_out if logged_in?
+  end
+
+  after(:all) do
+    Template.destroy_all
   end
 
 
