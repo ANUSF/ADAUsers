@@ -179,7 +179,7 @@ If you do not wish to change your password, simply ignore this email.
 # -- Undertaking acknowledgement to admin
 Template.create!(:doc_type => Template::DOC_TYPES[1],
                  :name => "undertaking_acknowledgement_admin",
-                 :title => '<%= undertaking.is_restricted ? "Restricted" : "General" %> undertaking form signed by <%= user.user %> (<%= user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI" %>)',
+                 :title => '<%= undertaking.is_restricted ? "Restricted" : "General" %> undertaking form signed by <%= undertaking.user.user %> (<%= undertaking.user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI" %>)',
                  :body => %q{<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
 <html>
   <head></head>
@@ -222,6 +222,6 @@ Template.create!(:doc_type => Template::DOC_TYPES[1],
     <hr />
     <%= render_template 'page', 'undertaking_agreement', :locals => {:undertaking => undertaking} %>
     <br/>
-    <%= render 'email', 'signature_html' %>
+    <%= render_template 'email', 'signature_html' %>
   </body>
 </html>})

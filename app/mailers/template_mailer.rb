@@ -8,4 +8,12 @@ class TemplateMailer < ActionMailer::Base
     end
   end
 
+  def template_email(to, template_name, locals)
+    template = Template.find_by_doc_type_and_name('email', template_name)
+
+    mail(:to => to, :subject => render_template_field(template.title, locals)) do |format|
+      format.html { render :text => render_template_field(template.body,  locals) }
+    end
+  end
+
 end
