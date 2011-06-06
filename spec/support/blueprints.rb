@@ -170,23 +170,11 @@ Template.blueprint(:email) do
   doc_type { Template::DOC_TYPES[1] }
 end
 
-Template.blueprint(:undertaking_agreement) do
-  doc_type { Template::DOC_TYPES[0] }
-  name "undertaking_agreement"
-  title "Undertaking agreement"
-  body %q[<p>
-            I HEREBY UNDERTAKE that I will use the data file(s)<br/>
-            <br/>
-            <% undertaking.dataset_descriptions.each do |dd| %>
-              <%= dd %><br />
-            <% end %>
-          </p>]
-end
-
 Template.blueprint(:study_access_approval) do
   doc_type { Template::DOC_TYPES[1] }
   name "study_access_approval"
-  title %q[Access approved for <%= category == :a ? "general" : "restricted" %> dataset(s)]
+  title %q[Access approved for {{= category == :a ? "general" : "restricted" }} dataset(s)]
   body %q[You have now been granted access to the following dataset(s):
-          <%= datasets.map {|d| d.dataset_description}.join ', ' %>]
+          {{= datasets.map {|d| d.dataset_description}.join ', ' }}
+          ]
 end
