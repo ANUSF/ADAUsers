@@ -6,6 +6,8 @@ feature "Undertaking forms", %q{
   I want to submit general and resticted undertaking forms
 } do
 
+  fixtures :templates
+
   after(:each) do
     log_out if logged_in?
   end
@@ -111,12 +113,12 @@ feature "Undertaking forms", %q{
     # And some emails should have been sent - to myself and to an admin
     undertaking_type = is_restricted ? "Restricted" : "General"
     emails = ActionMailer::Base.deliveries[-2..-1]
-    email_admin = emails.select {|e| e.subject =~ /#{undertaking_type} Undertaking form signed by/}.first
+    email_admin = emails.select {|e| e.subject =~ /#{undertaking_type} undertaking form signed by/}.first
     email_user = emails.select {|e| e.subject =~ /ASSDA #{undertaking_type} Undertaking/}.first
     email_admin.should_not be_nil
     email_user.should_not be_nil
 
-    email_admin.encoded.should match(/#{undertaking_type} Undertaking form \(#{"Non-" unless institution_is_acspri_member}ACSPRI\) signed by #{undertaking.user.user}/)
+    email_admin.encoded.should match(/#{undertaking_type} undertaking form \(#{"Non-" unless institution_is_acspri_member}ACSPRI\) signed by #{undertaking.user.user}/)
     email_admin.encoded.should match(/#{access_level.dataset_description}/)
 
     email_user.encoded.should match(/invoiced/) unless institution_is_acspri_member

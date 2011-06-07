@@ -7,4 +7,11 @@ describe TemplatesHelper do
 
     str.should == "Test template. zzzzz. My local variable. The end!"
   end
+
+
+  # -- Required when calling render_to_string in a testing context
+  def controller_path
+  end
+  def action_name
+  end
 end

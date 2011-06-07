@@ -1,7 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_filter :require_admin
   layout 'ada_admin'
-  include TemplatesHelper
 
 
   def index

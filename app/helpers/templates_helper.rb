@@ -8,7 +8,8 @@ module TemplatesHelper
   end
 
   def render_template_field(str, locals)
-    str.gsub!(/\{\{/, '<%').gsub!(/\}\}/, '%>')
+    str ||= ""
+    str = str.gsub(/\{\{/, '<%').gsub(/\}\}/, '%>')
 
     method = defined?(render_to_string) ? :render_to_string : :render
     send(method, :inline => str, :locals => locals)

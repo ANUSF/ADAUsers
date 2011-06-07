@@ -8,6 +8,7 @@ require 'openid/store/filesystem'
 class ApplicationController < ActionController::Base
   protect_from_forgery :except => :index
   helper_method :current_identity, :username_for, :current_user
+  include TemplatesHelper
   layout 'ada'
 
   protected

@@ -30,9 +30,6 @@ feature "Modify access to pending datasets", %q{
 
 
   scenario "adding access to a pending dataset" do
-    # Given a template for the email
-    Template.make(:study_access_approval)
-
     [:a, :b].each do |category|
       # Given that I have two pending datasets
       accessLevels = [AccessLevel.make(category), AccessLevel.make(category)]

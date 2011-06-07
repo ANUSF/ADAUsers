@@ -169,12 +169,3 @@ end
 Template.blueprint(:email) do
   doc_type { Template::DOC_TYPES[1] }
 end
-
-Template.blueprint(:study_access_approval) do
-  doc_type { Template::DOC_TYPES[1] }
-  name "study_access_approval"
-  title %q[Access approved for {{= category == :a ? "general" : "restricted" }} dataset(s)]
-  body %q[You have now been granted access to the following dataset(s):
-          {{= datasets.map {|d| d.dataset_description}.join ', ' }}
-          ]
-end
