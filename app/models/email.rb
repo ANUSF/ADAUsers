@@ -7,7 +7,7 @@ class Email
 
   attr_accessor :from, :to, :subject, :body
 
-  validates_presence_of :subject, :body
+  validates_presence_of :from, :to, :subject, :body
 
   def initialize(attrs={})
     attrs.each do |name, value|

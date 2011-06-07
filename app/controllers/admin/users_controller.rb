@@ -93,9 +93,8 @@ class Admin::UsersController < ApplicationController
       @datasets.map! { |datasetID| AccessLevel.find_by_datasetID(datasetID) }
 
       locals = {:user => @user, :category => @category, :datasets => @datasets}
-
       template = Template.find_by_doc_type_and_name('email', 'study_access_approval')
-      # TODO: to and from fields
+
       @email = Email.new(:from    => Email::DEFAULT_FROM,
                          :to      => @user.email,
                          :subject => render_template_field(template.title, locals),

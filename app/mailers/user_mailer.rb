@@ -5,7 +5,7 @@ class UserMailer
     def register_email(controller, user, password)
       TemplateMailer.template_email(controller, user.email, 'registration', {:user => user, :password => password})
     end
-    
+
     def reset_password_email(controller, user)
       TemplateMailer.template_email(controller, user.email, 'reset_password', {:user => user})
     end
