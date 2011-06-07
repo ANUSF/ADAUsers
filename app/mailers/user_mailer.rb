@@ -1,31 +1,17 @@
-class UserMailer < ActionMailer::Base
-  default :from => "ASSDA <assda@anu.edu.au>"
+# We don't inherit from ActionMailer::Base here because otherwise the mailer will
+# attempt to render the default template after calling TemplateMailer.
+class UserMailer
+  class << self
+    def register_email(controller, user, password)
+      TemplateMailer.template_email(controller, user.email, 'registration', {:user => user, :password => password})
+    end
+    
+    def reset_password_email(controller, user)
+      TemplateMailer.template_email(controller, user.email, 'reset_password', {:user => user})
+    end
 
-  def register_email(user, password)
-    @user = user
-    @password = password
-
-    mail(:to => user.email, :subject => "User Nesstar Registration")
-  end
-
-  def reset_password_email(user)
-    @user = user
-
-    mail(:to => user.email, :subject => "ASSDA User Password Reset")
-  end
-
-  def change_password_email(user, new_password)
-    @user = user
-    @new_password = new_password
-
-    mail(:to => user.email, :subject => "ASSDA User Registration - password changed")
-  end
-
-  def pending_datasets_access_approved_email(user, category)
-    @user = user
-    @datasets = category == :a ? @user.datasets_cat_a_pending_to_grant : @user.datasets_cat_b_pending_to_grant
-    @datasets.map! {|datasetID| AccessLevel.find_by_datasetID(datasetID)}
-
-    mail(:to => user.email, :subject => "Access approved for #{category == :a ? "General" : "Restricted"} dataset(s)")
+    def change_password_email(controller, user, new_password)
+      TemplateMailer.template_email(controller, user.email, 'change_password', {:user => user, :new_password => new_password})
+    end
   end
 end

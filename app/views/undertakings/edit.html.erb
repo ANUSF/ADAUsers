@@ -1,4 +1,4 @@
-<%= render 'agreement_general', :undertaking => @undertaking %>
+<%= render_template('page', 'undertaking_agreement', :undertaking => @undertaking) %>
 
 <div class="undertaking-edit-actions">
   <%= form_for [@user, @undertaking] do |form| %>

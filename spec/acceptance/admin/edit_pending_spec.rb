@@ -44,6 +44,17 @@ feature "Modify access to pending datasets", %q{
       find("#category_#{category} table#pending").check("pending_#{ddi_to_id(accessLevels[0].datasetID)}")
       find("#category_#{category}").click_button("Add Access")
       
+      # Then I should be on the email page, and I should see the template for this email
+      page.should have_content "Update successful. You may review and edit the confirmation email below before you send it."
+      page.should have_selector("#email_from[value='ASSDA <assda@anu.edu.au>']")
+      page.should have_selector("#email_to[value='#{@user.email}']")
+      page.should have_selector("#email_subject[value='Access approved for #{category == :a ? "general" : "restricted"} dataset(s)']")
+      page.should have_selector("#email_body", :text => /You have now been granted access to the following dataset\(s\):/)
+      page.should have_selector("#email_body", :text => /#{accessLevels[0].dataset_description}/)
+
+      # When I submit the form
+      click_button "Send"
+
       # Then I should not see the first dataset in the pending table, but I should see it in the accessible table
       find("#category_#{category} table#pending").should_not have_content(accessLevels[0].datasetID)
       find("#category_#{category} table#accessible").should  have_content(accessLevels[0].datasetID)
@@ -54,7 +65,7 @@ feature "Modify access to pending datasets", %q{
 
       # And the user should have received an email specifying the datasets that they have gained access to
       email = ActionMailer::Base.deliveries.last
-      email.subject.should == "Access approved for #{category == :a ? "General" : "Restricted"} dataset(s)"
+      email.subject.should == "Access approved for #{category == :a ? "general" : "restricted"} dataset(s)"
       email.encoded.should match(/You have now been granted access to the following dataset\(s\):/)
       email.encoded.should match(/#{accessLevels[0].dataset_description}/)
     end

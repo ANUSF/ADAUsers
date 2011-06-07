@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, @template] do |form| %>
+  <%= form.inputs do %>
+    <%= form.input :doc_type, :as => :select, :collection => ::Template::DOC_TYPES.map { |dt| [dt.capitalize, dt] } %>
+    <%= form.input :name %>
+    <%= form.input :title, :label => "Page title or email subject", :hint => "For page templates, enter the page title here. For email templates, please provide the email's subject." %>
+    <%= form.input :body %>
+  <% end %>
+
+  <%= form.buttons do %>
+    <%= form.commit_button %>
+    <% unless @template.new_record? %>
+      <%= link_to "Delete template", [:admin, @template], :method => :delete, :confirm => "Are you sure you want to delete this template? This action is irreversible." %>
+    <% end %>
+  <% end %>
+<% end %>

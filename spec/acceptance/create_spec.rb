@@ -6,6 +6,8 @@ feature "Create", %q{
   I want to be able to sign up
 } do
 
+  fixtures :templates
+
   scenario "successfully signing up" do
     # Given I am on the new user page
     visit "/users/new"

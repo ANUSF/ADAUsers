@@ -2,7 +2,6 @@ class UsersController < ApplicationController
   before_filter :require_admin_or_owner, :only => [:change_password, :edit, :change_password, :update, :show]
   before_filter :require_no_user, :only => [:new, :create]
 
-
   def show
     @username = params[:user_id] || params[:username] || params[:id]
     @user = User.find_by_user(@username)
@@ -31,7 +30,7 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     @user.user = params[:user][:user] # primary key, needs to be set manually
     if @user.save
-      UserMailer.register_email(@user, params[:user][:password]).deliver
+      UserMailer.register_email(self, @user, params[:user][:password]).deliver
       redirect_to root_path, :notice => 'Registration successful!'
     else
       flash.now[:alert] = 'Please check the values you filled in.'
@@ -59,7 +58,7 @@ class UsersController < ApplicationController
         flash[:notice] = 'Update successful.'
       else
         flash[:notice] = 'Your password has been updated.'
-        UserMailer.change_password_email(@user, params[:user][:password]).deliver
+        UserMailer.change_password_email(self, @user, params[:user][:password]).deliver
       end
       redirect_to @user
     else
@@ -73,7 +72,7 @@ class UsersController < ApplicationController
         @user.token_reset_password = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(16).join
         @user.save!
 
-        UserMailer.reset_password_email(@user).deliver
+        UserMailer.reset_password_email(self, @user).deliver
 
         redirect_to root_path, :notice => 'An email has been sent to you containing instructions to reset your password.'
 

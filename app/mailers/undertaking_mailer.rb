@@ -1,21 +1,15 @@
-class UndertakingMailer < ActionMailer::Base
-  default :from => "ASSDA <assda@anu.edu.au>"
+# We don't inherit from ActionMailer::Base here because otherwise the mailer will
+# attempt to render the default template after calling TemplateMailer.
+class UndertakingMailer
+  class << self
+    def confirm_to_admin_email(controller, undertaking)
+      TemplateMailer.template_email(controller, Email::DEFAULT_FROM, 'undertaking_acknowledgement_admin',
+                                    {:undertaking => undertaking})
+    end
 
-  def confirm_to_admin_email(undertaking)
-    @undertaking = undertaking
-    user = undertaking.user
-
-    subject = "#{undertaking.is_restricted ? "Restricted" : "General"} Undertaking form signed by %s (%s)" %
-      [user.user, user.institution_is_acspri_member ? "ACSPRI" : "Non-ACSPRI"]
-
-    mail(:to => self.default_params[:from], :subject => subject)
+    def confirm_to_user_email(controller, undertaking)
+      TemplateMailer.template_email(controller, undertaking.user.email, 'undertaking_acknowledgement_user',
+                                    {:undertaking => undertaking})
+    end
   end
-
-  def confirm_to_user_email(undertaking)
-    @undertaking = undertaking
-
-    mail(:to => undertaking.user.email,
-         :subject => "ASSDA #{undertaking.is_restricted ? "Restricted" : "General"} Undertaking")
-  end
-
 end

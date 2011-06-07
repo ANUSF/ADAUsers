@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506022702) do
+ActiveRecord::Schema.define(:version => 20110525002614) do
 
   create_table "ProjectEJB", :id => false, :force => true do |t|
     t.text     "comment"
@@ -97,6 +97,15 @@ ActiveRecord::Schema.define(:version => 20110506022702) do
     t.string  "date",     :limit => 6, :default => "", :null => false
     t.integer "sessions",              :default => 0,  :null => false
     t.integer "searches",              :default => 0,  :null => false
+  end
+
+  create_table "templates", :force => true do |t|
+    t.string   "doc_type"
+    t.string   "name"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "undertakings", :force => true do |t|
