@@ -14,6 +14,19 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # Method override: create a timestamp cookie that client applications can see.
+  def reset_session
+    super
+
+    val = Time.now.to_f
+    cookies[:_openid_session_timestamp] =
+      if ['development', 'test'].include? Rails.env
+        val
+      else
+        { :value => val, :domain => 'ada.edu.au' }
+      end
+  end
+
   def current_identity
     url_for :username => session[:username]
   end
