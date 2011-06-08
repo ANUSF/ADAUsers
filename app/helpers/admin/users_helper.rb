@@ -4,7 +4,7 @@ module Admin::UsersHelper
   end
 
   def confirmed_acspri_member_to_s(acspri_member)
-    ["No", "Yes", "Requested"][acspri_member]
+    ["No", "Yes", "Requested"][acspri_member || 0]
   end
 
   def user_roles_to_s(roles)
