@@ -10,6 +10,15 @@ production_logs:
   database: logs
 
 
+staff:
+  adapter: sqlite3
+  database: 'db/prod.db'
+
+staff_logs:
+  adapter: sqlite3
+  database: 'db/prod_logs.db'
+
+
 development:
   adapter: sqlite3
   database: 'db/dev.db'
