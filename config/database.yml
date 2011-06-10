@@ -9,6 +9,10 @@ production_logs:
   <<: *production
   database: logs
 
+production_nesstar:
+  <<: *production
+  database: nesstar
+
 
 staff:
   adapter: sqlite3
@@ -17,6 +21,10 @@ staff:
 staff_logs:
   adapter: sqlite3
   database: 'db/prod_logs.db'
+
+staff_nesstar:
+  adapter: sqlite3
+  database: 'db/prod_nesstar.db'
 
 
 development:
@@ -27,6 +35,10 @@ development_logs:
   adapter: sqlite3
   database: 'db/dev_logs.db'
 
+development_nesstar:
+  adapter: sqlite3
+  database: 'db/dev_nesstar.db'
+
 
 test:
   adapter: sqlite3
@@ -35,3 +47,7 @@ test:
 test_logs:
   adapter: sqlite3
   database: 'db/test_logs.db'
+
+test_nesstar:
+  adapter: sqlite3
+  database: 'db/test_nesstar.db'
