@@ -27,6 +27,13 @@ set(:branch) do
   Capistrano::CLI.ui.ask "Specify a tag name to deploy:"
 end
 
+namespace :db do
+  task :seed, :roles => :app do
+    run("cd #{current_release} && #{rake} db:seed RAILS_ENV=#{rails_env}")
+  end
+end
+
+
 after 'deploy:setup', :create_extra_dirs
 after 'deploy:setup', :copy_database_yml
 

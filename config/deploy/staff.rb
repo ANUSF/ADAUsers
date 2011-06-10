@@ -1,6 +1,7 @@
 $:.unshift(File.join(ENV['rvm_path'], 'lib'))
 require 'rvm/capistrano'
 
+set :rvm_bin_path, '/usr/local/rvm/bin'
 set :rvm_ruby_string, 'ruby-1.9.2-p180'
 
 role :web, "web3-nci.anu.edu.au"
