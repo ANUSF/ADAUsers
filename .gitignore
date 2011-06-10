@@ -11,3 +11,4 @@ db/openid-store
 doc/whitepaper.html
 coverage/
 config/database-deploy.yml
+config/initializers/secrets.rb
