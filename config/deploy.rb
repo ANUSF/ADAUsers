@@ -27,6 +27,13 @@ set(:branch) do
   Capistrano::CLI.ui.ask "Specify a tag name to deploy:"
 end
 
+namespace :db do
+  task :seed, :roles => :app do
+    run("cd #{current_release} && #{rake} db:seed RAILS_ENV=#{rails_env}")
+  end
+end
+
+
 after 'deploy:setup', :create_extra_dirs
 after 'deploy:setup', :copy_database_yml
 
@@ -40,11 +47,11 @@ task :create_extra_dirs, :roles => :app do
   run "mkdir -m 0755 -p #{shared_path}/db"
 end
 
-desc "copy the database configuration to the server"
-task :copy_database_yml, :roles => :app do
-  prompt = "Specify a database configuration file to copy to the server:"
+desc "copy the secret configuration variables to the server"
+task :copy_secrets, :roles => :app do
+  prompt = "Specify a secrets.rb file to copy to the server:"
   path = Capistrano::CLI.ui.ask prompt
-  put File.read("#{path}"), "#{shared_path}/database.yml", :mode => 0600
+  put File.read("#{path}"), "#{shared_path}/secrets.rb", :mode => 0600
 end
 
 task :echo_ruby_env do
@@ -55,7 +62,7 @@ end
 
 task :symlinks, :roles => :app do
   run "ln -nfs #{shared_path}/db/* #{current_path}/db/"
-  run "ln -nfs #{shared_path}/database.yml #{current_path}/config/"
+  run "ln -nfs #{shared_path}/secrets.rb #{current_path}/config/initializers/"
 end
 
 task :deploy_log, :roles => :app do

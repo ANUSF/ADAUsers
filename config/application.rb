@@ -4,6 +4,10 @@ YAML::ENGINE.yamler = 'syck' # psych may handle merges incorrectly in Ruby 1.9.2
 
 require 'rails/all'
 
+# Secrets are required for database.yml, which is
+# loaded before the config/initializers directory.
+require File.expand_path('../initializers/secrets', __FILE__)
+
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
