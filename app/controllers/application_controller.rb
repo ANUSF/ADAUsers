@@ -80,6 +80,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_api_key
+    if params[:api_key] != Secrets::API_KEY
+      render :nothing => true, :status => :forbidden
+      return false
+    end
+  end
+
 
   # -- Misc
 

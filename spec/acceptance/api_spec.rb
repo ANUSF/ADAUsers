@@ -8,19 +8,19 @@ feature "API", %q{
 
   scenario "fetching user role" do
     user = User.make
-    visit "/users/#{user.user}/role"
+    visit_with_api_key "/users/#{user.user}/role"
     page.should have_content "affiliateusers"
   end
 
   scenario "fetching user details" do
     user = User.make
-    visit "/users/#{user.user}/details"
+    visit_with_api_key "/users/#{user.user}/details"
     page.should have_content user.attributes_api.to_json
   end
 
   scenario "fetching list of privileged users" do
     users = [User.make(:administrator), User.make(:publisher)]
-    visit "/users/privileged"
+    visit_with_api_key "/users/privileged"
 
     users.each do |user|
       page.should have_content user.attributes_api.to_json
@@ -36,13 +36,13 @@ feature "API", %q{
     user.permissions_a.create(:datasetID => accessLevelPending.datasetID, :permissionvalue => 0)
     user.permissions_a.create(:datasetID => accessLevel.datasetID, :permissionvalue => 1)
 
-    visit "/users/#{user.user}/access/#{accessLevelNoAccess.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelNoAccess.datasetID}"
     page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
     
-    visit "/users/#{user.user}/access/#{accessLevelPending.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelPending.datasetID}"
     page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
 
-    visit "/users/#{user.user}/access/#{accessLevel.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevel.datasetID}"
     page.should have_content({:browse => true, :analyse => true, :download => true}.to_json)
   end
 
@@ -62,27 +62,50 @@ feature "API", %q{
     user.permissions_b.create(:datasetID => accessLevelDownload.datasetID, :permissionvalue => 2)
     user.permissions_b.create(:datasetID => accessLevelAnalyseDownload.datasetID, :permissionvalue => 6)
 
-    visit "/users/#{user.user}/access/#{accessLevelNoAccess.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelNoAccess.datasetID}"
     page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
 
-    visit "/users/#{user.user}/access/#{accessLevelPending.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelPending.datasetID}"
     page.should have_content({:browse => false, :analyse => false, :download => false}.to_json)
 
-    visit "/users/#{user.user}/access/#{accessLevelBrowse.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelBrowse.datasetID}"
     page.should have_content({:browse => true, :analyse => false, :download => false}.to_json)
 
-    visit "/users/#{user.user}/access/#{accessLevelAnalyse.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelAnalyse.datasetID}"
     page.should have_content({:browse => true, :analyse => true, :download => false}.to_json)
 
-    visit "/users/#{user.user}/access/#{accessLevelDownload.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelDownload.datasetID}"
     page.should have_content({:browse => true, :analyse => false, :download => true}.to_json)
 
-    visit "/users/#{user.user}/access/#{accessLevelAnalyseDownload.datasetID}"
+    visit_with_api_key "/users/#{user.user}/access/#{accessLevelAnalyseDownload.datasetID}"
     page.should have_content({:browse => true, :analyse => true, :download => true}.to_json)
   end
 
   scenario "accessing the API without permission" do
-    # TODO: Perhaps IP address filtering for these actions?
-    fail "TODO: Implement API access restriction - perhaps by IP?"
+    user = User.make
+    accessLevel = AccessLevel.make
+
+    paths = ["/users/#{user.user}/role",
+             "/users/#{user.user}/details",
+             "/users/#{user.user}/access/#{accessLevel.datasetID}",
+             "/users/privileged"]
+
+    paths.each do |path|
+      # Accessing path with permission is allowed
+      visit_with_api_key path
+      page.driver.status_code.should == 200
+      body.strip.should_not be_empty
+
+      # Accessing path without permission is forbidden
+      visit path
+      page.driver.status_code.should == 403
+      body.strip.should be_empty
+    end
+  end
+
+
+  protected
+  def visit_with_api_key(path)
+    visit "#{path}?api_key=#{Secrets::API_KEY}"
   end
 end
