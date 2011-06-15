@@ -1,6 +1,8 @@
 class HashPasswords < ActiveRecord::Migration
   def self.up
-    UserWithoutValidations.find_in_batches(:batch_size => 200) do |users|
+    skip_users = ['admin', 'deployer', 'nobody']
+
+    UserWithoutValidations.where("user NOT IN (?)", skip_users).find_in_batches(:batch_size => 200) do |users|
       say "Hashing passwords for users #{users.first.user} to #{users.last.user}..."
       users.each do |user|
         begin
