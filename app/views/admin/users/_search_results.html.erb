@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th>Username</th>
-      <th>Role</th>
+      <th>Role (Nesstar / CMS)</th>
       <th>Email</th>
       <th>Institution</th>
       <th>Type of work</th>
@@ -18,7 +18,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.user, edit_admin_user_path(user) %></td>
-        <td><%= user_roles_to_s(user.user_roles) %></td>
+        <td><%= user_roles_to_s(user.user_roles) %> / <%= user.role_cms %></td>
         <td><%= user.email %></td>
         <td><%= user.institution %></td>
         <td><%= user.action %></td>

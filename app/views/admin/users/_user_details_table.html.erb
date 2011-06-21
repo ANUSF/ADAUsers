@@ -30,10 +30,19 @@
     </td>
   </tr>
   <tr id="role">
-    <td>Role:</td>
+    <td>Nesstar role:</td>
     <td>
       <%= form_for [:admin, @user] do |form| %>
         <%= form.collection_select :user_role, RoleEjb.all, :id, :id, {:selected => @user.user_role } %>
+        <%= form.submit "Change" %>
+      <% end %>
+   </td>
+  </tr>
+  <tr id="role-cms">
+    <td>CMS role:</td>
+    <td>
+      <%= form_for [:admin, @user] do |form| %>
+        <%= form.select :role_cms, User::ROLES_CMS %>
         <%= form.submit "Change" %>
       <% end %>
    </td>

@@ -52,8 +52,11 @@ feature "Edit basic attributes", %q{
     page.should have_content("Confirmed ACSPRI member?")
     page.should have_content(@user.confirmed_acspri_member? ? "Yes" : "No")
     
-    page.should have_content("Role")
+    page.should have_content("Nesstar role")
     page.should have_content(@user.user_roles.first.roleID)
+
+    page.should have_content("CMS role")
+    page.should have_content(@user.role_cms)
   end
 
 
@@ -71,7 +74,7 @@ feature "Edit basic attributes", %q{
   end
 
 
-  scenario "changing role" do
+  scenario "changing nesstar role" do
     visit "/admin/users/tester/edit"
     find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
     @user.user_ejb.admin.should == 0
@@ -89,6 +92,24 @@ feature "Edit basic attributes", %q{
 
     find("select#user_user_role option[selected='selected']").should have_content("affiliateusers")
     @user.user_ejb.reload.admin.should == 0
+  end
+
+
+  scenario "changing CMS role" do
+    visit "/admin/users/tester/edit"
+    find("select#user_role_cms option[selected='selected']").should have_content("member")
+
+    # Change to administrator
+    find("select#user_role_cms").select("administrator")
+    find("tr#role-cms").click_button("Change")
+
+    find("select#user_role_cms option[selected='selected']").should have_content("administrator")
+
+    # Change back to member
+    find("select#user_role_cms").select("member")
+    find("tr#role-cms").click_button("Change")
+
+    find("select#user_role_cms option[selected='selected']").should have_content("member")
   end
 
 

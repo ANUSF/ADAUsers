@@ -9,6 +9,7 @@ class UserWithoutValidations < ActiveRecord::Base
   ACSPRI_YES = 1
   ACSPRI_REQUESTED = 2
 
+  ROLES_CMS = ['administrator', 'manager', 'approver', 'archivist', 'member']
   DEFAULT_ROLE_CMS = 'member'
 
   set_table_name 'userdetails'
