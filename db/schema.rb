@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110504005514) do
+ActiveRecord::Schema.define(:version => 20110606000548) do
 
   create_table "ProjectEJB", :id => false, :force => true do |t|
     t.text     "comment"
