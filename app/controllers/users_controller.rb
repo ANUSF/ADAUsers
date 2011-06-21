@@ -103,7 +103,7 @@ class UsersController < ApplicationController
 
   def role
     @user = User.find_by_user(params[:id])
-    render :json => @user.user_role
+    render :json => {:nesstar => @user.user_role, :cms => @user.role_cms}
   end
 
   def details

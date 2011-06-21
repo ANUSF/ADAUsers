@@ -9,7 +9,7 @@ feature "API", %q{
   scenario "fetching user role" do
     user = User.make
     visit "/users/#{user.user}/role"
-    page.should have_content "affiliateusers"
+    page.should have_content({:nesstar => "affiliateusers", :cms => "member"}.to_json)
   end
 
   scenario "fetching user details" do

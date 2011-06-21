@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110525002614) do
+ActiveRecord::Schema.define(:version => 20110606000548) do
 
   create_table "ProjectEJB", :id => false, :force => true do |t|
     t.text     "comment"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
     t.string  "otherpd",              :limit => 100
     t.string  "otherwt",              :limit => 100
     t.string  "token_reset_password"
+    t.string  "role_cms"
   end
 
   create_table "userpermissiona", :id => false, :force => true do |t|
