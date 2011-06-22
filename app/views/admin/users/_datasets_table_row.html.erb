@@ -1,6 +1,6 @@
 <tr>
   <td><%= permission.datasetID %></td>
-  <td colspan="2"><%= permission.access_level.datasetname %></td>
+  <td colspan="2"><%= permission.access_level ? permission.access_level.datasetname : '-' %></td>
   <td>
     <% if table_name == :accessible && category == :a && permission.user_has_access %>
       <!-- Revoke button -->
