@@ -18,7 +18,11 @@ class DecisionsController < ApplicationController
       render_response(positive_response(oidreq, session[:username]))
     else
       if oidreq
-        redirect_to oidreq.cancel_url
+        if oidreq.immediate
+          render_response(oidreq.answer(false, root_url))
+        else
+          redirect_to oidreq.cancel_url
+        end
       else
         redirect_to root_url, :notice => 'No current OpenID request.'
       end
