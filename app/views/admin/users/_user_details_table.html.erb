@@ -21,7 +21,7 @@
 
   <tr id="confirmed_acspri_member">
     <td>Confirmed ACSPRI member?</td>
-    <td>
+    <td<%= ' class="confirmed_acspri_member_no"'.html_safe unless @user.confirmed_acspri_member? %>>
       <%= form_for [:admin, @user] do |form| %>
         <%= confirmed_acspri_member_to_s(@user.confirmed_acspri_member) %>
         <%= form.hidden_field :confirmed_acspri_member, :value => (1-@user.confirmed_acspri_member).abs %>
