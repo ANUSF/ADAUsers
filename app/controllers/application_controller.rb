@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
         key, value = item
         if ax_req.requested_attributes.include? key
           n = acc.size
-          acc + ["type.x#{n}", key, "value.x#{n}", value]
+          acc + ["type.x#{n}", key, "value.x#{n}", value || '']
         else
           acc
         end
