@@ -118,7 +118,8 @@ class User < UserWithoutValidations
         user.errors[:base] << 'password reset token is invalid'
       end
 
-    elsif Password.new(user.password_was) != user.password_old
+    elsif (HASH_PASSWORDS and Password.new(user.password_was) != user.password_old) or
+        (!HASH_PASSWORDS and user.password_was != user.password_old)
       user.errors.add(:password_old, 'password does not match')
     end
   end

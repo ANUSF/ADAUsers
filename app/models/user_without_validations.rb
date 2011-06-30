@@ -2,6 +2,7 @@ require 'bcrypt'
 
 class UserWithoutValidations < ActiveRecord::Base
   include BCrypt
+  HASH_PASSWORDS = true
 
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
@@ -266,12 +267,16 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def password
-    password_hash = read_attribute(:password)
-    @password ||= Password.new(password_hash) unless password_hash.nil? or password_hash.blank?
+    if HASH_PASSWORDS
+      password_hash = read_attribute(:password)
+      @password ||= Password.new(password_hash) unless password_hash.nil? or password_hash.blank?
+    else
+      read_attribute(:password)
+    end
   end
 
   def password=(new_password)
-    @password = Password.create(new_password)
+    @password = HASH_PASSWORDS ? Password.create(new_password) : new_password
     write_attribute(:password, @password)
   end
 
