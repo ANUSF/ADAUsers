@@ -17,7 +17,7 @@
     <%= f.input :action, :label => 'Type of Work', :as => :select,
                 :collection => @user.action_options %>
     <%= f.input :otherwt, :label => 'Other Type of Work' %>
-    <%= f.input :country, :label_method => :Countryname %>
+    <%= f.input :country, :label_method => :Countryname, :collection => countries_options, :include_blank => false %>
 
     <%= f.inputs :id => 'affiliation-aus' do %>
       <%= f.input :austinstitution, :label => 'Australian Institution',
