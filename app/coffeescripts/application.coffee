@@ -75,17 +75,6 @@ process_registration_form = ->
       .find('input').click(-> institution_change $ this)
 
 
-process_undertaking_form = ->
-  if $("#undertaking_intended_use_type_input").length > 0
-    # Show/hide supervisor's email address field based on whether thesis/coursework is an intended use
-    handle_use_intended_use_type_thesis_click = ->
-      checked = $("#undertaking_intended_use_type_thesis").is(":checked")
-      field = $("li#undertaking_email_supervisor_input")
-      if checked then field.slideDown() else field.slideUp()
-    $("#undertaking_intended_use_type_thesis").click(handle_use_intended_use_type_thesis_click)
-    handle_use_intended_use_type_thesis_click()
-
-
 process_admin_undertaking_form = ->
   if $("table.admin-undertakings").length > 0
     $("tr.admin-undertaking-details div").hide()
@@ -102,7 +91,6 @@ process_admin_undertaking_form = ->
 
 $(document).ready ->
   process_registration_form()
-  process_undertaking_form()
   process_admin_undertaking_form()
   $("select.filterable").selectFilter()
   $(".radio-tabs").radioTabs()

@@ -31,8 +31,7 @@ class Undertaking < ActiveRecord::Base
 
   validates :email_supervisor, {
     :presence => {
-      :message => "please enter your supervisor's email address",
-      :if => lambda { |rec| rec.intended_use_type and rec.intended_use_type.include? 'thesis' }}}
+      :message => "please enter your supervisor's email address"}}
 
 
   serialize :intended_use_type

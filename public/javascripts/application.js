@@ -1,9 +1,9 @@
-/* DO NOT MODIFY. This file was compiled Fri, 13 May 2011 04:08:30 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 01 Jul 2011 00:30:31 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
 (function() {
-  var $, action_change, country_change, institution_change, patterns, position_change, process_admin_undertaking_form, process_registration_form, process_undertaking_form;
+  var $, action_change, country_change, institution_change, patterns, position_change, process_admin_undertaking_form, process_registration_form;
   $ = jQuery;
   patterns = {
     form: 'form.user',
@@ -91,23 +91,6 @@
       });
     }
   };
-  process_undertaking_form = function() {
-    var handle_use_intended_use_type_thesis_click;
-    if ($("#undertaking_intended_use_type_input").length > 0) {
-      handle_use_intended_use_type_thesis_click = function() {
-        var checked, field;
-        checked = $("#undertaking_intended_use_type_thesis").is(":checked");
-        field = $("li#undertaking_email_supervisor_input");
-        if (checked) {
-          return field.slideDown();
-        } else {
-          return field.slideUp();
-        }
-      };
-      $("#undertaking_intended_use_type_thesis").click(handle_use_intended_use_type_thesis_click);
-      return handle_use_intended_use_type_thesis_click();
-    }
-  };
   process_admin_undertaking_form = function() {
     if ($("table.admin-undertakings").length > 0) {
       $("tr.admin-undertaking-details div").hide();
@@ -127,7 +110,6 @@
   };
   $(document).ready(function() {
     process_registration_form();
-    process_undertaking_form();
     process_admin_undertaking_form();
     $("select.filterable").selectFilter();
     return $(".radio-tabs").radioTabs();
