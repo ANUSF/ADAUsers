@@ -19,13 +19,13 @@
   </tr>
   <tr><td>Position:</td><td><%= @user.position_s %></td></tr>
 
-  <tr id="confirmed_acspri_member">
-    <td>Confirmed ACSPRI member?</td>
-    <td<%= ' class="confirmed_acspri_member_no"'.html_safe unless @user.confirmed_acspri_member? %>>
+  <tr id="signed_undertaking_form">
+    <td>Signed undertaking form?</td>
+    <td<%= ' class="signed_undertaking_form_no"'.html_safe unless @user.signed_undertaking_form? %>>
       <%= form_for [:admin, @user] do |form| %>
-        <%= confirmed_acspri_member_to_s(@user.confirmed_acspri_member) %>
-        <%= form.hidden_field :confirmed_acspri_member, :value => (1-@user.confirmed_acspri_member).abs %>
-        <%= form.submit @user.confirmed_acspri_member? ? "Revoke membership" : "Confirm membership" %>
+        <%= signed_undertaking_form_to_s(@user.signed_undertaking_form) %>
+        <%= form.hidden_field :signed_undertaking_form, :value => (1-@user.signed_undertaking_form).abs %>
+        <%= form.submit @user.signed_undertaking_form? ? "Mark form as unsigned" : "Mark form as signed" %>
       <% end %>
     </td>
   </tr>

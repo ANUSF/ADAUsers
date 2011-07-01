@@ -49,8 +49,8 @@ feature "Edit basic attributes", %q{
     page.should have_content("Position")
     page.should have_content(@user.position_s)
 
-    page.should have_content("Confirmed ACSPRI member?")
-    page.should have_content(@user.confirmed_acspri_member? ? "Yes" : "No")
+    page.should have_content("Signed undertaking form?")
+    page.should have_content(@user.signed_undertaking_form? ? "Yes" : "No")
     
     page.should have_content("Nesstar role")
     page.should have_content(@user.user_roles.first.roleID)
@@ -60,17 +60,17 @@ feature "Edit basic attributes", %q{
   end
 
 
-  scenario "changing ACSPRI confirmedness" do
-    @user.confirmed_acspri_member = 2
+  scenario "changing undertaking form signed-ness" do
+    @user.signed_undertaking_form = User::UNDERTAKING_REQUESTED
     @user.save!
 
     visit "/admin/users/tester/edit"
 
-    find("tr#confirmed_acspri_member").should have_content("Requested")
-    find("tr#confirmed_acspri_member").click_button("Confirm membership")
-    find("tr#confirmed_acspri_member").should have_content("Yes")
-    find("tr#confirmed_acspri_member").click_button("Revoke membership")
-    find("tr#confirmed_acspri_member").should have_content("No")
+    find("tr#signed_undertaking_form").should have_content("Requested")
+    find("tr#signed_undertaking_form").click_button("Mark form as signed")
+    find("tr#signed_undertaking_form").should have_content("Yes")
+    find("tr#signed_undertaking_form").click_button("Mark form as unsigned")
+    find("tr#signed_undertaking_form").should have_content("No")
   end
 
 

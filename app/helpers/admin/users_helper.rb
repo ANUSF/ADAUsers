@@ -3,8 +3,8 @@ module Admin::UsersHelper
     var ? "Yes" : "No"
   end
 
-  def confirmed_acspri_member_to_s(acspri_member)
-    ["No", "Yes", "Requested"][acspri_member || 0]
+  def signed_undertaking_form_to_s(signed_undertaking_form)
+    ["No", "Yes", "Requested"][signed_undertaking_form || 0]
   end
 
   def user_roles_to_s(roles)

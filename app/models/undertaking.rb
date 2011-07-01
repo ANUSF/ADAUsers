@@ -57,7 +57,7 @@ class Undertaking < ActiveRecord::Base
 
   def update_user
     unless self.is_restricted
-      self.user.confirmed_acspri_member = User::ACSPRI_REQUESTED unless self.user.confirmed_acspri_member?
+      self.user.signed_undertaking_form = User::UNDERTAKING_REQUESTED unless self.user.signed_undertaking_form?
       self.user.save!
     end
 

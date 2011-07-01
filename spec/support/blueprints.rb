@@ -16,7 +16,7 @@ User.blueprint do
   fname { Sham.name }
   sname { Sham.name }
   email { Sham.email }
-  confirmed_acspri_member { 1 }
+  signed_undertaking_form { 1 }
   user_roles { [UserRole.make(:id => object.id)] }
   role_cms { User::DEFAULT_ROLE_CMS }
   position { User.new.position_options[0] }

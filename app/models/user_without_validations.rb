@@ -6,9 +6,9 @@ class UserWithoutValidations < ActiveRecord::Base
 
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
-  ACSPRI_NO = 0
-  ACSPRI_YES = 1
-  ACSPRI_REQUESTED = 2
+  UNDERTAKING_UNSIGNED = 0
+  UNDERTAKING_SIGNED = 1
+  UNDERTAKING_REQUESTED = 2
 
   ROLES_CMS = ['administrator', 'manager', 'approver', 'archivist', 'member']
   DEFAULT_ROLE_CMS = 'member'
@@ -233,16 +233,16 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # -- Alias the acsprimember field for clarity
 
-  def confirmed_acspri_member?
+  def signed_undertaking_form?
     read_attribute(:acsprimember) == 1
   end
 
-  def confirmed_acspri_member
+  def signed_undertaking_form
     read_attribute(:acsprimember)
   end
 
-  def confirmed_acspri_member=(acspri_member)
-    write_attribute(:acsprimember, acspri_member)
+  def signed_undertaking_form=(signed_undertaking_form)
+    write_attribute(:acsprimember, signed_undertaking_form)
   end
 
   def institution_is_acspri_member

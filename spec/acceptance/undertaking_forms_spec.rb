@@ -62,7 +62,7 @@ feature "Undertaking forms", %q{
 
     # And a user
     name = institution_is_acspri_member ? nil : :foreign
-    user = User.make(name, :confirmed_acspri_member => 0)
+    user = User.make(name, :signed_undertaking_form => 0)
     user.institution_is_acspri_member.should == institution_is_acspri_member
     log_in_as(user)
 
@@ -101,10 +101,10 @@ feature "Undertaking forms", %q{
     undertaking.funding_sources.should == "Numbered Swiss bank account"
     undertaking.agreed.should be_true
 
-    # And I should have the correct ACSPRI status
-    # TODO: Test user that is already ACSPRI keeps it
+    # And I should have the correct undertaking form signed status
+    # TODO: Test user that already has the form signed keeps it signed
     user.reload
-    user.confirmed_acspri_member.should == (is_restricted ? User::ACSPRI_NO : User::ACSPRI_REQUESTED)
+    user.signed_undertaking_form.should == (is_restricted ? User::UNDERTAKING_UNSIGNED : User::UNDERTAKING_REQUESTED)
 
     # And I should have the pending datasets that I requested
     user.permissions(is_restricted ? :b : :a).count.should == 1
@@ -145,9 +145,4 @@ feature "Undertaking forms", %q{
     # And I should be on my profile page
     current_path.should == "/users/#{user.user}"
   end
-
-
-  # TODO: Admin tests
-  #       We already cover granting ACSPRI membership and access to pending datasets.
-  #       What would be useful is an overview (a queue?) of who has requested access.
 end
