@@ -104,7 +104,7 @@ feature "Undertaking forms", %q{
     # And I should have the correct undertaking form signed status
     # TODO: Test user that already has the form signed keeps it signed
     user.reload
-    user.signed_undertaking_form.should == (is_restricted ? User::UNDERTAKING_UNSIGNED : User::UNDERTAKING_REQUESTED)
+    user.signed_undertaking_form.should == User::UNDERTAKING_REQUESTED
 
     # And I should have the pending datasets that I requested
     user.permissions(is_restricted ? :b : :a).count.should == 1

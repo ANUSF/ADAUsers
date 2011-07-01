@@ -56,10 +56,8 @@ class Undertaking < ActiveRecord::Base
   end
 
   def update_user
-    unless self.is_restricted
-      self.user.signed_undertaking_form = User::UNDERTAKING_REQUESTED unless self.user.signed_undertaking_form?
-      self.user.save!
-    end
+    self.user.signed_undertaking_form = User::UNDERTAKING_REQUESTED unless self.user.signed_undertaking_form?
+    self.user.save!
 
     # Add datasets as pending if not present
     self.user.add_datasets!(self.datasets.map {|d| d.datasetID}, self.is_restricted ? :b : :a, {0 => 1})
