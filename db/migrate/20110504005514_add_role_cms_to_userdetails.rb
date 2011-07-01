@@ -18,6 +18,8 @@ class AddRoleCmsToUserdetails < ActiveRecord::Migration
                             say "Unknown role #{user.user_role} for user #{user.user}."
                             nil
                           end
+          # For some reason, relations aren't loaded, so we do a reload first
+          user.reload
           user.save!
         rescue
           say "Skipping #{user.user} - error saving their record (check for non-UTF8 chars in their username)"
