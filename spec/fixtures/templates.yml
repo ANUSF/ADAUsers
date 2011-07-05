@@ -63,6 +63,165 @@ undertaking_agreement:
     </p>
 
 
+undertaking_printable:
+  doc_type: page
+  name: undertaking_printable
+  title: Application for Access to Data
+  body: |
+    <p>
+      Australian Data Archive<br />
+      The Australian National University<br />
+      18 Balmain Crescent<br />
+      Canberra ACT 0200<br />
+      http://www.assda.edu.au
+    </p>
+    
+    
+    <h2>How to use this form</h2>
+    
+    <p></p>Completion of the form will give the signatory free access to download all of ASSDA’s General Access collection.     Separate processes are required for restricted datasets.</p>
+    <p>Things you should know…</p>
+    <ol>
+      <li>
+        You must be a staff member or student of a current financial ACSPRI Institution to use 
+        this form. This will be confirmed by ASSDA staff prior to access being granted.
+        <ul>
+          <li>For details of your membership status, go to the ACSPRI website at 
+    http://www.acspri.org.au/ .</li>
+          <li>If you are not a member of an ACSPRI Institution, you will have to sign a different 
+    form, and pay a service charge.</li>
+        </ul>
+      </li>
+      <li>The signatory must be registered with ASSDA. Access will be given to the ASSDA 
+    account that matches the returned Undertaking form.</li>
+      <li>
+        You must recognise that we may need to give your details to the depositor. Depositors 
+        can request this information to get an idea about secondary usage for future funding 
+        purposes, or to make contact with researchers with similar interests. If this is problematic 
+        for you, please contact the Requests Officer to discuss.
+      </li>
+    </ol>
+    
+    
+    <h2>Who Signs the Form?</h2>
+    
+    <p>The form can only be signed by someone who can be responsible for the use of the data. For
+    example, a student can be responsible for their own use and could sign their own form, but couldn’t
+    sign the form on behalf of a Professor. A Professor, however, can be responsible for his or her
+    student’s use, and could sign on behalf of a class. In either of these instances, you should circle
+    the category &quot;I&quot; on the form.</p>
+    
+    <p>The other two signatory categories &quot;The Department&quot; and &quot;The Organisation&quot; must only be circled
+    when the signatory has the legal delegation to do so. For example a Head of Department could
+    sign the form and make the data available to others within the Department.</p>
+    
+    <p>Fax the form to 02 6125 0627 or email a scanned copy to assda@anu.edu.au and mark it
+    &quot;Attention Requests Officer&quot;.</p>
+    
+    <p>
+      Then post the original to:
+      <blockquote>
+        Requests Officer<br />
+        Australian Social Science Data Archive<br />
+        18 Balmain Crescent (Building 66)<br />
+        The Australian National University<br />
+        CANBERRA  ACT  0200
+      </blockquote>
+    </p>
+    
+    <p>We will contact you by the email address you used for your ASSDA account when the form has
+    been received and again when access has been granted.</p>
+    
+    <hr />
+    
+    <h2>THE UNDERTAKING</h2>
+    
+    <p>
+      I<br />
+      <em>(Full name and position)</em><br />
+      of<br />
+      <em>(Name of Department and/or Organisation)</em><br />
+      HEREBY UNDERTAKE that (I  /  the organisation*  /  the department*) <em>[select appropriate category]</em><br />
+    </p>
+    
+    <p>
+      will use any data file(s) obtained from the Australian Social Science Data Archive at the 
+      Australian National University  (hereinafter called 'the materials') for non-commercial 
+      research and educational purposes only, <strong>in accordance with and subject to the 
+      Conditions of Use set out below.</strong>
+    </p>
+    
+    <p>
+      I also consent to my name and institutional affiliation being provided to the data owners 
+      so they may collect information about the usage of their data and make contact with 
+      colleagues with similar interests. 
+    </p>
+    
+    <p>Date</p>
+    <p>Signature</p>
+    <p>Name of Signatory</p>
+    <p>Position of Signatory</p>
+    <p>Email Address of Signatory</p>
+    <p>ADA Username of Signatory**</p>
+    
+    <hr />
+    
+    <small>
+      <p>
+        *  If you wish the undertaking to apply to a Department or Organisation this undertaking must be
+        signed by the authorised delegate of the Department / Organisation.
+      </p>
+      <p>
+        **  Please provide the username you created when completing online registration with ASSDA.
+        The user name is recorded in the return email which was sent to you upon successful
+        registration.
+      </p>
+    </small>
+    
+    <hr />
+    
+    
+    <h3>Conditions of Use</h3>
+    
+    <p>
+      I acknowledge that:
+      <ol>
+        <li>Use of the materials is restricted to non-commercial research and educational purposes only. The materials are not to be used for any other purpose without the express written permission of the Data Archive Manager.</li>
+        <br/>
+        <li>Use of the materials for the following purposes is not permitted:</li>
+        <br/>
+        <ol type="a">
+          <li>transmitting or allowing access to the materials in part or whole to any other person / Department / Organisation not a party to this undertaking; and</li>
+          <br/>
+          <li>attempting to match the materials in whole or in part with any other information for the purposes of attempting to identify individuals, households or organisations.</li>
+          <br/>
+        </ol>
+        <li>Outputs such as statistical tables, graphs, diagrams and interpretations obtained from my analysis of these materials may be further disseminated provided that I:</li>
+        <br/>
+        <ol type="a">
+          <li>acknowledge both the original depositors and the Australian Social Science Data Archive;</li>
+          <br/>
+          <li>acknowledge another archive where the data file is made available through the Australian Social Science Data Archive by another archive;</li>
+          <br/>
+          <li>declare that those who carried out the original analysis and collection of the data bear no responsibility for the further analysis or interpretation of it; and</li>
+          <br/>
+          <li>provide ASSDA with the bibliographic details and, where available, online links to any published work (including journal articles, books or book chapters, conference presentations, theses or any other publications or outputs) based wholly or in part on the material.</li>
+          <br/>
+        </ol>
+        <li>Use of the material is solely at my risk and I indemnify the Australian Social Science Data Archive and its host institutions including The Australian National University, the University of Technology, Sydney, The University of Queensland, University of Western Australia and University of Melbourne.</li>
+        <br/>
+        <li>The Australian Social Science Data Archive and its host institutions including The Australian National University, the University of Technology, Sydney, The University of Queensland, University of Western Australia and University of Melbourne shall not be held responsible for the accuracy and completeness of the material supplied.</li>
+        <br/>
+        <li>ASSDA should be notified of any errors discovered in the materials.</li>
+        <br/>
+        <li>At the conclusion of my research, any new data collections which have been derived from the materials supplied should be offered for deposit in the ASSDA collection. The deposit of the derived materials will include sufficient explanatory documentation to enable their use by others.</li>
+        <br/>
+        <li>At the conclusion of my research, all copies of the materials, including temporary copies, CDs, personal copies, back-ups, derived datasets and all electronic copies should be destroyed.</li>
+      </ol>
+      <br/>
+    </p>
+
+
 email_signature:
   doc_type: email
   name: signature_html

@@ -22,6 +22,9 @@ class UsersController < ApplicationController
     end
   end
 
+  def undertaking
+  end
+
   def new
     @user = User.new User.defaults
   end

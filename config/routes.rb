@@ -4,6 +4,8 @@ ADAUsers::Application.routes.draw do
 
   resources :users, :constraints => {:id => /[^\/]+/, :resource => /[^\/]+/} do
     resources :undertakings
+
+    get :undertaking, :on => :collection
     match 'reset_password' => 'users#reset_password', :on => :collection
     get :change_password, :on => :member
     get :privileged, :on => :collection
