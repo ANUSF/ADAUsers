@@ -225,7 +225,7 @@ undertaking_printable:
       <br/>
     </p>
     
-    <%= link_to "Continue ...", root_path, :class => "button noprint" %>
+    {{= link_to "Continue ...", root_path, :class => "button noprint" }}
 
 
 email_signature:
