@@ -233,12 +233,25 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # -- Alias the acsprimember field for clarity
 
+  # Returns signed_undertaking_form as a boolean
   def signed_undertaking_form?
-    read_attribute(:acsprimember) == 1
+    s = read_attribute(:acsprimember)
+    if s.is_a? Fixnum
+      s == 1
+    else
+      s
+    end
   end
 
+  # Returns signed_undertaking_form as an integer 0..1
   def signed_undertaking_form
-    read_attribute(:acsprimember)
+    # Production database returns boolean, local development returns integer
+    s = read_attribute(:acsprimember)
+    if s.is_a? Fixnum
+      s
+    else
+      s ? 1 : 0
+    end
   end
 
   def signed_undertaking_form=(signed_undertaking_form)
