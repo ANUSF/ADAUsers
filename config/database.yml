@@ -15,16 +15,16 @@ production_nesstar:
 
 
 staff:
-  adapter: sqlite3
-  database: 'db/prod.db'
+  <<: *production
+  database: security
 
 staff_logs:
-  adapter: sqlite3
-  database: 'db/prod_logs.db'
+  <<: *production
+  database: logs
 
 staff_nesstar:
-  adapter: sqlite3
-  database: 'db/prod_nesstar.db'
+  <<: *production
+  database: nesstar
 
 
 devs:
