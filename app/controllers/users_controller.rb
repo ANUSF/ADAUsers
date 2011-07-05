@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user.user = params[:user][:user] # primary key, needs to be set manually
     if @user.save
       UserMailer.register_email(self, @user, params[:user][:password]).deliver
-      redirect_to root_path, :notice => 'Registration successful!'
+      redirect_to undertaking_users_path, :notice => 'Registration successful!'
     else
       flash.now[:alert] = 'Please check the values you filled in.'
       render :new

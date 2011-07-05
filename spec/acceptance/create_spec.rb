@@ -36,6 +36,11 @@ feature "Create", %q{
     user.role_cms.should == 'member'
     page.should have_content("Registration successful!")
 
+    # And I should see a printable undertaking form
+    page.should have_content("Application for Access to Data")
+    page.should have_content("How to use this form")
+    page.should have_selector("a", :text => "Continue ...")
+
     # And I should receive a registration email
     email = ActionMailer::Base.deliveries.last
     email.subject.should == "User Nesstar Registration"

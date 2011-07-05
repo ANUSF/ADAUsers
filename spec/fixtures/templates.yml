@@ -68,6 +68,10 @@ undertaking_printable:
   name: undertaking_printable
   title: Application for Access to Data
   body: |
+    <p class="noprint">
+      Please print and submit this form in order to gain access to data. Further instructions are provided below.
+    </p>
+    
     <p>
       Australian Data Archive<br />
       The Australian National University<br />
@@ -79,7 +83,7 @@ undertaking_printable:
     
     <h2>How to use this form</h2>
     
-    <p></p>Completion of the form will give the signatory free access to download all of ASSDA’s General Access collection.     Separate processes are required for restricted datasets.</p>
+    <p></p>Completion of the form will give the signatory free access to download all of ASSDA’s General Access collection. Separate processes are required for restricted datasets.</p>
     <p>Things you should know…</p>
     <ol>
       <li>
@@ -220,6 +224,8 @@ undertaking_printable:
       </ol>
       <br/>
     </p>
+    
+    <%= link_to "Continue ...", root_path, :class => "button noprint" %>
 
 
 email_signature:
