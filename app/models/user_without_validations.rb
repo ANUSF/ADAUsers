@@ -2,7 +2,7 @@ require 'bcrypt'
 
 class UserWithoutValidations < ActiveRecord::Base
   include BCrypt
-  HASH_PASSWORDS = true
+  HASH_PASSWORDS = false
 
   AUSTRALIA = Country.find_by_Countryname('Australia')
 
