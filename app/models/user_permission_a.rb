@@ -13,8 +13,4 @@ class UserPermissionA < ActiveRecord::Base
   def user_has_access
     self.user.permissions_a.where(:datasetID => self.datasetID, :fileID => nil, :permissionvalue => 1).present?
   end
-
-  def permissionvalue
-    read_attribute_before_type_cast('permissionvalue').to_i
-  end
 end

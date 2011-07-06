@@ -21,8 +21,4 @@ class UserPermissionB < ActiveRecord::Base
   def user_has_access
     self.user.permissions_b.where("datasetID = ? AND fileID IS NULL AND permissionvalue > 0", self.datasetID).present?
   end
-
-  def permissionvalue
-    read_attribute_before_type_cast('permissionvalue').to_i
-  end
 end
