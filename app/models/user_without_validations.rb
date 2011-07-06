@@ -235,23 +235,12 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # Returns signed_undertaking_form as a boolean
   def signed_undertaking_form?
-    s = read_attribute(:acsprimember)
-    if s.is_a? Fixnum
-      s == 1
-    else
-      s
-    end
+    read_attribute_before_type_cast(:acsprimember) == 1
   end
 
   # Returns signed_undertaking_form as an integer 0..1
   def signed_undertaking_form
-    # Production database returns boolean, local development returns integer
-    s = read_attribute(:acsprimember)
-    if s.is_a? Fixnum
-      s
-    else
-      s ? 1 : 0
-    end
+    read_attribute_before_type_cast(:acsprimember)
   end
 
   def signed_undertaking_form=(signed_undertaking_form)
@@ -357,7 +346,7 @@ class UserWithoutValidations < ActiveRecord::Base
   end
 
   def user_role
-    self.user_roles.first.roleID unless self.user_roles.empty?
+    self.user_roles.last.roleID unless self.user_roles.empty?
   end
 
   def user_role=(role)
