@@ -10,12 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110606000548) do
+ActiveRecord::Schema.define(:version => 20110525002614) do
 
-  create_table "ProjectEJB", :id => false, :force => true do |t|
+  create_table "ProjectEJB", :force => true do |t|
     t.text     "comment"
     t.datetime "creationDate"
-    t.string   "id",           :limit => 100, :default => "", :null => false
     t.text     "label"
     t.text     "scope"
     t.text     "sponsor"
@@ -23,29 +22,26 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.text     "type"
   end
 
-  create_table "PurposeEJB", :id => false, :force => true do |t|
+  create_table "PurposeEJB", :force => true do |t|
     t.text     "comment"
     t.datetime "creationDate"
-    t.string   "id",           :limit => 100, :default => "", :null => false
     t.text     "label"
   end
 
-  create_table "RoleEJB", :id => false, :force => true do |t|
+  create_table "RoleEJB", :force => true do |t|
     t.text     "comment"
     t.datetime "creationDate"
-    t.string   "id",           :limit => 100, :default => "", :null => false
     t.text     "label"
   end
 
-  create_table "UserEJB", :id => false, :force => true do |t|
+  create_table "UserEJB", :force => true do |t|
     t.text     "comment"
     t.datetime "creationDate"
-    t.string   "id",               :limit => 100, :default => "", :null => false
     t.text     "label"
     t.date     "modificationDate"
-    t.integer  "admin",                           :default => 0
+    t.boolean  "admin",                          :default => false
     t.string   "password",         :limit => 20
-    t.integer  "active"
+    t.boolean  "active"
   end
 
   create_table "access_levels_undertakings", :id => false, :force => true do |t|
@@ -61,28 +57,23 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.string "accessLevel", :limit => 1
   end
 
-  add_index "accesslevel", ["accessLevel"], :name => "accesslevel_accesslevel"
-  add_index "accesslevel", ["datasetID"], :name => "accesslevel_datasetID"
-  add_index "accesslevel", ["fileID"], :name => "accesslevel_fileID"
+  add_index "accesslevel", ["datasetID"], :name => "datasetID"
 
-  create_table "agenciesdept", :id => false, :force => true do |t|
-    t.integer "id",                                          :null => false
-    t.string  "value",        :limit => 150, :default => "", :null => false
-    t.string  "name",         :limit => 150, :default => "", :null => false
-    t.integer "acsprimember",                :default => 1,  :null => false
+  create_table "agenciesdept", :force => true do |t|
+    t.string  "value",        :limit => 150, :default => "",   :null => false
+    t.string  "name",         :limit => 150, :default => "",   :null => false
+    t.boolean "acsprimember",                :default => true, :null => false
     t.string  "type",         :limit => 100
   end
 
-  create_table "countries", :id => false, :force => true do |t|
-    t.integer "id",                                         :null => false
-    t.string  "Countryname", :limit => 100, :default => "", :null => false
-    t.string  "Sym",         :limit => 10,  :default => ""
+  create_table "countries", :force => true do |t|
+    t.string "Countryname", :limit => 100, :default => "", :null => false
+    t.string "Sym",         :limit => 10,  :default => ""
   end
 
-  create_table "otherinstitutions", :id => false, :force => true do |t|
-    t.integer "id",                                          :null => false
-    t.string  "name",         :limit => 150, :default => "", :null => false
-    t.integer "acsprimember",                :default => 1,  :null => false
+  create_table "otherinstitutions", :force => true do |t|
+    t.string  "name",         :limit => 150, :default => "",   :null => false
+    t.boolean "acsprimember",                :default => true, :null => false
     t.string  "type",         :limit => 100
   end
 
@@ -93,11 +84,16 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.datetime "date"
   end
 
+  add_index "searches", ["name"], :name => "name"
+  add_index "searches", ["userId"], :name => "userId"
+
   create_table "searchstats", :id => false, :force => true do |t|
     t.string  "date",     :limit => 6, :default => "", :null => false
     t.integer "sessions",              :default => 0,  :null => false
     t.integer "searches",              :default => 0,  :null => false
   end
+
+  add_index "searchstats", ["date"], :name => "date"
 
   create_table "templates", :force => true do |t|
     t.string   "doc_type"
@@ -122,12 +118,11 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.datetime "updated_at"
   end
 
-  create_table "uniaustralia", :id => false, :force => true do |t|
-    t.integer "id",                                          :null => false
-    t.string  "Longuniname",  :limit => 100, :default => "", :null => false
+  create_table "uniaustralia", :force => true do |t|
+    t.string  "Longuniname",  :limit => 100, :default => "",   :null => false
     t.string  "Shortuniname", :limit => 30,  :default => ""
-    t.integer "acsprimember",                :default => 1,  :null => false
-    t.integer "g8"
+    t.boolean "acsprimember",                :default => true, :null => false
+    t.boolean "g8"
   end
 
   create_table "usage", :id => false, :force => true do |t|
@@ -136,20 +131,33 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.integer "accesses",                 :default => 0,  :null => false
   end
 
+  add_index "usage", ["accesses"], :name => "accesses"
+  add_index "usage", ["datasetId"], :name => "datasetId"
+  add_index "usage", ["server"], :name => "server"
+
   create_table "userAgreement", :id => false, :force => true do |t|
     t.string "agreementID", :limit => 100, :default => "", :null => false
     t.string "userID",      :limit => 100, :default => "", :null => false
   end
+
+  add_index "userAgreement", ["agreementID"], :name => "userAgreement_agreementID"
+  add_index "userAgreement", ["userID"], :name => "userAgreement_userID"
 
   create_table "userGroups", :id => false, :force => true do |t|
     t.string "userId", :limit => 100, :default => "", :null => false
     t.string "group",  :limit => 100, :default => "", :null => false
   end
 
+  add_index "userGroups", ["group"], :name => "group"
+  add_index "userGroups", ["userId"], :name => "userId"
+
   create_table "userProject", :id => false, :force => true do |t|
     t.string "projectID", :limit => 100, :default => "", :null => false
     t.string "userID",    :limit => 100, :default => "", :null => false
   end
+
+  add_index "userProject", ["projectID"], :name => "userProject_projectID"
+  add_index "userProject", ["userID"], :name => "userProject_userID"
 
   create_table "userPurposes", :id => false, :force => true do |t|
     t.string "purposeID", :limit => 100, :default => "", :null => false
@@ -162,15 +170,14 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.text   "rolegroup"
   end
 
-  create_table "userdetails", :id => false, :force => true do |t|
-    t.string  "user",                 :limit => 100,                 :null => false
+  create_table "userdetails", :primary_key => "user", :force => true do |t|
     t.string  "password",             :limit => 100
     t.string  "email",                :limit => 100
     t.string  "institution",          :limit => 100
     t.string  "action",               :limit => 100
     t.string  "position",             :limit => 100
     t.string  "dateregistered",       :limit => 100, :default => ""
-    t.integer "acsprimember"
+    t.boolean "acsprimember"
     t.integer "countryid"
     t.integer "uniid"
     t.integer "departmentid"
@@ -181,15 +188,15 @@ ActiveRecord::Schema.define(:version => 20110606000548) do
     t.string  "austinstitution",      :limit => 10
     t.string  "otherpd",              :limit => 100
     t.string  "otherwt",              :limit => 100
-    t.string  "token_reset_password"
     t.string  "role_cms"
+    t.string  "token_reset_password"
   end
 
   create_table "userpermissiona", :id => false, :force => true do |t|
     t.string  "userID",          :limit => 100
     t.string  "datasetID",       :limit => 100
     t.string  "fileID",          :limit => 100
-    t.integer "permissionvalue",                :default => 0
+    t.boolean "permissionvalue",                :default => false
   end
 
   create_table "userpermissionb", :id => false, :force => true do |t|
