@@ -14,7 +14,7 @@ module HelperMethods
   end
 
   def log_in_as(user)
-    log_in_with(:username => user.user, :password => user.user)
+    log_in_with(:username => user.user, :password => user.user*3)
   end
 
   def logged_in?

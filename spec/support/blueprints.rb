@@ -11,13 +11,14 @@ end
 
 User.blueprint do
   user { Sham.name }
-  password { object.user }
+  password { object.user*3 }
   title { User.new.title_options[0] }
   fname { Sham.name }
   sname { Sham.name }
   email { Sham.email }
   signed_undertaking_form { 1 }
-  user_roles { [UserRole.make(:id => object.user, :role => RoleEjb.find_by_id("affiliateusers"))] }
+  user_roles { [UserRole.where(:id => object.user, :roleID => RoleEjb.find_by_id("affiliateusers")).first ||
+                UserRole.make(:id => object.user, :role => RoleEjb.find_by_id("affiliateusers"))] }
   role_cms { User::DEFAULT_ROLE_CMS }
   position { User.new.position_options[0] }
   action { User.new.action_options[0][1] }

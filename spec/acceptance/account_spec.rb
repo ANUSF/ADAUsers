@@ -30,7 +30,7 @@ feature "Accounts", %q{
     visit "/session/new?redirect_to=#{new_user_undertaking_path(user)}"
 
     fill_in "session_username", :with => user.user
-    fill_in "session_password", :with => user.user
+    fill_in "session_password", :with => user.user*3
     click_button "Log in"
 
     page.should have_content("Login successful")
