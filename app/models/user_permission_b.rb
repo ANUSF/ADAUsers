@@ -23,6 +23,6 @@ class UserPermissionB < ActiveRecord::Base
   end
 
   def permissionvalue
-    read_attribute_before_type_cast(:permissionvalue)
+    read_attribute_before_type_cast('permissionvalue').to_i
   end
 end

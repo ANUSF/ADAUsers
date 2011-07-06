@@ -235,12 +235,12 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # Returns signed_undertaking_form as a boolean
   def signed_undertaking_form?
-    read_attribute_before_type_cast(:acsprimember) == 1
+    read_attribute_before_type_cast('acsprimember').to_i == 1
   end
 
   # Returns signed_undertaking_form as an integer 0..1
   def signed_undertaking_form
-    read_attribute_before_type_cast(:acsprimember)
+    read_attribute_before_type_cast('acsprimember').to_i
   end
 
   def signed_undertaking_form=(signed_undertaking_form)
