@@ -40,17 +40,25 @@ Spork.prefork do
     config.before(:all)    { Sham.reset(:before_all)  }
     config.before(:each)   { Sham.reset(:before_each) }
 
-    # Generate some test data
+    # Start with a clean slate, and generate some test data
     config.before(:all) do
+      Country.destroy_all
       Country.make(:australia)
       Country.make(:new_zealand)
+      AustralianUni.destroy_all
       AustralianUni.make
       AustralianUni.make(:melbourne)
+      AustralianGov.destroy_all
       AustralianGov.make
       AustralianGov.make(:treasury)
+      RoleEjb.destroy_all
       RoleEjb.make(:id => "affiliateusers")
       RoleEjb.make(:id => "publisher")
       RoleEjb.make(:id => "administrator")
+    end
+
+    config.before(:each) do
+      User.destroy_all
     end
 
     #config.after(:all) do

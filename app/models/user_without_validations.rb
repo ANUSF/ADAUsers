@@ -127,10 +127,13 @@ class UserWithoutValidations < ActiveRecord::Base
   def complete_user_data
     self.dateregistered = Date.today.to_s
 
-    self.user_roles << UserRole.new(
-      :roleID => 'affiliateusers',
-      :rolegroup => '')
-    self.role_cms = DEFAULT_ROLE_CMS
+    # Blueprints define their own role
+    unless Rails.env.test?
+      self.user_roles << UserRole.new(
+        :roleID => 'affiliateusers',
+        :rolegroup => '')
+      self.role_cms = DEFAULT_ROLE_CMS
+    end
 
     self.user_ejb = UserEjb.new(
       :comment => 'registered user',
