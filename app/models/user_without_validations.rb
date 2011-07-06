@@ -127,8 +127,8 @@ class UserWithoutValidations < ActiveRecord::Base
   def complete_user_data
     self.dateregistered = Date.today.to_s
 
-    # Blueprints define their own role
-    unless Rails.env.test?
+    # Avoid stomping on previously defined roles (eg. blueprints)
+    if self.user_roles.empty?
       self.user_roles << UserRole.new(
         :roleID => 'affiliateusers',
         :rolegroup => '')
