@@ -6,6 +6,11 @@ feature "API", %q{
   I want to request information via a JSON API
 } do
 
+  before(:each) do
+    AccessLevel.destroy_all
+  end
+
+
   scenario "fetching user role" do
     user = User.make
     visit "/users/#{user.user}/role"

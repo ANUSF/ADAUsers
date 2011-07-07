@@ -7,6 +7,8 @@ feature "Modify access to dataset files", %q{
 } do
 
   before(:each) do
+    AccessLevel.destroy_all
+
     @admin = User.find_by_user("administrator") || User.make(:administrator, :user => "administrator")
     log_in_as(@admin) unless logged_in?
 

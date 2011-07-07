@@ -58,6 +58,12 @@ class Undertaking < ActiveRecord::Base
   def is_restricted
     read_attribute(:is_restricted) == 1
   end
+  def agreed
+    read_attribute(:agreed) == 1
+  end
+  def processed
+    read_attribute(:processed) == 1
+  end
 
   def update_user
     self.user.signed_undertaking_form = User::UNDERTAKING_REQUESTED unless self.user.signed_undertaking_form?
