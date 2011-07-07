@@ -55,6 +55,10 @@ class Undertaking < ActiveRecord::Base
     write_attribute(:intended_use_type, intended_use_type.reject { |t| t.nil? || t.blank? })
   end
 
+  def is_restricted
+    read_attribute(:is_restricted) == 1
+  end
+
   def update_user
     self.user.signed_undertaking_form = User::UNDERTAKING_REQUESTED unless self.user.signed_undertaking_form?
     self.user.save!

@@ -101,8 +101,6 @@ class UsersController < ApplicationController
   ############################################################
   # JSON API
   #
-  # TODO: Should we make this more RESTful?
-  #
 
   def role
     @user = User.find_by_user(params[:id])

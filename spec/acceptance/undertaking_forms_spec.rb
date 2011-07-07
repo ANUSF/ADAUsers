@@ -8,6 +8,10 @@ feature "Undertaking forms", %q{
 
   fixtures :templates
 
+  before(:each) do
+    AccessLevel.destroy_all
+  end
+
   after(:each) do
     log_out if logged_in?
   end
