@@ -178,6 +178,9 @@ p.admin-undertaking-actions {
 #category_a table, #category_b table, #category_a select, #category_b select {
   margin-bottom: 0.5em;
 }
+#category_a select, #category_b select, form.undertaking select {
+  height: 20em;
+}
 
 .signed_undertaking_form_no {
   background-color: #d24545;
