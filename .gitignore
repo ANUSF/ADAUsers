@@ -2,6 +2,7 @@
 db/*.db
 db/*.sql
 db/*.bak
+db/backup/*
 log/*.log
 tmp/**/*
 .rvmrc
@@ -9,6 +10,7 @@ db/openid-store
 *~
 *.war
 doc/whitepaper.html
+doc/undertaking_forms
 coverage/
 config/database-deploy.yml
 config/initializers/secrets.rb
