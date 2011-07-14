@@ -1,5 +1,5 @@
 Themenap::Config.configure do |c|
-  c.server = 'http://staff.ada.edu.au'
+  c.server = 'https://staff.ada.edu.au'
   c.use_basic_auth = true
   c.snippets =
     [ { :css => 'title',
