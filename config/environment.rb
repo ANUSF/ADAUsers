@@ -8,4 +8,6 @@ ADAUsers::Application.initialize!
 # By default, the MysqlAdapter will consider all columns of type tinyint(1)
 # as boolean. Nesstar uses tinyint(1) fields to store small integers, so
 # we disable that functionality here.
-ActiveRecord::ConnectionAdapters::Mysql2Adapter.emulate_booleans = false
+if defined? ActiveRecord::ConnectionAdapters::Mysql2Adapter
+  ActiveRecord::ConnectionAdapters::Mysql2Adapter.emulate_booleans = false
+end
