@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   def show
     @username = params[:user_id] || params[:username] || params[:id]
     @user = User.find_by_user(@username)
+
+    @datasetsAccessibleA = @user.permissions_a.accessible.without_parented_files
+    @datasetsAccessibleB = @user.permissions_b.accessible.without_parented_files
   end
 
   def discover

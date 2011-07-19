@@ -81,6 +81,13 @@ UserPermissionA.blueprint do
   permissionvalue { 1 }
 end
 
+UserPermissionB.blueprint do
+  userID { User.make.user }
+  datasetID { AccessLevel.cat_b.first.datasetID }
+  fileID { nil }
+  permissionvalue { 1 }
+end
+
 AccessLevel.blueprint do
   datasetID { "au.edu.anu.assda.ddi.%05d" % Sham.id }
   fileID { nil }

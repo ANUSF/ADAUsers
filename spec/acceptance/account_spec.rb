@@ -40,10 +40,19 @@ feature "Accounts", %q{
 
   scenario "viewing user details" do
     user = User.make
+    [:a, :b].each { |category| AccessLevel.make(category) }
+    permission_a = UserPermissionA.make(:user => user)
+    permission_b = UserPermissionB.make(:user => user)
+
     log_in_as(user)
     visit "/users/#{user.user}"
 
+    # Username
     page.should have_content(user.name)
+
+    # Datasets
+    page.should have_content(permission_a.access_level.dataset_description)
+    page.should have_content(permission_b.access_level.dataset_description)
   end
 
   scenario "viewing another user's details" do

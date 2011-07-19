@@ -17,3 +17,20 @@
 </table>
 
 <%= render 'users/account_links' %>
+
+
+<!-- Datasets -->
+<% categories = [{:title => "My General Datasets",    :datasets => @datasetsAccessibleA},
+                 {:title => "My Restricted Datasets", :datasets => @datasetsAccessibleB}] %>
+
+<% categories.each do |category| %>
+  <% if category[:datasets].present? %>
+    <h3><%= category[:title] %></h3>
+    <ul>
+      <% category[:datasets].each do |permission| %>
+        <li><%= permission.access_level.dataset_description %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
