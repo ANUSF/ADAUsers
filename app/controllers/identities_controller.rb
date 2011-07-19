@@ -4,6 +4,8 @@ class IdentitiesController < ApplicationController
       format.html do
         response.headers['X-XRDS-Location'] = xrds_idp_url
         @user = current_user
+        @datasetsAccessibleA = @user.permissions_a.accessible.without_parented_files
+        @datasetsAccessibleB = @user.permissions_b.accessible.without_parented_files
       end
       format.xrds do
         render :text => render_xrds(OpenID::OPENID_IDP_2_0_TYPE)
