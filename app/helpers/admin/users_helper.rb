@@ -16,4 +16,12 @@ module Admin::UsersHelper
       yield
     end
   end
+
+  def date_to_s(date)
+    if date.present?
+      Time.parse(date).strftime("%e %b %Y") + " ("+time_ago_in_words(date)+")"
+    else
+      'unknown'
+    end
+  end
 end
