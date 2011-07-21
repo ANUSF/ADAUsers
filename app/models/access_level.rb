@@ -31,9 +31,13 @@ class AccessLevel < ActiveRecord::Base
     p
   end
 
-  def dataset_description
+  def dataset_local_id
     self.datasetID =~ /([^\.]*)$/
-    "%s - %s" % [$1, self.fileContent || self.datasetname]
+    $1
+  end
+
+  def dataset_description
+    "%s - %s" % [self.dataset_local_id, self.fileContent || self.datasetname]
   end
 
   def category

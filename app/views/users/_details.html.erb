@@ -28,7 +28,7 @@
     <h3><%= category[:title] %></h3>
     <ul>
       <% category[:datasets].each do |permission| %>
-        <li><%= permission.access_level.dataset_description %></li>
+        <li><%= link_to permission.access_level.dataset_description, "http://#{CMS::HOST[Rails.env]}/ada/#{permission.access_level.dataset_local_id}" %></li>
       <% end %>
     </ul>
   <% end %>
