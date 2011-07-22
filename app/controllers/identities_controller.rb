@@ -46,7 +46,7 @@ class IdentitiesController < ApplicationController
   private
 
   def handle_existing_login(oidreq)
-    if (session[:approvals] || []).include? oidreq.trust_root
+    if trusted_root? oidreq.trust_root
       render_response(positive_response(oidreq, session[:username]))
     else
       store_request oidreq
@@ -59,5 +59,11 @@ class IdentitiesController < ApplicationController
 
     # Special hack to allow Nesstar logins within a frame set
     session[:headless] = true if  oidreq.return_to =~ /[?&]headless=/
+  end
+
+  def trusted_root?(root)
+    (session[:approvals] || []).include? root or
+      root =~ /\Ahttps?:\/\/localhost(:[0-9]+)?\z/ or
+      root =~ /\Ahttps?:\/\/([a-z0-9-]+\.)?ada.edu.au\z/
   end
 end
