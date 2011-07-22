@@ -5,7 +5,8 @@ class Undertaking < ActiveRecord::Base
     :class_name => "AccessLevel",
     :finder_sql => proc { "SELECT * FROM accesslevel INNER JOIN access_levels_undertakings ON (accesslevel.datasetID = access_levels_undertakings.datasetID) WHERE (access_levels_undertakings.undertaking_id = #{id})" },
     :insert_sql => proc { |record| "INSERT INTO access_levels_undertakings (datasetID, undertaking_id) VALUES ('#{record.datasetID}', #{id})" },
-    :delete_sql => proc { |record| "DELETE FROM access_levels_undertakings WHERE datasetID = '#{record.datasetID}' AND undertaking_id = #{id}" }
+    :delete_sql => proc { |record| "DELETE FROM access_levels_undertakings WHERE datasetID = '#{record.datasetID}' AND undertaking_id = #{id}" },
+    :uniq => true
 
   scope :agreed, where(:agreed => true)
   scope :unprocessed, where("processed IS NULL OR processed = 0")

@@ -52,8 +52,8 @@ undertaking_agreement:
     <p>
       I HEREBY UNDERTAKE that I will use the data file(s)<br/>
       <br/>
-      {{ undertaking.dataset_descriptions.each do |dd| }}
-        {{= dd }}<br />
+      {{ undertaking.dataset_descriptions.each do |dataset_description| }}
+        {{= dataset_description }}<br />
       {{ end }}
     </p>
     
@@ -226,8 +226,8 @@ study_access_approval:
       <p>Dear {{= user.name || user.user }},</p>
       <p>You have now been granted access to the following dataset(s):</p>
       <p>
-        {{ datasets.each do |dataset| }}
-          {{= dataset.dataset_description }}
+        {{ dataset_descriptions.each do |dataset_description| }}
+          {{= dataset_description }}
         {{ end }}
       </p>
       <p>Please refer to the Catalogue guide, which provides information on how to browse, analyse, visualise and download data.</p>
@@ -316,8 +316,8 @@ undertaking_acknowledgement_admin:
         <br />
         The following datasets have been requested:<br />
         <br />
-        {{ undertaking.datasets.each do |dataset| }}
-          {{= dataset.dataset_description }}<br />
+        {{ undertaking.dataset_descriptions.each do |dataset_description| }}
+          {{= dataset_description }}<br />
         {{ end }}
         <br />
         To approve access see: {{= link_to nil, edit_admin_user_url(undertaking.user) }}

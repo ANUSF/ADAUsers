@@ -90,9 +90,9 @@ class Admin::UsersController < ApplicationController
 
       @redirect_to = edit_admin_user_path(@user)
       @datasets = @category == :a ? @user.datasets_cat_a_pending_to_grant : @user.datasets_cat_b_pending_to_grant
-      @datasets.map! { |datasetID| AccessLevel.find_by_datasetID(datasetID) }
+      @dataset_descriptions = @datasets.map { |datasetID| AccessLevel.find_by_datasetID(datasetID).dataset_description }.uniq
 
-      locals = {:user => @user, :category => @category, :datasets => @datasets}
+      locals = {:user => @user, :category => @category, :dataset_descriptions => @dataset_descriptions}
       template = Template.find_by_doc_type_and_name('email', 'study_access_approval')
 
       @email = Email.new(:from    => Email::DEFAULT_FROM,

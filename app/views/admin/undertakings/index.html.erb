@@ -48,8 +48,8 @@
 	  <p>
 	    <strong>Datasets:</strong><br />
 	    <ul>
-	      <% undertaking.datasets.each do |dataset| %>
-	        <li><%= dataset.dataset_description %></li>
+	      <% undertaking.dataset_descriptions.each do |dataset_description| %>
+	        <li><%= dataset_description %></li>
 	      <% end %>
 	    </ul>
 	  </p>
