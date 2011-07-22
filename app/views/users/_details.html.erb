@@ -27,7 +27,7 @@
   <% if category[:datasets].present? %>
     <h3><%= category[:title] %></h3>
     <ul>
-      <% category[:datasets].each do |permission| %>
+      <% category[:datasets].select { |p| p.access_level.present? }.each do |permission| %>
         <li><%= link_to permission.access_level.dataset_description, "http://#{CMS::HOST[Rails.env]}/ada/#{permission.access_level.dataset_local_id}" %></li>
       <% end %>
     </ul>
