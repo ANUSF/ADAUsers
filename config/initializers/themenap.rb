@@ -11,6 +11,8 @@ Themenap::Config.configure do |c|
         :mode => :remove },
       { :css => 'meta[name=csrf-token]',
         :mode => :remove },
+      { :css => 'nav.archive_menu',
+        :mode => :remove },
       { :css => 'body',
         :mode => :setattr,
         :key => 'id',
