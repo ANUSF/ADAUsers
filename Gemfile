@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.9'
 
 # Rake 0.9.0 has this problem: http://stackoverflow.com/questions/5287121/undefined-method-task-using-rake-0-9-0-beta-4
 gem 'rake', '~> 0.8.7'
@@ -19,6 +19,7 @@ gem 'ruby-openid',  :require => 'openid'
 gem 'bcrypt-ruby'
 gem 'composite_primary_keys' # For support of Nesstar database
 gem 'json_pure', :require => 'json'
+gem 'escape_utils'
 
 gem 'formtastic'
 gem 'will_paginate', '~> 3.0.pre2'
@@ -35,7 +36,7 @@ group :development, :test do
   gem 'barista'
   gem 'therubyracer'
   gem 'rspec-rails', '= 2.0.1'
-  gem 'capybara'
+  gem 'capybara', '~>0.4.1.2'
   gem 'launchy'    # So you can do Then show me the page
   gem 'autotest'
   gem 'steak', '>= 1.0.0.rc.1'
