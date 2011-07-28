@@ -1,5 +1,7 @@
 class User < UserWithoutValidations
-  attr_accessor :password_old, :token_reset_password_confirmation
+  attr_accessor :password_old, :token_reset_password_confirmation, :updater_is_admin
+  attr_protected :updater_is_admin
+
 
   # -- Validations for attributes available in the registration form go here:
 
@@ -118,8 +120,9 @@ class User < UserWithoutValidations
         user.errors[:base] << 'password reset token is invalid'
       end
 
-    elsif (HASH_PASSWORDS and Password.new(user.password_was) != user.password_old) or
-        (!HASH_PASSWORDS and user.password_was != user.password_old)
+    elsif !user.updater_is_admin and
+        ((HASH_PASSWORDS and Password.new(user.password_was) != user.password_old) or
+         (!HASH_PASSWORDS and user.password_was != user.password_old))
       user.errors.add(:password_old, 'password does not match')
     end
   end

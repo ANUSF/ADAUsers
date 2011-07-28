@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_admin_or_owner, :only => [:change_password, :edit, :change_password, :update, :show]
+  before_filter :require_admin_or_owner, :only => [:edit, :change_password, :update, :show]
   before_filter :require_no_user, :only => [:new, :create]
 
   def show
@@ -58,15 +58,16 @@ class UsersController < ApplicationController
     # TODO: If the user is editing themselves, do not allow them to update their permissions
 
     @user = User.find_by_user(params[:id])
+    @user.updater_is_admin = current_user.admin?
 
     if @user.update_attributes(params[:user])
       if params[:commit] == "Submit"
         flash[:notice] = 'Update successful.'
       else
-        flash[:notice] = 'Your password has been updated.'
+        flash[:notice] = "%s password has been updated." % [@user == current_user ? 'Your' : @user.user.capitalize+"'s"]
         UserMailer.change_password_email(self, @user, params[:user][:password]).deliver
       end
-      redirect_to @user
+      redirect_to current_user == @user ? @user : edit_admin_user_path(@user)
     else
       render (params[:commit] == "Submit" ? :edit : :change_password)
     end

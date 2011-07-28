@@ -113,6 +113,29 @@ feature "Edit basic attributes", %q{
   end
 
 
+  scenario "changing password via edit user page" do
+    [:edit_user, :edit_user_details].each do |page_name|
+      visit "/admin/users/tester/edit"
+      click_link "Edit user details" if page_name == :edit_user_details
+      click_link "Change user password"
+
+      page.should have_content "Changing #{@user.user}'s password. #{@user.user.capitalize} will be informed via email of this password change."
+      fill_in 'user_password', :with => "newpass"
+      fill_in 'user_password_confirmation', :with => "newpass"
+      click_button "Change Password"
+
+      page.should have_content "Tester's password has been updated."
+
+      log_out
+      log_in_with(:username => @user.user, :password => "newpass")
+
+      # Return to admin account
+      log_out
+      log_in_as(@admin)
+    end
+  end
+
+
   scenario "accessing the edit page without permission" do
     log_out
 

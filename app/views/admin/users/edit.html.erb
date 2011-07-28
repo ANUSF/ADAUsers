@@ -2,7 +2,11 @@
 
 <h2>User details</h2>
 
-<p><%= link_to "Edit user details", edit_user_path(@user) %></p>
+<p>
+  <%= link_to "Edit user details", edit_user_path(@user) %>
+  | <%= link_to "Change user password", change_password_user_path(@user) %>
+</p>
+
 <%= render 'user_details_table' %>
 
 <hr />
