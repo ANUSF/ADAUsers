@@ -39,9 +39,9 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
     t.datetime "creationDate"
     t.text     "label"
     t.date     "modificationDate"
-    t.boolean  "admin",                          :default => false
+    t.integer  "admin",            :limit => 1,  :default => 0
     t.string   "password",         :limit => 20
-    t.boolean  "active"
+    t.integer  "active",           :limit => 1
   end
 
   create_table "access_levels_undertakings", :id => false, :force => true do |t|
@@ -60,9 +60,9 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
   add_index "accesslevel", ["datasetID"], :name => "datasetID"
 
   create_table "agenciesdept", :force => true do |t|
-    t.string  "value",        :limit => 150, :default => "",   :null => false
-    t.string  "name",         :limit => 150, :default => "",   :null => false
-    t.boolean "acsprimember",                :default => true, :null => false
+    t.string  "value",        :limit => 150, :default => "", :null => false
+    t.string  "name",         :limit => 150, :default => "", :null => false
+    t.integer "acsprimember", :limit => 1,   :default => 1,  :null => false
     t.string  "type",         :limit => 100
   end
 
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
   end
 
   create_table "otherinstitutions", :force => true do |t|
-    t.string  "name",         :limit => 150, :default => "",   :null => false
-    t.boolean "acsprimember",                :default => true, :null => false
+    t.string  "name",         :limit => 150, :default => "", :null => false
+    t.integer "acsprimember", :limit => 1,   :default => 1,  :null => false
     t.string  "type",         :limit => 100
   end
 
@@ -106,23 +106,23 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
 
   create_table "undertakings", :force => true do |t|
     t.string   "user_user"
-    t.boolean  "is_restricted"
+    t.integer  "is_restricted",            :limit => 1
     t.string   "intended_use_type"
     t.string   "intended_use_other"
     t.text     "intended_use_description"
     t.string   "email_supervisor"
     t.text     "funding_sources"
-    t.boolean  "agreed"
-    t.boolean  "processed"
+    t.integer  "agreed",                   :limit => 1
+    t.integer  "processed",                :limit => 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "uniaustralia", :force => true do |t|
-    t.string  "Longuniname",  :limit => 100, :default => "",   :null => false
+    t.string  "Longuniname",  :limit => 100, :default => "", :null => false
     t.string  "Shortuniname", :limit => 30,  :default => ""
-    t.boolean "acsprimember",                :default => true, :null => false
-    t.boolean "g8"
+    t.integer "acsprimember", :limit => 1,   :default => 1,  :null => false
+    t.integer "g8",           :limit => 1
   end
 
   create_table "usage", :id => false, :force => true do |t|
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
     t.string  "action",               :limit => 100
     t.string  "position",             :limit => 100
     t.string  "dateregistered",       :limit => 100, :default => ""
-    t.boolean "acsprimember"
+    t.integer "acsprimember",         :limit => 1
     t.integer "countryid"
     t.integer "uniid"
     t.integer "departmentid"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
     t.string  "userID",          :limit => 100
     t.string  "datasetID",       :limit => 100
     t.string  "fileID",          :limit => 100
-    t.boolean "permissionvalue",                :default => false
+    t.integer "permissionvalue", :limit => 1,   :default => 0
   end
 
   create_table "userpermissionb", :id => false, :force => true do |t|
