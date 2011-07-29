@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <meta charset="UTF-8">
 <title>ADA Users <%= yield :title %></title>
-<!-- Include this BEFORE the body to ensure older browsers can read new html5 elements --><script src="https://staff.ada.edu.au/javascripts/modernizr-1.5.min.js?1311301517" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery.min.js?1311301517" type="text/javascript"></script><link href="https://staff.ada.edu.au/stylesheets/import.css?1311301517" media="screen" rel="stylesheet" type="text/css">
-<link href="https://staff.ada.edu.au/stylesheets/theme.css?1311301517" media="screen" rel="stylesheet" type="text/css"><%= render "layouts/includes" %></head>
+<script src="https://staff.ada.edu.au/javascripts/modernizr-1.5.min.js?1311836952" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery.min.js?1311836952" type="text/javascript"></script><link href="https://staff.ada.edu.au/stylesheets/import.css?1311836952" media="screen" rel="stylesheet" type="text/css">
+<link href="https://staff.ada.edu.au/stylesheets/theme.css?1311836952" media="screen" rel="stylesheet" type="text/css"><%= render "layouts/includes" %></head>
 <body class="default" id="social_science">
 		<header><div class="login"><%= render "layouts/login" %></div>
 
 			<div class="masthead<%= yield :masthead_class %>"><a href="https://staff.ada.edu.au/ada/home">Australian Data Archive</a></div>
 	</header><nav class="mainnav clearfix"><ul>
-<li> <a href="https://staff.ada.edu.au/ada/home">Home</a> 
+<li> <a href="https://staff.ada.edu.au/ada/home" class="current">Home</a>
 				</li>
-				<li> <a href="https://staff.ada.edu.au/ada/subarchives">Subarchives</a> 
+				<li> <a href="https://staff.ada.edu.au/ada/subarchives" class="">Subarchives</a>
 						<ul>
 <li> <a href="https://staff.ada.edu.au/crime-and-justice/home">Crime &amp; Justice</a> </li>
 								<li> <a href="https://staff.ada.edu.au/qualitative/home">Qualitative</a> </li>
@@ -24,36 +24,36 @@
 								<li> <a href="https://staff.ada.edu.au/indigenous/home">Indigenous</a> </li>
 						</ul>
 </li>
-<li> <a href="https://staff.ada.edu.au/ada/data-access">Data Access</a> 
+				<li> <a href="https://staff.ada.edu.au/ada/data-access" class="">Data Access</a>
 						<ul>
 <li> <a href="https://staff.ada.edu.au/ada/ada-undertaking-forms">ADA Undertaking Forms</a> </li>
 								<li> <a href="https://users.ada.edu.au/users/new">Register for ADA</a> </li>
-								<li> <a href="https://staff.ada.edu.au/ada/search-ada">Search ADA</a> </li>
 								<li> <a href="https://staff.ada.edu.au/ada/special-access-requests">Special Access Requests</a> </li>
+								<li> <a href="https://staff.ada.edu.au/ada/search-ada">Search ADA</a> </li>
 								<li> <a href="https://staff.ada.edu.au/ada/access-conditions">Access conditions</a> </li>
 								<li> <a href="https://staff.ada.edu.au/ada/browse">Browse ADA Catalogue</a> </li>
 						</ul>
 </li>
-<li> <a href="https://staff.ada.edu.au/ada/data-deposit">Data Deposit</a> 
+				<li> <a href="https://staff.ada.edu.au/ada/data-deposit" class="">Data Deposit</a>
 						<ul>
-<li> <a href="https://staff.ada.edu.au/ada/sharing-data-and-access-conditions">Sharing data and access conditions</a> </li>
-								<li> <a href="https://staff.ada.edu.au/ada/how-to-deposit-data">How to deposit data</a> </li>
+<li> <a href="https://staff.ada.edu.au/ada/how-to-deposit-data">How to deposit data</a> </li>
 								<li> <a href="https://staff.ada.edu.au/ada/deposit-forms">Deposit forms</a> </li>
-								<li> <a href="https://staff.ada.edu.au/ada/why-deposit-data-">Why Deposit Data?</a> </li>
+								<li> <a href="https://staff.ada.edu.au/ada/setting-access-conditions">Setting access conditions</a> </li>
 								<li> <a href="https://staff.ada.edu.au/ada/preferred-formats">Preferred formats</a> </li>
+								<li> <a href="https://staff.ada.edu.au/ada/why-deposit-data-">Why Deposit Data?</a> </li>
 						</ul>
 </li>
-<li> <a href="https://staff.ada.edu.au/ada/user-guides">User Guides</a> 
+				<li> <a href="https://staff.ada.edu.au/ada/user-guides" class="">User Guides</a>
 				</li>
-				<li> <a href="https://staff.ada.edu.au/ada/ada-news">ADA News</a> 
+				<li> <a href="https://staff.ada.edu.au/ada/ada-news" class="">ADA News</a>
 				</li>
-				<li> <a href="https://staff.ada.edu.au/ada/about-us">About Us</a> 
+				<li> <a href="https://staff.ada.edu.au/ada/about" class="">About</a>
 						<ul>
-<li> <a href="https://staff.ada.edu.au/ada/contact-ada">Contact ADA</a> </li>
-								<li> <a href="https://staff.ada.edu.au/ada/about-ada">About ADA</a> </li>
+<li> <a href="https://staff.ada.edu.au/ada/about">About ADA</a> </li>
+								<li> <a href="https://staff.ada.edu.au/ada/contact-ada">Contact ADA</a> </li>
 						</ul>
 </li>
-<li> <a href="https://staff.ada.edu.au/ada/my-account">My Account</a> 
+				<li> <a href="http://users.ada.edu.au" class="">My Account</a>
 				</li>
      </ul>
 <div class="searchContainer">
@@ -79,13 +79,12 @@
 		<footer class="footer_small"><p>General Enquiries: <a href="https://staff.ada.edu.au/#">assda@anu.edu.au</a></p>
 		  <p>Web Enquiries: <a href="https://staff.ada.edu.au/#">webmaster@assda.anu.edu.au</a></p> 
 		  <p> &#169; Australian Data Archive</p>
-      <p><em>Deployed monkey_sc_5 at 2011-07-22 12:25
+      <p><em>Deployed 68bbf8a6c9626384fa916b0b292f98e7305dc818 at 2011-07-28 05:09
 </em></p>
     </footer></section>
 </body>
-<script src="https://staff.ada.edu.au/javascripts/rails.js?1311301517" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery.effects.core.js?1311301517" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/scripts.js?1311301517" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/application.js?1311301517" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery-explr-1.3.min.js?1311301517" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery.multi-open-accordion-1.0.1-ada.js?1311301517" type="text/javascript"></script><script type="text/javascript">
+<script src="https://staff.ada.edu.au/javascripts/rails.js?1311836952" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery.effects.core.js?1311836952" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/scripts.js?1311836952" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/application.js?1311836952" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery-explr-1.3.min.js?1311836952" type="text/javascript"></script><script src="https://staff.ada.edu.au/javascripts/jquery.multi-open-accordion-1.0.1-ada.js?1311836952" type="text/javascript"></script><script type="text/javascript">
       $(document).ready(function(){
       
      });
-    </script>
-</html>
+    </script><%= render "layouts/includes_footer" %></html>

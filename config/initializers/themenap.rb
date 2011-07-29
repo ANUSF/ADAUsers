@@ -27,6 +27,10 @@ Themenap::Config.configure do |c|
       { :css => 'nav.subnav',
         :text => '<%= render "layouts/links" %>' },
       { :css => '.login',
-        :text => '<%= render "layouts/login" %>' } ]
+        :text => '<%= render "layouts/login" %>' },
+      { :css => 'html',
+        :mode => 'append',
+        :text => '<%= render "layouts/includes_footer" %>' } ]
+
   c.layout_name = 'ada'
 end
