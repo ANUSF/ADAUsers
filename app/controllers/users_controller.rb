@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin_or_owner, :only => [:edit, :change_password, :update, :show]
   before_filter :require_no_user, :only => [:new, :create]
+  before_filter :require_api_key, :only => [:role, :details, :access, :privileged]
 
   def show
     @username = params[:user_id] || params[:username] || params[:id]
