@@ -53,7 +53,11 @@ a.button {
     text-decoration: none;
 }
 
-form.formtastic fieldset ol li.radio fieldset ol li {
+form.formtastic fieldset ol li.radio fieldset ol li input {
+    width: auto;
+}
+
+form.formtastic.user fieldset ol li.radio fieldset ol li {
     float: left;
     padding-right: 2em;
 }
@@ -67,10 +71,10 @@ form.formtastic fieldset > ol > li fieldset ol {
 }
 
 form.formtastic fieldset > ol > li fieldset {
-    margin-top: 1em;
+    margin-top: 2em;
 }
 form.formtastic fieldset > ol > li fieldset legend.label {
-    top: -12px;
+    top: -20px;
 }
 form.formtastic fieldset > ol > li fieldset ol {
     margin-top: 1em;

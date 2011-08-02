@@ -1,0 +1,6 @@
+<%= @result.fields.join(',') %>
+<%= CSV.generate do |csv|
+  @result.each do |row|
+    csv << row
+  end
+end.html_safe %>

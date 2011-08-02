@@ -1,0 +1,23 @@
+<%= render 'form' %>
+
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <% @result.fields.each do |field| %>
+        <th><%= field %></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @result.each do |row| %>
+      <tr>
+	<% row.each do |cell| %>
+          <td><%= cell %></td>
+	<% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,19 @@
+<%= semantic_form_for @report, :url => admin_report_path do |form| %>
+  <%= form.inputs :name => "Dates" do %>
+    <%= form.input :start_date %>
+    <%= form.input :end_date %>
+  <% end %>
+
+  <%= form.inputs :name => "Type" do %>
+    <%= form.input :report_type, :collection => Report::TYPES, :as => :radio %>
+  <% end %>
+
+  <%= form.inputs :name => "Dataset" do %>
+    <%= form.input :dataset %>
+  <% end %>
+
+  <%= form.buttons do %>
+    <%= form.commit_button 'HTML Report' %>
+    <%= form.commit_button 'CSV Report' %>
+  <% end %>
+<% end %>
