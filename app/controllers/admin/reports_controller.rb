@@ -7,12 +7,7 @@ class Admin::ReportsController < ApplicationController
     @report = Report.new(params[:report])
     @result = @report.generate
 
-    puts @result.inspect
-    puts @result.count
-
-    if params[:commit] == 'HTML Report'
-      # ...
-    elsif params[:commit] == 'CSV Report'
+    if params[:commit] == 'CSV Report'
       render_csv
     end
   end

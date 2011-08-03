@@ -183,3 +183,17 @@ end
 Template.blueprint(:email) do
   doc_type { Template::DOC_TYPES[1] }
 end
+
+AnuLog.blueprint do
+  name { User.first || User.make }
+  dataset { (AccessLevel.first || AccessLevel.make).datasetID }
+  method_attr { "ANALIZE" }
+  date_processed { Date.today }
+end
+
+AnuLog.blueprint(:analize) do
+end
+
+AnuLog.blueprint(:download) do
+  method_attr { "DOWNLOAD" }
+end

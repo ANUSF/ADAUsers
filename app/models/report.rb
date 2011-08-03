@@ -32,6 +32,9 @@ class Report
 
   # Run the report and return the resulting SQL result object
   def generate
+    self.start_date = Date.parse(self.start_date)
+    self.end_date = Date.parse(self.end_date)
+
     self.send(self.report_type)
   end
 
