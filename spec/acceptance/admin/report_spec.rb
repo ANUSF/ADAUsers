@@ -11,18 +11,29 @@ feature "Reports", %q{
     1.times  { AnuLog.make(:analize)  }
     2.times  { AnuLog.make(:download) }
 
-    visit "/admin/report/new"
+    [:html, :csv].each do |format|
+      visit "/admin/report/new"
 
-    fill_in 'report_start_date', :with => Date.today.strftime('%d-%m-%Y')
-    fill_in 'report_end_date', :with => Date.today.strftime('%d-%m-%Y')
-    choose 'Analysis/downloads Report'
-    click_button 'HTML Report'
+      fill_in 'report_start_date', :with => Date.today.strftime('%d-%m-%Y')
+      fill_in 'report_end_date', :with => Date.today.strftime('%d-%m-%Y')
+      choose 'Analysis/downloads Report'
 
-    # Then I should see a table:
-    # | ANALIZE  | 1 |
-    # | DOWNLOAD | 2 |
+      # Expected table:
+      # | ANALIZE  | 1 |
+      # | DOWNLOAD | 2 |
 
-    selector_exists?("tr") { |tr| tr.has_selector?("td", :text => "ANALIZE")  and tr.has_selector?("td", :text => "1") }.should be_true
-    selector_exists?("tr") { |tr| tr.has_selector?("td", :text => "DOWNLOAD") and tr.has_selector?("td", :text => "2") }.should be_true
+      if format == :html
+        click_button 'HTML Report'
+
+        selector_exists?("tr") { |tr| tr.has_selector?("td", :text => "ANALIZE")  and tr.has_selector?("td", :text => "1") }.should be_true
+        selector_exists?("tr") { |tr| tr.has_selector?("td", :text => "DOWNLOAD") and tr.has_selector?("td", :text => "2") }.should be_true
+
+      elsif format == :csv
+        click_button 'CSV Report'
+
+        page.should have_content "ANALIZE,1"
+        page.should have_content "DOWNLOAD,2"
+      end
+    end
   end
 end
