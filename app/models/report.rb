@@ -237,8 +237,259 @@ class Report
                       {:start_date => self.start_date, :end_date => self.end_date})
   end
 
-  def proto
-    sanitize_and_exec("")
+  def a_user
+    sanitize_and_exec("SELECT a.name, CONCAT('\"', b.institution,'\"') As Institution, b.position, b.email, count(a.name) AS NumberAnalize
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = \"ANALIZE\"
+                       and a.name = b.user
+                       GROUP BY a.name, b.institution, b.position, b.email",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def d_user
+    sanitize_and_exec("SELECT a.name, CONCAT('\"', b.institution,'\"') As Institution, b.position, b.email, count(a.name) AS NumberAnalize
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = \"DOWNLOAD\"
+                       and a.name = b.user
+                       GROUP BY a.name, b.institution, b.position, b.email",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def u_reg
+    sanitize_and_exec("SELECT ud.user, CONCAT('\"', ud.institution,'\"') As Institution, ud.position,
+                       u.modificationDate, ud.acsprimember, ud.email
+                       FROM #{db}.userdetails ud,  #{db}.UserEJB u
+                       WHERE u.modificationDate >= :start_date AND
+                       u.modificationDate <= :end_date
+                       and ud.user = u.id",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def join_inst
+    sanitize_and_exec("SELECT CONCAT('\"', t.institution,'\"') As Institution, t.Analisedd as Analize, s.Downloadd as Download
+                  FROM (SELECT u.institution, Count(a.method) AS Analisedd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE') a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t,
+                     (SELECT u.institution, Count(b.method) AS Downloadd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') b
+                       WHERE (b.name =u.user)
+                       GROUP BY u.institution) s
+                  WHERE t.institution = s.institution
+                  UNION
+                  SELECT CONCAT('\"', t.institution,'\"') As Institution, t.Analisedd as Analize, 0 as Download
+                  FROM (SELECT u.institution, Count(a.method) AS Analisedd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE') a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t
+                  WHERE t.institution not in (
+                   SELECT u.institution
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') b
+                       WHERE (b.name =u.user))
+                  UNION
+                  SELECT CONCAT('\"', t.institution,'\"') As Institution, 0 as Analize, t.Downloadd as Download
+                  FROM (SELECT u.institution, Count(a.method) AS Downloadd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t
+                  WHERE t.institution not in (
+                   SELECT u.institution
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE') b
+                       WHERE (b.name =u.user))
+                  ORDER BY Institution",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def join_pos
+    sanitize_and_exec("SELECT t.position, t.ANumber as Analize, s.Downloadd as Download
+                  FROM (SELECT b.position, Count(a.name) AS ANumber
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = 'ANALIZE'
+                       and a.name =b.user
+                       GROUP BY b.position) t,
+                     (SELECT b.position, Count(a.name) AS Downloadd
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = 'DOWNLOAD'
+                       and a.name =b.user
+                       GROUP BY b.position) s
+                  WHERE t.position = s.position
+                  UNION
+                  SELECT t.position, t.ANumber as Analize, 0 as Download
+                  FROM (SELECT b.position, Count(a.name) AS ANumber
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = 'ANALIZE'
+                       and a.name =b.user
+                       GROUP BY b.position) t
+                  WHERE t.position not in (
+                   SELECT u.position
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') b
+                       WHERE (b.name =u.user))
+                  UNION
+                  SELECT t.position, 0 as Analize, t.Download
+                  FROM (SELECT u.position, Count(a.method) AS Download
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t
+                       WHERE t.position not in (
+                       SELECT u.position
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE') b
+                       WHERE (b.name =u.user))
+                       ORDER BY position",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def dataset_join_inst
+    sanitize_and_exec("SELECT CONCAT('\"', t.institution,'\"') As Institution, t.Analisedd as Analize, s.Downloadd as Download
+                       FROM (SELECT u.institution, Count(a.method) AS Analisedd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE' AND l.dataset = :dataset) a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t,
+                       (SELECT u.institution, Count(b.method) AS Downloadd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD' AND l.dataset = :dataset) b
+                       WHERE (b.name =u.user)
+                       GROUP BY u.institution) s
+                       WHERE t.institution = s.institution
+                  UNION
+                       SELECT CONCAT('\"', t.institution,'\"') As Institution, t.Analisedd as Analize, 0 as Download
+                       FROM (SELECT u.institution, Count(a.method) AS Analisedd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE' AND l.dataset = :dataset) a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t
+                       WHERE t.institution not in (
+                       SELECT u.institution
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD' AND l.dataset = :dataset) b
+                       WHERE (b.name =u.user))
+                  UNION
+                       SELECT CONCAT('\"', t.institution,'\"') As Institution, 0 as Analize, t.Downloadd as Download
+                       FROM (SELECT u.institution, Count(a.method) AS Downloadd
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD' AND l.dataset = :dataset) a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t
+                       WHERE t.institution not in (
+                        SELECT u.institution
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE' AND l.dataset = :dataset) b
+                       WHERE (b.name =u.user))
+                       ORDER BY Institution",
+                      {:start_date => self.start_date, :end_date => self.end_date, :dataset => self.dataset})
+  end
+
+  def datasets_usage
+    sanitize_and_exec("SELECT t1.dataset, CONCAT('\"', t1.Title,'\"') As Title , CONCAT('\"',t1.Series,'\"') As Series,
+                       COALESCE(t1.Download, '0')  As Download, COALESCE(t2.Analize, '0')  As Analize FROM
+                       (SELECT k.dataset, k.Title, k.Series, m.Download FROM
+                       (SELECT distinct a.dataset, COALESCE(b.docTitle, '') As Title,
+                       COALESCE(b.seriesname, '') As Series
+                       FROM #{db('logs')}.anulogs a,  #{db('nesstar')}.StudyEJB b
+                       WHERE a.date_processed  > :start_date AND a.date_processed < :end_date
+                       and a.dataset = b.id) k left outer join
+                       (SELECT a.dataset, count(a.dataset) As Download
+                       FROM #{db('logs')}.anulogs a
+                       WHERE a.date_processed  > :start_date AND a.date_processed < :end_date
+                       and method = 'DOWNLOAD'
+                       Group by a.dataset)  m on k.dataset = m.dataset)  t1,
+                       (SELECT k.dataset, k.Title, k.Series, m.ANALIZE FROM
+                       (SELECT distinct a.dataset, COALESCE(b.docTitle, '') As Title,
+                       COALESCE(b.seriesname, '') As Series
+                       FROM #{db('logs')}.anulogs a,  #{db('nesstar')}.StudyEJB b
+                       WHERE a.date_processed  > :start_date AND a.date_processed < :end_date
+                       and a.dataset = b.id) k left outer join
+                       (SELECT a.dataset, count(a.dataset) As Analize
+                       FROM #{db('logs')}.anulogs a
+                       WHERE a.date_processed  > :start_date AND a.date_processed < :end_date
+                       and method = 'ANALIZE'
+                       Group by a.dataset)  m on k.dataset = m.dataset)  t2
+                       WHERE t1.dataset = t2.dataset",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def depositors
+    sanitize_and_exec("SELECT distinct CONCAT('\"', s.stdyDepositor,'\"') as Depositors
+                       FROM #{db('nesstar')}.StudyEJB s
+                       WHERE s.stdyDepDate >= :start_date AND
+                       s.stdyDepDate <= :end_date",
+                      {:start_date => self.start_date, :end_date => self.end_date})
+  end
+
+  def dataset_join_pos
+    sanitize_and_exec("SELECT t.position, t.ANumber as Analize, s.Downloadd as Download
+                       FROM (SELECT b.position, Count(a.name) AS ANumber
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = 'ANALIZE' AND a.dataset = :dataset
+                       and a.name =b.user
+                       GROUP BY b.position) t,
+                       (SELECT b.position, Count(a.name) AS Downloadd
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = 'DOWNLOAD' AND a.dataset = :dataset
+                       and a.name =b.user
+                       GROUP BY b.position) s
+                       WHERE t.position = s.position
+                  UNION
+                       SELECT t.position, t.ANumber as Analize, 0 as Download
+                       FROM (SELECT b.position, Count(a.name) AS ANumber
+                       FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
+                       WHERE a.date_processed >= :start_date AND
+                       a.date_processed <= :end_date AND a.method = 'ANALIZE' AND a.dataset = :dataset
+                       and a.name =b.user
+                       GROUP BY b.position) t
+                  WHERE t.position not in (
+                   SELECT u.position
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND l.dataset = :dataset And
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') b
+                       WHERE (b.name =u.user))
+                  UNION
+                  SELECT t.position, 0 as Analize, t.Download
+                  FROM (SELECT u.position, Count(a.method) AS Download
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND l.dataset = :dataset And
+                       l.date_processed <= :end_date AND l.method = 'DOWNLOAD') a
+                       WHERE (a.name =u.user)
+                       GROUP BY u.institution) t
+                  WHERE t.position not in (
+                   SELECT u.position
+                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND l.dataset = :dataset And
+                       l.date_processed <= :end_date AND l.method = 'ANALIZE') b
+                       WHERE (b.name =u.user))
+                  ORDER BY position",
+                      {:start_date => self.start_date, :end_date => self.end_date, :dataset => self.dataset})
   end
 
 
