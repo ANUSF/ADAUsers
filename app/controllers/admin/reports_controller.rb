@@ -8,7 +8,7 @@ class Admin::ReportsController < ApplicationController
     @result = @report.generate
 
     if params[:commit] == 'CSV Report'
-      render_csv
+      render_csv "report", "admin/reports/create.csv.erb"
     end
   end
 

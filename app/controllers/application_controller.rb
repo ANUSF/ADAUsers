@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
   # -- Misc
 
   # Taken from http://stackoverflow.com/questions/94502/in-rails-how-to-return-records-as-a-csv-file
-  def render_csv(filename = nil)
+  def render_csv(filename = nil, template = nil)
     filename ||= params[:action]
     filename += '.csv'
 
@@ -106,7 +106,11 @@ class ApplicationController < ActionController::Base
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
     end
 
-    render :layout => false
+    if template
+      render :layout => false, :template => template
+    else
+      render :layout => false
+    end
   end
 
 
