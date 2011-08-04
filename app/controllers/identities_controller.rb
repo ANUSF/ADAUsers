@@ -64,6 +64,7 @@ class IdentitiesController < ApplicationController
   def trusted_root?(root)
     (session[:approvals] || []).include? root or
       root =~ /\Ahttps?:\/\/localhost(:[0-9]+)?\z/ or
-      root =~ /\Ahttps?:\/\/([a-z0-9-]+\.)?ada.edu.au\z/
+      root =~ /\Ahttps?:\/\/([a-z0-9-]+\.)?ada\.edu\.au\z/ or
+      root =~ /\Ahttps?:\/\/nesstar(-test)?\.ada\.edu\.au\/joid/
   end
 end

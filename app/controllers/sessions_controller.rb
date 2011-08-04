@@ -68,6 +68,6 @@ class SessionsController < ApplicationController
 
     flash[:notice] = "You have successfully logged out."
 
-    redirect_to params[:return_url] || root_url
+    redirect_to params['openid.return_url'] || params[:return_url] || root_url
   end
 end
