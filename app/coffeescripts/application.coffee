@@ -89,8 +89,24 @@ process_admin_undertaking_form = ->
       onComplete: ->
         $("iframe.cboxIframe").contents().find("header, nav").hide()
 
+
+# Hide or show the dataset field as appropriate
+process_admin_reports_form = ->
+  if $("form.report").length > 0
+    admin_reports_form_update = ->
+      report_type = $("#report_report_type_input input[name='report[report_type]']:checked").val()
+      if report_type == 'dataset_join_inst' or report_type == 'dataset_join_pos'
+        $("fieldset[name='Dataset']").slideDown()
+      else
+        $("fieldset[name='Dataset']").slideUp()
+
+    $("#report_report_type_input input").click admin_reports_form_update
+    admin_reports_form_update()
+
+
 $(document).ready ->
   process_registration_form()
   process_admin_undertaking_form()
+  process_admin_reports_form()
   $("select.filterable").selectFilter()
   $(".radio-tabs").radioTabs()

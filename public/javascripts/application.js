@@ -1,9 +1,9 @@
-/* DO NOT MODIFY. This file was compiled Fri, 01 Jul 2011 00:30:31 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 04 Aug 2011 06:18:21 GMT from
  * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
  */
 
 (function() {
-  var $, action_change, country_change, institution_change, patterns, position_change, process_admin_undertaking_form, process_registration_form;
+  var $, action_change, country_change, institution_change, patterns, position_change, process_admin_reports_form, process_admin_undertaking_form, process_registration_form;
   $ = jQuery;
   patterns = {
     form: 'form.user',
@@ -108,9 +108,26 @@
       });
     }
   };
+  process_admin_reports_form = function() {
+    var admin_reports_form_update;
+    if ($("form.report").length > 0) {
+      admin_reports_form_update = function() {
+        var report_type;
+        report_type = $("#report_report_type_input input[name='report[report_type]']:checked").val();
+        if (report_type === 'dataset_join_inst' || report_type === 'dataset_join_pos') {
+          return $("fieldset[name='Dataset']").slideDown();
+        } else {
+          return $("fieldset[name='Dataset']").slideUp();
+        }
+      };
+      $("#report_report_type_input input").click(admin_reports_form_update);
+      return admin_reports_form_update();
+    }
+  };
   $(document).ready(function() {
     process_registration_form();
     process_admin_undertaking_form();
+    process_admin_reports_form();
     $("select.filterable").selectFilter();
     return $(".radio-tabs").radioTabs();
   });
