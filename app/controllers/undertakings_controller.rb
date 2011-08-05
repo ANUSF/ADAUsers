@@ -4,10 +4,6 @@ class UndertakingsController < ApplicationController
   def new
     @user = User.find(params[:user_id])
 
-    # TODO: If we get params[:datasetID] (optionally also params[:fileID]), then:
-    #         Find whether it's restricted. Set @is_restricted appropriately.
-    #         Select this dataset in the list
-
     if params.has_key? :datasetID
       @datasetID = params[:datasetID]
       @is_restricted = AccessLevel.dataset_is_restricted(@datasetID)
