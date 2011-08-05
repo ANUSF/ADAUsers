@@ -25,9 +25,9 @@ gem 'formtastic'
 gem 'will_paginate', '~> 3.0.pre2'
 
 if ENV['GEMS_LOCAL'] and File.exist? ENV['GEMS_LOCAL']
-  gem 'themenap', '~>0.1.4', :path => "#{ENV['GEMS_LOCAL']}/themenap"
+  gem 'themenap', '~>0.1.6', :path => "#{ENV['GEMS_LOCAL']}/themenap"
 else
-  gem 'themenap', '~>0.1.4', :git => "git://github.com/ANUSF/themenap.git"
+  gem 'themenap', '~>0.1.6', :git => "git://github.com/ANUSF/themenap.git"
 end
 
 gem 'capistrano-ext'

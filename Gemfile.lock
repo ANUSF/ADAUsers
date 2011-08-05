@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/ANUSF/themenap.git
-  revision: fea4411e1b945189ebf1b473b80019c9bc8af2bf
+  revision: 0897da56a4a0fc28c5aeece519670834dfed7f2c
   specs:
-    themenap (0.1.5)
+    themenap (0.1.6)
       highline
       httparty
       nokogiri
@@ -204,6 +204,6 @@ DEPENDENCIES
   spork (~> 0.9.0.rc)
   sqlite3-ruby (~> 1.2.5)
   steak (>= 1.0.0.rc.1)
-  themenap (~> 0.1.4)!
+  themenap (~> 0.1.6)!
   therubyracer
   will_paginate (~> 3.0.pre2)
