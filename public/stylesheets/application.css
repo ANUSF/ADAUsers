@@ -189,3 +189,9 @@ p.admin-undertaking-actions {
 .signed_undertaking_form_no {
   background-color: #d24545;
 }
+
+.formtastic {
+    #enter_button, #register_button, #logout_button, #profile_button {
+	text-decoration: none;
+    }
+}

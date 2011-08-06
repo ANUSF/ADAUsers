@@ -1,7 +1,14 @@
 <% if current_user %>
-  <%= "Logged in as #{current_user.user}." %>
-  <br />
-  <%= link_to "Log out", session_path, :method => :delete %>
+  <div class='logged_in'>
+    <span><%= "#{current_user.role_cms}|#{current_user.user_role}:" %></span>
+    <%= current_user.email %>
+  </div>
+  <div class='formtastic'>
+    <%= link_to "Log out", session_path, :method => :delete,
+                           :id => 'logout_button' %>
+    <%= link_to "View Profile", user_path(current_user),
+                           :id => 'profile_button' %>
+  </div>
 <% else %>
   <%= link_to "Log in", new_session_path %>
 <% end %>
