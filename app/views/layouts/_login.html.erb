@@ -11,5 +11,8 @@
   </div>
 <% else %>
   <h1>USER Log-in</h1>
-  <%= link_to "Log in", new_session_path, :id => 'enter_button' %>
+  <div class='formtastic'>
+    <%= link_to "LOG IN", new_session_path, :id => 'enter_button' %>
+    <%= link_to "Register", new_user_path, :id => 'register_button' %>
+  </div>
 <% end %>
