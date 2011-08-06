@@ -190,8 +190,6 @@ p.admin-undertaking-actions {
   background-color: #d24545;
 }
 
-.formtastic {
-    #enter_button, #register_button, #logout_button, #profile_button {
-	text-decoration: none;
-    }
+.formtastic #enter_button, .formtastic #register_button, .formtastic #logout_button, .formtastic #profile_button {
+  text-decoration: none;
 }
