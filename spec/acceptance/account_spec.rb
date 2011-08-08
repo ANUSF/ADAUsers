@@ -17,11 +17,11 @@ feature "Accounts", %q{
     log_out if logged_in?
 
     visit "/"
-    page.should have_selector("a", :text => "Log in")
+    page.should have_selector("a", :text => "LOG IN")
 
     log_in_as(user)
     current_path.should == "/users/#{user.user}"
-    find("header").should have_content(user.user)
+    find("header").should have_content(user.email)
   end
 
   scenario "logging in with redirect link" do
