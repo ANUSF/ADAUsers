@@ -85,6 +85,7 @@ form.formtastic fieldset > ol > li p.inline-hints {
     margin-left: 0;
 }
 
+form.formtastic fieldset > ol > li label,
 form.formtastic fieldset.inputs > ol > li input,
 form.formtastic fieldset.inputs > ol > li select,
 form.formtastic fieldset.inputs > ol > li textarea {

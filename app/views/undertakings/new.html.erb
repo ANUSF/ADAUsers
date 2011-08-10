@@ -13,13 +13,13 @@
 <%= semantic_form_for [@user, @undertaking] do |form| %>
   <%= form.inputs do %>
     <%= form.input :is_restricted, :as => :hidden %>
-    <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :selected => [@datasetID], :input_html => {:class => 'filterable'}, :hint => "Please select the datasets that you require: (Use the command or control key to select multiple datasets)" %>
+    <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :selected => [@datasetID], :input_html => {:class => 'filterable'}, :hint => "Please select the datasets that you require.<br />Use the command or control key to select multiple datasets, or the shift key to select a range.".html_safe %>
 
     <%= form.input :intended_use_type, :as => :check_boxes, :collection => Undertaking.intended_use_options.invert, :label => "Intended use of data:", :hint => "Tick all that apply" %>
     <%= form.input :intended_use_other, :label => "Other (specify):" %>
-    <%= form.input :email_supervisor, :label => "Supervisor's email address:" %>
+    <%= form.input :email_supervisor, :label => "Head of Department/Unit/Supervisor's email address:" %>
     <%= form.input :intended_use_description, :label => "Description of intended use / research abstract:", :hint => "This section should include a brief summary of the proposed research." %>
-    <%= form.input :funding_sources, :label => "Source(s) of funding:" %>
+    <%= form.input :funding_sources, :label => "Source(s) of funding:", :hint => "Please indicate 'None' if an unfunded project." %>
   <% end %>
 
   <%= form.buttons do %>
