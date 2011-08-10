@@ -1,4 +1,6 @@
 class Admin::ReportsController < ApplicationController
+  before_filter :require_admin
+
   def new
     @report = Report.new
   end

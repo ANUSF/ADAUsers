@@ -11,6 +11,9 @@ feature "Reports", %q{
     1.times  { AnuLog.make(:analize)  }
     2.times  { AnuLog.make(:download) }
 
+    @admin = User.find_by_user("administrator") || User.make(:administrator, :user => "administrator")
+    log_in_as(@admin)
+
     [:html, :csv].each do |format|
       visit "/admin/report/new"
 
