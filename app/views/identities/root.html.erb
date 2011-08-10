@@ -8,10 +8,3 @@
 <% else %>
   Welcome to the ADA user management system. Please <%= link_to "log in", new_session_path %> or <%= link_to "register", new_user_path %> to continue!
 <% end %>
-
-<% unless Rails.env.staff? %>
-  <h2>Debug table</h2>
-  <table>
-    <tr><td>ThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWord</td></tr>
-  </table>
-<% end %>
