@@ -16,6 +16,10 @@ header .login {
     border: 1px solid #f00;
 }
 
+.hidden {
+    display: none;
+}
+
 .status {
     border: 1px solid gray;
     background-color: #eee;

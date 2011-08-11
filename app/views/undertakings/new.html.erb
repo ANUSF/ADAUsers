@@ -11,6 +11,7 @@
 <% end %>
 
 <%= semantic_form_for [@user, @undertaking] do |form| %>
+  <div id="undertaking-dataset-description" class="hidden"><%= @dataset_description %></div>
   <%= form.inputs do %>
     <%= form.input :is_restricted, :as => :hidden %>
     <%= form.input :datasets, :collection => datasets_to_collection(@datasets), :selected => [@datasetID], :input_html => {:class => 'filterable'}, :hint => "Please select the datasets that you require.<br />Use the command or control key to select multiple datasets, or the shift key to select a range.".html_safe %>

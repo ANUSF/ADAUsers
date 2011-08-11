@@ -75,6 +75,12 @@ process_registration_form = ->
       .find('input').click(-> institution_change $ this)
 
 
+process_undertaking_form = ->
+  dataset_description = $("#undertaking-dataset-description").html()
+  if dataset_description && dataset_description.length > 0
+    $("#undertaking_datasets_input input.select-filter").val(dataset_description).keyup()
+
+
 process_admin_undertaking_form = ->
   if $("table.admin-undertakings").length > 0
     $("tr.admin-undertaking-details div").hide()
@@ -110,3 +116,4 @@ $(document).ready ->
   process_admin_reports_form()
   $("select.filterable").selectFilter()
   $(".radio-tabs").radioTabs()
+  process_undertaking_form()

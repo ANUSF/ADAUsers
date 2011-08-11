@@ -3,6 +3,7 @@ class UndertakingsController < ApplicationController
 
   def new
     @user = User.find(params[:user_id])
+    @dataset_description = params[:dataset_description]
 
     if params.has_key? :datasetID
       @datasetID = params[:datasetID]
