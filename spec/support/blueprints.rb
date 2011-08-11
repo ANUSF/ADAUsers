@@ -89,7 +89,7 @@ UserPermissionB.blueprint do
 end
 
 AccessLevel.blueprint do
-  datasetID { "au.edu.anu.assda.ddi.%05d" % Sham.id }
+  datasetID { "au.edu.anu.ada.ddi.%05d" % Sham.id }
   fileID { nil }
   datasetname { "Age Poll, July 1974, %d" % Sham.id }
   fileContent { nil }
@@ -105,9 +105,9 @@ AccessLevel.blueprint(:b) do
 end
 
 AccessLevel.blueprint(:with_fileContent) do
-  datasetID { "au.edu.anu.assda.ddi.%05d" % Sham.id }
+  datasetID { "au.edu.anu.ada.ddi.%05d" % Sham.id }
   fileID { "F1" }
-  datasetname { "00115/Disseminate/au.edu.anu.assda.ddi.%05d.rtf" % Sham.id }
+  datasetname { "00115/Disseminate/au.edu.anu.ada.ddi.%05d.rtf" % Sham.id }
   fileContent "Description of images of Indigenous people in a sample of newspapers 1853-1897"
   accessLevel { "A" }
 end
