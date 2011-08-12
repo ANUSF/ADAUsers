@@ -13,7 +13,7 @@ class UndertakingsController < ApplicationController
     end
 
     @undertaking = Undertaking.new(:is_restricted => @is_restricted || false)
-    @datasets = @is_restricted ? AccessLevel.cat_b : AccessLevel.cat_a
+    @datasets = @is_restricted ? AccessLevel.ada_ddi.cat_b : AccessLevel.ada_ddi.cat_a
   end
 
   def create
