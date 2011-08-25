@@ -9,6 +9,22 @@ Sham.define do
 end
 
 
+Country.blueprint do
+  id
+end
+
+Country.blueprint(:australia) do
+  Countryname { "Australia" }
+  Sym { "AU" }
+end
+
+Country.blueprint(:new_zealand) do
+  Countryname { "New Zealand" }
+  Sym { "NZ" }
+end
+
+AUSTRALIA = Country.make :australia
+
 User.blueprint do
   user { Sham.name }
   password { object.user*3 }
@@ -22,7 +38,7 @@ User.blueprint do
   role_cms { User::DEFAULT_ROLE_CMS }
   position { User.new.position_options[0] }
   action { User.new.action_options[0][1] }
-  country { User::AUSTRALIA }
+  country { AUSTRALIA }
   austinstitution { User.new.austinstitution_options[0][1] }
   australian_uni { AustralianUni.first }
 end
@@ -110,20 +126,6 @@ AccessLevel.blueprint(:with_fileContent) do
   datasetname { "00115/Disseminate/au.edu.anu.ada.ddi.%05d.rtf" % Sham.id }
   fileContent "Description of images of Indigenous people in a sample of newspapers 1853-1897"
   accessLevel { "A" }
-end
-
-Country.blueprint do
-  id
-end
-
-Country.blueprint(:australia) do
-  Countryname { "Australia" }
-  Sym { "AU" }
-end
-
-Country.blueprint(:new_zealand) do
-  Countryname { "New Zealand" }
-  Sym { "NZ" }
 end
 
 AustralianUni.blueprint do
