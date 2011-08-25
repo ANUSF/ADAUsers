@@ -40,6 +40,7 @@ devs_nesstar:
   database: 'db/prod_nesstar.db'
 
 <% if ENV['use_mysql'].blank? %>
+
 development:
   adapter: sqlite3
   database: 'db/dev.db'
@@ -51,7 +52,21 @@ development_logs:
 development_nesstar:
   adapter: sqlite3
   database: 'db/dev_nesstar.db'
+
+test:
+  adapter: sqlite3
+  database: 'db/test.db'
+
+test_logs:
+  adapter: sqlite3
+  database: 'db/test_logs.db'
+
+test_nesstar:
+  adapter: sqlite3
+  database: 'db/test_nesstar.db'
+
 <% else %>
+
 development_base: &development_local
   adapter: mysql2
   username: adausers
@@ -68,7 +83,6 @@ development_logs:
 development_nesstar:
   <<: *development_local
   database: adausers_dev_nesstar
-<% end %>
 
 test:
   <<: *development_local
@@ -81,3 +95,5 @@ test_logs:
 test_nesstar:
   <<: *development_local
   database: adausers_test_nesstar
+
+<% end %>
