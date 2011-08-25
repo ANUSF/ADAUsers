@@ -35,16 +35,15 @@ gem 'capistrano-ext'
 group :development, :test do
   gem 'barista'
   gem 'therubyracer'
-  gem 'rspec-rails', '= 2.0.1'
-  gem 'capybara', '~>0.4.1.2'
+  gem 'rspec-rails'
+  gem 'capybara'
   gem 'launchy'    # So you can do Then show me the page
   gem 'autotest'
-  gem 'steak', '>= 1.0.0.rc.1'
+  gem 'steak'
   gem 'faker'
-  gem 'machinist' , '= 1.0.6'
+  gem 'machinist'
   gem 'database_cleaner'
-  gem 'spork', '~> 0.9.0.rc'
-  gem 'simplecov', '>= 0.4.0', :require => false, :group => :test
-  gem 'newrelic_rpm'
+  gem 'spork'
+  gem 'simplecov'
   gem 'capistrano'
 end
