@@ -1,6 +1,25 @@
 class User < UserWithoutValidations
   attr_accessor :password_old, :token_reset_password_confirmation, :updater_is_admin
-  attr_protected :updater_is_admin
+  #attr_protected :updater_is_admin
+  attr_accessible(:password,
+                  :password_confirmation,
+                  :title,
+                  :fname,
+                  :sname,
+                  :email,
+                  :email_confirmation,
+                  :position,
+                  :otherpd,
+                  :action,
+                  :otherwt,
+                  :country,
+                  :austinstitution,
+                  :australian_uni,
+                  :australian_gov,
+                  :other_australian_affiliation,
+                  :other_australian_type,
+                  :non_australian_affiliation,
+                  :non_australian_type)
 
 
   # -- Validations for attributes available in the registration form go here:
