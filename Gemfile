@@ -4,7 +4,7 @@ gem 'rails', '3.0.9'
 
 gem 'mongrel', '~> 1.2.0.pre2'
 gem 'mysql2', '~> 0.2.7' # the 0.3.x versions need Rails 3.1
-gem 'sqlite3'
+gem 'sqlite3-ruby', '~> 1.2.5', :require => 'sqlite3' # for CentOS 5.5
 
 gem 'ruby-openid',  :require => 'openid'
 gem 'bcrypt-ruby'
