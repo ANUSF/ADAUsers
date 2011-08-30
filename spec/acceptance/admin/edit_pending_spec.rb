@@ -6,6 +6,11 @@ feature "Modify access to pending datasets", %q{
   I want to adjust permissions for pending datasets
 } do
 
+  before(:all) do
+    # Needed for notification emails to work properly
+    Fixtures.create_fixtures("#{Rails.root}/spec/fixtures", "templates")
+  end
+
   before(:each) do
     @admin = User.find_by_user("administrator") || User.make(:administrator, :user => "administrator")
     log_in_as(@admin) unless logged_in?

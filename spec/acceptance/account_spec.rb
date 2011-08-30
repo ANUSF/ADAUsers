@@ -6,6 +6,11 @@ feature "Accounts", %q{
   I want to log in and manage my account
 } do
 
+  before(:all) do
+    # Needed for notification emails to work properly
+    Fixtures.create_fixtures("#{Rails.root}/spec/fixtures", "templates")
+  end
+
   after(:each) do
     log_out if logged_in?
   end
