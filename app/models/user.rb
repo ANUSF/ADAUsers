@@ -3,6 +3,8 @@ class User < UserWithoutValidations
   #attr_protected :updater_is_admin
   attr_accessible(:password,
                   :password_confirmation,
+                  :password_old,
+                  :token_reset_password_confirmation,
                   :title,
                   :fname,
                   :sname,
