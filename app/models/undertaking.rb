@@ -39,6 +39,15 @@ class Undertaking < ActiveRecord::Base
   
   attr_accessor :catalogue
 
+  attr_accessible(:is_restricted,
+                  :datasets,
+                  :intended_use_type,
+                  :intended_use_other,
+                  :email_supervisor,
+                  :intended_use_description,
+                  :funding_sources,
+                  :agreed)
+
   after_save :update_user
 
   def self.intended_use_options
