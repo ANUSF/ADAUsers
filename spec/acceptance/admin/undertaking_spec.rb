@@ -7,6 +7,7 @@ feature "Administer undertakings", %q{
 } do
 
   before(:each) do
+    Undertaking.destroy_all
     @admin = User.find_by_user("administrator") || User.make(:administrator, :user => "administrator")
     log_in_as(@admin) unless logged_in?
 
