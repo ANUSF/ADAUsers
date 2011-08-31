@@ -8,9 +8,8 @@ class Undertaking < ActiveRecord::Base
     :delete_sql => proc { |record| "DELETE FROM access_levels_undertakings WHERE datasetID = '#{record.datasetID}' AND undertaking_id = #{id}" },
     :uniq => true
 
-  scope :agreed, where("agreed = " + ActiveRecord::Base.connection.quoted_true)
-  scope :unprocessed, where("processed IS NULL OR processed = " +
-                            ActiveRecord::Base.connection.quoted_false)
+  scope :agreed, where(:agreed => true)
+  scope :unprocessed, where(:processed => [nil, false])
 
   validates_presence_of :user
 
