@@ -8,8 +8,9 @@ class Undertaking < ActiveRecord::Base
     :delete_sql => proc { |record| "DELETE FROM access_levels_undertakings WHERE datasetID = '#{record.datasetID}' AND undertaking_id = #{id}" },
     :uniq => true
 
-  scope :agreed, where(:agreed => true)
-  scope :unprocessed, where("processed IS NULL OR processed = 0")
+  scope :agreed, where("agreed = " + ActiveRecord::Base.connection.quoted_true)
+  scope :unprocessed, where("processed IS NULL OR processed = " +
+                            ActiveRecord::Base.connection.quoted_false)
 
   validates_presence_of :user
 
@@ -56,15 +57,9 @@ class Undertaking < ActiveRecord::Base
     write_attribute(:intended_use_type, intended_use_type.reject { |t| t.nil? || t.blank? })
   end
 
-  def is_restricted
-    read_attribute(:is_restricted) == 1
-  end
-  def agreed
-    read_attribute(:agreed) == 1
-  end
-  def processed
-    read_attribute(:processed) == 1
-  end
+  def is_restricted; is_restricted? end
+  def agreed;        agreed?        end
+  def processed;     processed?     end
 
   def update_user
     self.user.signed_undertaking_form = User::UNDERTAKING_REQUESTED unless self.user.signed_undertaking_form?
