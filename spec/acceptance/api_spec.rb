@@ -104,7 +104,6 @@ feature "API", %q{
       # Accessing path without permission is forbidden
       visit path
       page.driver.status_code.should == 403
-      body.strip.should be_empty
     end
   end
 
