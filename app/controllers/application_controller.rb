@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
 
       ax_available = {
         'http://users.ada.edu.au/email'         => user.email,
-        'http://users.ada.edu.au/role'          => user.user_role,
+        'http://users.ada.edu.au/role'          => (user.role_cms || 'member'),
         'http://axschema.org/namePerson/prefix' => user.title,
         'http://axschema.org/namePerson/first'  => user.fname,
         'http://axschema.org/namePerson/last'   => user.sname,
