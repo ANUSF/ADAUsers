@@ -243,7 +243,7 @@ class UserWithoutValidations < ActiveRecord::Base
 
   # Returns signed_undertaking_form as an integer 0..1
   def signed_undertaking_form
-    read_attribute(:acsprimember)
+    read_attribute(:acsprimember) || 0
   end
 
   def signed_undertaking_form=(signed_undertaking_form)

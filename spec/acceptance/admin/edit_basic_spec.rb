@@ -17,6 +17,12 @@ feature "Edit basic attributes", %q{
     log_out if logged_in?
   end
 
+  scenario "nil value on signed undertaking field" do
+    @user.signed_undertaking_form = nil
+    @user.save!
+    visit "/admin/users/tester/edit"
+  end
+
   scenario "viewing user details page" do
     visit "/admin/users/tester/edit"
 
