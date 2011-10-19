@@ -1,0 +1,747 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
+    ins, kbd, q, samp, small, strike, strong, sub, sup, tt, var,
+    dl, dt, dd, ol, ul, li, fieldset, form, label, legend,  table,
+    caption, tbody, tfoot, thead, tr, th, td
+{
+     margin         : 0;
+     padding        : 0;
+     border         : 0;
+     outline        : 0;
+     font-weight    : inherit;
+     font-style     : inherit;
+     font-size      : 100%;
+     font-family    : inherit;
+     vertical-align : baseline;
+}
+
+
+body
+{
+	background  : #ffffff;
+	font-size   : 100%;
+	line-height : 1.125em;
+	color       : #333333;
+	font-family : Cambria, Georgia, "Hoefler Text", Utopia, "Liberation Serif", "Times New Roman", Times, serif;
+	margin      : 0;
+	padding     : 10px;
+	max-width   : none;
+}
+
+
+div.logo
+{
+	font-size   : 1.225em;
+	line-height : 1.225em;	
+	font-weight : bold;
+	color       : #5b4c74;
+}
+
+
+span.beta-notice
+{
+	color : #dd0000;
+}
+
+
+table.links
+{
+	font-size   : 1.000em;
+	line-height : 1.225em;	
+	font-weight : bold;
+	padding     : 0.5em 0 0.75em 0;
+	width       : 100%;
+}
+
+
+table.links ul
+{
+    list-style-type : none;	
+}
+
+
+table.links li
+{
+	display : inline;
+	padding : 0 1.5em 0 0;
+}
+
+
+table.links form
+{
+	text-align : right;
+}
+
+
+table.links a:link,
+table.links a:visited
+{
+	color   : #5b4c74;
+}
+
+
+table.links a:hover,
+table.links a:active
+{
+	color   : #333333;
+}
+
+
+p
+{
+	font-size   : 1.125em;
+	margin      : 0.500em 0 0 0;
+	line-height : 1.375em;
+	max-width   : 60em;
+}
+
+
+p.instruction
+{
+	font-size   : 1.225em;
+	margin      : 1.0em 0 0 1.0em;
+	font-weight : bold;
+}
+
+
+em
+{
+	font-weight : bold;
+}
+
+
+dfn
+{
+    font-style : italic;	
+}
+
+
+code
+{
+	font-family : monospace;
+	font-size   : 1.125em;	
+}
+
+
+h1
+{
+	font-weight : bold;
+	font-size   : 1.750em;
+	margin      : 1.0em 0 0 0;
+	padding     : 0;
+	color       : #000000;
+}
+
+
+h2
+{
+	font-weight : bold;
+	font-size   : 1.375em;
+	margin      : 1.500em 0 0 0;
+	padding     : 0;
+	color       : #000000;
+}
+
+
+h3
+{
+	font-weight : bold;
+	font-size   : 1.250em;
+	margin      : 1.500em 0 0 0;
+	color       : #000000;
+}
+
+
+ul.region-list
+{
+    list-style-type : none;	
+}
+
+
+ul.region-list li
+{
+	display     : inline;
+	padding     : 0 1.5em 0 0;
+	font-size   : 1.125em;
+	line-height : 1.375em;
+}
+
+
+table.descriptive-table
+{
+	margin          : 1.5em 0 0.5em 1.0em;
+	font-size       : 1.125em;
+	line-height     : 1.375em;
+	border          : 0;
+	border-collapse : collapse;
+	max-width       : 60em;
+}
+
+
+table.descriptive-table th
+{
+	font-weight   : bold;
+	color         : #5b4c74;
+	border-bottom : 3px solid #5b4c74;
+	text-align    : left;
+	padding       : 0 1.0em 0.250em 0;
+}
+
+
+table.descriptive-table td
+{
+	border-bottom : 1px solid #aaaaaa;
+	text-align    : left;
+	padding       : 0.250em 1.0em 0.250em 0;
+}
+
+
+table.summary-table
+{
+	margin          : 1.5em 0 0.5em 1.0em;
+	font-size       : 1.125em;
+	line-height     : 1.375em;
+	border          : 0;
+	border-collapse : collapse;
+	max-width       : 60em;
+}
+
+
+table.summary-table th
+{
+	font-weight   : bold;
+	color         : #5b4c74;
+	border-bottom : 3px solid #5b4c74;
+	text-align    : left;
+	padding       : 0 1.0em 0.250em 0;
+}
+
+
+table.summary-table tr.odd
+{
+	background : #dddddd;
+}
+
+
+table.summary-table td
+{
+	border-bottom : 1px solid #aaaaaa;
+	text-align    : left;
+	padding       : 0.250em 1.0em 0.250em 0;
+}
+
+
+table.search-results
+{
+	margin          : 1.5em 0 0.5em 1.0em;
+	font-size       : 1.125em;
+	line-height     : 1.375em;
+	border          : 0;
+	border-collapse : collapse;
+	max-width       : 60em;
+}
+
+
+table.search-results th
+{
+	font-weight   : bold;
+	color         : #5b4c74;
+	border-bottom : 3px solid #5b4c74;
+	text-align    : left;
+	padding       : 0 1.0em 0.250em 0;
+}
+
+
+table.search-results tr.odd
+{
+	background : #dddddd;
+}
+
+
+table.search-results td
+{
+	border-bottom : 1px solid #aaaaaa;
+	text-align    : left;
+	padding       : 0.250em 1.0em 0.250em 0;
+}
+
+
+div.page-frame
+{
+	background : #efefef;
+	border     : 2px solid #cdcdcd;
+	margin     : 20px 10px 0 10px;
+	padding    : 0 10px 0 10px;
+	overflow   : auto;
+}
+
+
+div.page-navigation
+{
+    margin      : 15px auto 10px auto;
+    padding     : 4px 0 4px 0;
+	text-align  : center;
+	font-size   : 1.0em;
+	font-weight : bold;
+}
+
+
+div.page-navigation a
+{
+	border      : 1px solid #aaaaaa;
+	background  : #cccccc;
+	padding     : 3px 3px 3px 3px;
+	text-decoration : none;
+}
+
+
+div.page-navigation span.current-page
+{
+	border      : 1px solid #aaaaaa;
+	background  : #dddddd;
+	padding     : 3px 3px 3px 3px;
+}
+
+
+div.page-buttons
+{
+	margin     : 10px auto 10px auto;
+	text-align : center;
+}
+
+
+div.page-view
+{
+	background : #ffffff;
+	overflow   : auto;
+	padding    : 10px;
+	margin     : 10px 0 0 0;
+	border     : 1px solid #333333;
+}
+
+
+div.page-view h1.preface-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h1.section-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h2.preface-sub-title
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h2.preface-2-title
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h3.preface-3-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h3.paragraph-title
+{
+	display : run-in;
+}
+
+
+div.page-view h3.figure-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view p.preface
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view p.toc-entry
+{
+	text-align  : center;	
+	margin      : 1.0em 0 1.0em 0;
+	font-weight : bold;
+}
+
+
+div.page-view p.figure-description
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view div.footnote
+{
+	margin      : 1.0em 1.0em 1.0em 1.0em;
+	color       : #666666;
+	max-width   : 60em;
+}
+
+
+div.page-view div.footnote p
+{
+	max-width   : 60em;
+}
+
+
+div.page-view span.annotation
+{
+	font-style : italic;
+}
+
+
+div.page-view ol
+{
+	margin    : 1.0em 2.0em 1.0em 3.0em;
+	max-width : 60em;
+}
+
+
+div.page-view ul
+{
+	margin    : 1.0em 2.0em 1.0em 3.0em;
+	max-width : 60em;
+}
+
+
+div.page-view table
+{
+	border          : 1px solid #666666;
+	margin          : 1.0em auto 1.0em auto;
+	font-size       : 1.150em;
+	border-collapse : collapse;		
+	text-align      : center;
+}
+
+
+div.page-view table caption
+{
+	text-align  : center;
+	margin      : 1.0em 0 1.0em 0;
+	font-weight : bold;
+}
+
+
+div.page-view th
+{
+	border      : 1px solid #666666;
+	font-weight : bold;
+	color       : #666666;
+	padding     : 0.25em 0.5em 0.25em 0.5em;
+}
+
+
+div.page-view td
+{
+	padding     : 0.25em 0.5em 0.25em 0.5em;
+}
+
+
+div.page-view p
+{
+	max-width : 60em;
+}
+
+
+div.page-view p
+{
+	max-width : 60em;
+}
+
+
+div.page-view img
+{
+	margin : 0 auto 0 auto;
+}
+
+
+div.blank-page
+{
+	text-align  : center;
+	font-weight : bold;
+	margin      : 200px 0 200px 0;
+}
+
+
+div.comments-message
+{
+	margin      : 1.5em 0 0 1.0em;
+	padding     : 5px 5px 5px 5px;
+	width       : 35em;
+	color       : #666666;
+	font-size   : 1.20em;
+}
+
+
+div.comments-error
+{
+	margin      : 1.0em 0 1.0em 1.0em;
+	padding     : 7px 7px 7px 7px;
+	width       : 35em;
+	color       : #990000;
+	font-size   : 1.20em;
+	font-weight : bold;
+	background  : #efefef;	
+}
+
+
+div.comments-notice
+{
+	margin      : 1.0em 0 1.0em 1.0em;
+	padding     : 7px 7px 7px 7px;
+	width       : 35em;
+	color       : #009900;
+	font-size   : 1.20em;
+	font-weight : bold;
+	background  : #efefef;	
+}
+
+
+div.comment-name
+{
+	margin      : 1.5em 0 0 1.0em;
+	padding     : 5px 5px 5px 5px;
+	width       : 35em;
+	background  : #dcdcdc;
+	color       : #000000;
+	font-size   : 1.20em;
+	border      : 2px solid #dcdcdc;	
+}
+
+
+div.comment-name span.name
+{
+	font-weight : bold;
+}
+
+
+div.comment-text
+{
+	margin     : 0 0 0 1.0em;
+	padding    : 5px 5px 5px 5px;
+	border     : 2px solid #dcdcdc;	
+	font-size  : 1.20em;
+	width      : 35.0em;
+}
+
+
+form.comment-form
+{
+	margin    : 0 0 0 1.0em;
+	font-size : 1.20em;
+}
+
+
+form.comment-form label
+{
+	margin      : 1.5em 0 0.4em 0;
+	display     : block;
+	font-weight : bold;
+	color       : #666666;
+}
+
+
+form.comment-form input#page_comment_username
+{
+	width      : 35.0em;
+}
+
+
+form.comment-form textarea#page_comment_comment
+{
+	width      : 35.0em;
+}
+
+
+form.comment-form input#submit
+{
+	margin      : 1.0em 0 0 0;
+}
+
+
+form.comment-form div.recaptcha
+{
+	margin  : 0.5em 0 0 0;
+	padding : 0 0 0 0;
+}
+
+
+div.footer
+{
+	font-size   : 0.875em;
+	line-height : 0.900em;
+	padding     : 0 0 0 0;
+	margin      : 2.0em 0 0 0;
+	border-top  : 4px solid #dddddd;
+}
+
+
+div.footer p
+{
+	margin      : 1.0em auto 0 auto;
+	line-height : 1.200em;
+	text-align  : center;
+	max-width   : none;
+}
+
+
+div.footer img.cc-logo
+{
+	margin       : 1.200em auto 0 auto;	
+	border-style : none;
+	text-align   : center;
+	display      : block;
+}
+
+
+div.footer a:link,
+div.footer a:visited
+{
+	color   : #5b4c74;
+}
+
+
+div.footer a:hover,
+div.footer a:active
+{
+	color   : #333333;
+}
+
+
+
+
+
+
+/*div.tagline
+{
+	font-weight : bold;
+	font-size   : 1.6em;
+}
+
+
+span.beta-notice
+{
+	font-weight : bold;
+	color       : #00bb00;
+	font-size   : 1.1em;
+}
+
+
+div.error
+{
+	padding : 10 10 10 10;	
+}
+
+
+p.error
+{
+	font-weight : bold;
+	color       : #bb0000;
+	font-size   : 1.1em;	
+}
+
+
+div.page-view
+{
+	margin  : 0 0 10 0;
+	padding : 10 10 10 10;
+}
+
+
+div.page
+{
+	text-align : left;
+}
+
+
+div.page-navigation
+{
+	text-align : center;
+}
+
+
+div.page-buttons
+{
+	text-align : center;
+}
+
+
+div.table-view
+{
+	border     : 3px solid #999999;
+	margin     : 0 0 10 0;
+	padding    : 10 10 10 10;
+	text-align : center;
+}
+
+
+div.table
+{
+	text-align : left;
+}
+
+
+div.table-navigation
+{
+	text-align : center;
+}
+
+
+div.table-buttons
+{
+	text-align : center;
+}
+
+
+div.comment-name
+{
+    background : #dddddd;	
+    margin     : 0 0 10 0;
+    border     : 1px solid #333333;
+    width      : 20em;
+}
+
+
+div.comment-text
+{
+    background : #dddddd;	
+    width      : 35em;
+	margin     : 0 0 20 0;
+}
+
+
+div.comment-notice
+{
+	margin      : 10 0 10 0;
+	font-weight : bold;
+}
+
+
+div.comment-error
+{
+	margin      : 10 0 10 0;
+	font-weight : bold;
+	color       : #dd0000;
+}
+*/
+

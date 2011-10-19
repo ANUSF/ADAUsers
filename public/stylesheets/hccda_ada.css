@@ -1,0 +1,489 @@
+section.main {
+    margin-left: 40px;
+}
+
+table.summary-table
+{
+	margin          : 1.5em 0 0.5em 1.0em;
+	line-height     : 1.375em;
+	border          : 0;
+	border-collapse : collapse;
+	max-width       : 60em;
+	color           : #3e3414;
+	margin-bottom   : 1.35em;
+}
+
+
+table.summary-table th
+{
+	font-weight   : bold;
+	color         : #535534;
+	border-bottom : 3px solid #535534;
+	text-align    : left;
+	padding       : 0 1.0em 0.250em 0;
+}
+
+
+table.summary-table tr.odd
+{
+	background : #dadcc6;
+}
+
+
+table.summary-table td
+{
+	border-bottom : 1px solid #535534;
+	text-align    : left;
+	padding       : 0.280em 1.0em 0.280em 0;
+}
+
+
+table.descriptive-table
+{
+	margin          : 1.5em 0 0.5em 1.0em;
+	line-height     : 1.375em;
+	border          : 0;
+	border-collapse : collapse;
+	max-width       : 60em;
+	color           : #3e3414;	
+	margin-bottom : 1.35em;
+}
+
+
+table.descriptive-table th
+{
+	font-weight   : bold;
+	color         : #535534;
+	border-bottom : 3px solid #535534;
+	text-align    : left;
+	padding       : 0 1.0em 0.250em 0;
+}
+
+
+table.descriptive-table td
+{
+	border-bottom : 1px solid #535534;
+	text-align    : left;
+	padding       : 0.280em 1.0em 0.280em 0;
+}
+
+
+table.search-results
+{
+	margin          : 1.5em 0 0.5em 1.0em;
+	line-height     : 1.375em;
+	border          : 0;
+	border-collapse : collapse;
+	max-width       : 60em;
+	color           : #3e3414;		
+}
+
+
+table.search-results th
+{
+	font-weight   : bold;
+	color         : #535534;
+	border-bottom : 3px solid #535534;
+	text-align    : left;
+	padding       : 0 1.0em 0.250em 0;
+}
+
+
+table.search-results tr.odd
+{
+	background : #dadcc6;
+}
+
+
+table.search-results td
+{
+	border-bottom : 1px solid #535534;
+	text-align    : left;
+	padding       : 0.280em 1.0em 0.280em 0;
+}
+
+
+div.page-frame
+{
+	padding : 10px 0 20px 0;
+}
+
+
+div.page-view
+{
+	background : #ffffff;
+	overflow   : auto;
+	padding    : 10px;
+	margin     : 10px 0 0 0;
+	border     : 1px solid #333333;
+}
+
+
+div.page-buttons
+{
+	margin         : 0 auto 0 auto;
+	padding        : 10px 0 10px 0;
+	text-align     : center;
+	background     : #ffffff;
+	border-left    : 1px solid #333333;
+	border-right   : 1px solid #333333;
+	border-bottom  : 1px solid #333333;
+	vertical-align : middle;
+}
+
+
+div.page-buttons button
+{
+	color               : #161608;
+	font-weight         : bold;
+	font-size           : 0.950em;
+	background-color    : #44452b;
+    padding             : 2px;
+	background-image    : url('button-bg.png');
+	background-repeat   : repeat-x;
+    background-position : left center;	
+}
+
+
+div.page-buttons button:hover
+{
+	color : #dadcc6;
+}
+
+
+div.page-navigation
+{
+    margin      : 15px auto 10px auto;
+    padding     : 4px 0 4px 0;
+	text-align  : center;
+}
+
+
+div.page-navigation a:link,
+div.page-navigation a:visited
+{
+	border          : 1px solid #c8ad56;
+	background      : #dadcc6;
+	padding         : 3px 3px 3px 3px;
+	text-decoration : none;
+	color           : #535534;
+	font-weight     : bold;
+}
+
+
+div.page-navigation a:hover,
+div.page-navigation a:active
+{
+	border          : 1px solid #c8ad56;
+	background      : #dadcc6;
+	padding         : 3px 3px 3px 3px;
+	text-decoration : none;
+	color           : #c8ad56;
+	font-weight     : bold;
+}
+
+
+span.current-page
+{
+	padding     : 3px 3px 3px 3px;
+	border      : 1px solid #c8ad56;	
+	font-weight : bold;
+}
+
+
+div.page-view
+{
+	font-size : 95%;
+}
+
+
+div.page-view img
+{
+	margin : 0 auto 0 auto;
+}
+
+
+div.page-view h1.preface-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h1.section-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h2.preface-sub-title
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h2.preface-2-title
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h3.preface-3-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view h3.paragraph-title
+{
+	display : run-in;
+}
+
+
+div.page-view h3.figure-title
+{
+	text-align : center;
+	margin     : 1.0em 0 1.0em 0;
+}
+
+div.page-view p
+{
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view p.preface
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view p.toc-entry
+{
+	text-align  : center;	
+	margin      : 1.0em 0 1.0em 0;
+	font-weight : bold;
+}
+
+
+div.page-view p.figure-description
+{
+	text-align : center;	
+	margin     : 1.0em 0 1.0em 0;
+}
+
+
+div.page-view div.footnote
+{
+	margin      : 1.0em 1.0em 1.0em 1.0em;
+	max-width   : 60em;
+}
+
+
+div.page-view div.footnote p
+{
+	max-width   : 60em;
+}
+
+
+div.page-view span.annotation
+{
+	font-style : italic;
+}
+
+
+div.page-view ol
+{
+	margin    : 1.0em 2.0em 1.0em 3.0em;
+	max-width : 60em;
+}
+
+
+div.page-view ul
+{
+	margin    : 1.0em 2.0em 1.0em 3.0em;
+	max-width : 60em;
+}
+
+
+div.page-view table
+{
+	border          : 1px solid #3e3414;
+	margin          : 1.0em auto 1.0em auto;
+	border-collapse : collapse;		
+	text-align      : center;
+	color           : #3e3414;	
+}
+
+
+div.page-view table caption
+{
+	text-align  : center;
+	margin      : 1.0em 0 1.0em 0;
+	font-weight : bold;
+}
+
+
+div.page-view th
+{
+	border      : 1px solid #3e3414;
+	font-weight : bold;
+	padding     : 0.25em 0.5em 0.25em 0.5em;
+}
+
+
+div.page-view td
+{
+	padding : 0.25em 0.5em 0.25em 0.5em;
+}
+
+
+div.page-view p
+{
+	max-width : 60em;
+}
+
+
+div.page-view p
+{
+	max-width : 60em;
+}
+
+
+div.page-view img
+{
+	margin : 0 auto 0 auto;
+}
+
+
+div.blank-page
+{
+	text-align  : center;
+	font-weight : bold;
+	margin      : 200px 0 200px 0;
+}
+
+
+div.comments-message
+{
+	
+}
+
+
+div.comments-notice
+{
+	margin      : 1.5em 0 1.0em 0;
+	padding     : 0 1.0em 0 1.0em;
+	color       : #dd0000;
+	font-weight : bold;
+	background  : #00aa00;
+	color       : #ffffff;	
+	max-width   : 30.0em;
+}
+
+
+div.comments-error
+{
+	margin      : 1.5em 0 1.0em 0;
+	padding     : 0 1.0em 0 1.0em;
+	color       : #dd0000;
+	font-weight : bold;
+	background  : #cc0000;
+	color       : #ffffff;	
+	max-width   : 30.0em;
+}
+
+
+div.comment-name
+{
+	margin        : 1.0em 0 0.5em 0;
+	background    : #dadcc6;
+	max-width     : 35.0em;
+}
+
+
+div.comment-name span.index
+{
+	font-weight : bold;
+	color       : #535534;
+}
+
+
+div.comment-name span.name
+{
+	font-style : italic;
+	color      : #535534;
+	
+}
+
+
+div.comment-name span.timestamp
+{
+	color      : #535534;	
+}
+
+
+div.comment-text
+{
+	margin      : 0 0 1.0em 1.4em;
+	max-width   : 35.0em;
+	color       : #3e3414;	
+}
+
+
+div.comment-text p
+{
+	margin : 0 0 1.0em 0;
+}
+
+
+form.comment-form
+{
+	margin    : 1.0em 0 0 0;
+}
+
+
+form.comment-form label
+{
+	display     : block;
+	font-weight : bold;
+	color       : #3e3414;	
+}
+
+
+form.comment-form input#page_comment_username
+{
+	width  : 35.0em;
+	margin : 0 0 1.5em 0;
+}
+
+
+form.comment-form textarea#page_comment_comment
+{
+	width  : 35.0em;
+	margin : 0 0 1.5em 0;
+}
+
+
+form.comment-form input#submit
+{
+	margin : 1.5em 0 0 0;
+}
+
+
+form.comment-form div.recaptcha
+{
+	margin  : 0.5em 0 0 0;
+	padding : 0 0 0 0;
+}
+
+
+.recaptachatable *
+{
+	font-size : 1.1em;
+}
