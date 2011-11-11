@@ -14,3 +14,4 @@ doc/undertaking_forms
 coverage/
 config/database-deploy.yml
 config/initializers/secrets.rb
+db/palo_*
