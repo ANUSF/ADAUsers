@@ -69,8 +69,8 @@ test_nesstar:
 
 development_base: &development_local
   adapter: mysql2
-  username: adausers
-  password: adausers
+  username: <%= Secrets::LOCAL_DATABASE_USERNAME %>
+  password: <%= Secrets::LOCAL_DATABASE_PASSWORD %>
 
 development:
   <<: *development_local
