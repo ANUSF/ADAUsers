@@ -127,18 +127,33 @@ class UsersController < ApplicationController
 
     permissions = @user.permissions_for_dataset(category, @datasetID, @fileID)
 
-    pv = permissions
-      .reject { |e| e.permissionvalue == 0 }
-      .inject(0) { |a, e| a == 0 ? e.permissionvalue : a * e.permissionvalue }
+    # pv = permissions
+    #   .reject { |e| e.permissionvalue == 0 }
+    #   .inject(0) { |a, e| a == 0 ? e.permissionvalue : a * e.permissionvalue }
 
-    # General datasets have analyse and download permissions if browse access is granted
-    if !is_restricted
-      pv *= UserPermissionB::PERMISSION_VALUES[:analyse] * UserPermissionB::PERMISSION_VALUES[:download]
+    # # General datasets have analyse and download permissions if browse access is granted
+    # if !is_restricted
+    #   pv *= UserPermissionB::PERMISSION_VALUES[:analyse] * UserPermissionB::PERMISSION_VALUES[:download]
+    # end
+
+    # result = {:browse   => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:browse] == 0,
+    #           :analyse  => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:analyse] == 0,
+    #           :download => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:download] == 0}
+
+    if is_restricted
+      pv = permissions
+        .reject { |e| e.permissionvalue == 0 }
+        .inject(0) { |a, e| a == 0 ? e.permissionvalue : a * e.permissionvalue }
+      result = {
+        :browse   => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:browse] == 0,
+        :analyse  => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:analyse] == 0,
+        :download => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:download] == 0 }
+    else
+      result = {
+        :browse   => true,
+        :analyse  => true,
+        :download => pv > 0 }
     end
-
-    result = {:browse   => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:browse] == 0,
-              :analyse  => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:analyse] == 0,
-              :download => pv > 0 && pv % UserPermissionB::PERMISSION_VALUES[:download] == 0}
 
     render :json => result
   end
