@@ -68,7 +68,7 @@ GEM
       execjs
     coffee-script-source (1.1.2)
     composite_primary_keys (3.1.10)
-      activerecord (>= 3.0.5, ~> 3.0.0)
+      activerecord (~> 3.0.0, >= 3.0.5)
     crack (0.1.8)
     daemons (1.0.10)
     database_cleaner (0.6.7)
