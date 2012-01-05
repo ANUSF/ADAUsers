@@ -22,8 +22,8 @@ class AddRoleCmsToUserdetails < ActiveRecord::Migration
                             nil
                           end
           user.save!
-        rescue
-          say "Skipping #{user.user} - error saving their record (check for non-UTF8 chars in their username)"
+        #rescue
+        #  say "Skipping #{user.user} - error saving their record (check for non-UTF8 chars in their username)"
         end
       end
     end

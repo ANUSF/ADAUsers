@@ -19,6 +19,8 @@ class HashPasswords < ActiveRecord::Migration
   end
 
   def self.down
-    raise "Can't reverse password hashing."
+    if User::HASH_PASSWORDS
+      raise "Can't reverse password hashing."
+    end
   end
 end

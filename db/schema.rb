@@ -61,10 +61,6 @@ ActiveRecord::Schema.define(:version => 20110525002614) do
     t.string "accessLevel", :limit => 1
   end
 
-  add_index "accesslevel", ["accessLevel"], :name => "accesslevel_accesslevel"
-  add_index "accesslevel", ["datasetID"], :name => "accesslevel_datasetID"
-  add_index "accesslevel", ["fileID"], :name => "accesslevel_fileID"
-
   create_table "agenciesdept", :id => false, :force => true do |t|
     t.integer "id",                                          :null => false
     t.string  "value",        :limit => 150, :default => "", :null => false
