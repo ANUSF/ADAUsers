@@ -537,7 +537,7 @@ class Report
                        FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND l.dataset = :dataset And
                        l.date_processed <= :end_date AND l.method = 'ANALIZE') b
                        WHERE (b.name =u.user))
-                  ORDER BY institution, email",
+                  ORDER BY institution, position, email",
                       {:start_date => self.start_date, :end_date => self.end_date, :dataset => self.dataset})
   end
 
