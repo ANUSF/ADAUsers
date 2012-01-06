@@ -495,8 +495,8 @@ class Report
 
 
   def dataset_join_email
-    sanitize_and_exec("SELECT t.email, t.ANumber as Analize, s.Downloadd as Download
-                       FROM (SELECT b.email, Count(a.name) AS ANumber
+    sanitize_and_exec("SELECT t.name, CONCAT('\"', t.institution,'\"') As Institution, t.position, t.email, t.ANumber as Analize, s.Downloadd as Download
+                       FROM (SELECT a.name, CONCAT('\"', b.institution,'\"') As Institution, b.position, b.email, Count(a.name) AS ANumber
                        FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
                        WHERE a.date_processed >= :start_date AND
                        a.date_processed <= :end_date AND a.method = 'ANALIZE' AND a.dataset = :dataset
@@ -510,8 +510,8 @@ class Report
                        GROUP BY b.email) s
                        WHERE t.email = s.email
                   UNION
-                       SELECT t.email, t.ANumber as Analize, 0 as Download
-                       FROM (SELECT b.email, Count(a.name) AS ANumber
+                       SELECT t.name, CONCAT('\"', t.institution,'\"') As Institution, t.position, t.email, t.ANumber as Analize, 0 as Download
+                       FROM (SELECT a.name, CONCAT('\"', b.institution,'\"') As Institution, b.position, b.email, Count(a.name) AS ANumber
                        FROM #{db('logs')}.anulogs a,  #{db}.userdetails b
                        WHERE a.date_processed >= :start_date AND
                        a.date_processed <= :end_date AND a.method = 'ANALIZE' AND a.dataset = :dataset
@@ -524,12 +524,12 @@ class Report
                        l.date_processed <= :end_date AND l.method = 'DOWNLOAD') b
                        WHERE (b.name =u.user))
                   UNION
-                       SELECT t.email, 0 as Analize, t.Download
-                       FROM (SELECT u.email, Count(a.method) AS Download
-                       FROM #{db}.userdetails u, (SELECT l.name, l.method
+                       SELECT t.name, CONCAT('\"', t.institution,'\"') As Institution, t.position, t.email, 0 as Analize, t.Download
+                       FROM (SELECT a.name, CONCAT('\"', b.institution,'\"') As Institution, b.position, b.email, Count(a.method) AS Download
+                       FROM #{db}.userdetails b, (SELECT l.name, l.method
                        FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND l.dataset = :dataset And
                        l.date_processed <= :end_date AND l.method = 'DOWNLOAD') a
-                       WHERE (a.name =u.user)
+                       WHERE (a.name =b.user)
                        GROUP BY u.institution) t
                        WHERE t.email not in (
                        SELECT u.email
