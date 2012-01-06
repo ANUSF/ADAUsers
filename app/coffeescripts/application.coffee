@@ -101,7 +101,7 @@ process_admin_reports_form = ->
   if $("form.report").length > 0
     admin_reports_form_update = ->
       report_type = $("#report_report_type_input input[name='report[report_type]']:checked").val()
-      if report_type == 'dataset_join_inst' or report_type == 'dataset_join_pos'
+      if report_type == 'dataset_join_inst' or report_type == 'dataset_join_pos' or report_type == 'dataset_join_email'
         $("fieldset[name='Dataset']").slideDown()
       else
         $("fieldset[name='Dataset']").slideUp()

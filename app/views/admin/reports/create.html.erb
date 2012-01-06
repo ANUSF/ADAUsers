@@ -1,5 +1,8 @@
 <%= render 'form' %>
 
+<% if @result.empty? %>
+No results found.
+<% else %>
 <hr />
 
 <table>
@@ -21,3 +24,4 @@
     <% end %>
   </tbody>
 </table>
+<% end %>

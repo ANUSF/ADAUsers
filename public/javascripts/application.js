@@ -1,5 +1,5 @@
-/* DO NOT MODIFY. This file was compiled Thu, 11 Aug 2011 00:51:31 GMT from
- * /home/rmm900/dev/ADAUsers/app/coffeescripts/application.coffee
+/* DO NOT MODIFY. This file was compiled Fri, 06 Jan 2012 03:48:13 GMT from
+ * /home/olaf/Rails/ada-users/app/coffeescripts/application.coffee
  */
 
 (function() {
@@ -121,7 +121,7 @@
       admin_reports_form_update = function() {
         var report_type;
         report_type = $("#report_report_type_input input[name='report[report_type]']:checked").val();
-        if (report_type === 'dataset_join_inst' || report_type === 'dataset_join_pos') {
+        if (report_type === 'dataset_join_inst' || report_type === 'dataset_join_pos' || report_type === 'dataset_join_email') {
           return $("fieldset[name='Dataset']").slideDown();
         } else {
           return $("fieldset[name='Dataset']").slideUp();
