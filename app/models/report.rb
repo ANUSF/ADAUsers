@@ -530,7 +530,7 @@ class Report
                        FROM #{db('logs')}.anulogs l WHERE l.date_processed >= :start_date AND l.dataset = :dataset And
                        l.date_processed <= :end_date AND l.method = 'DOWNLOAD') a
                        WHERE (a.name =b.user)
-                       GROUP BY u.institution) t
+                       GROUP BY b.email) t
                        WHERE t.email not in (
                        SELECT u.email
                        FROM #{db}.userdetails u, (SELECT l.name, l.method
