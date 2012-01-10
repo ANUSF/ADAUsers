@@ -50,7 +50,11 @@ class SessionsController < ApplicationController
         reset_session
         session[:username] = username
 
-        if oidreq
+        if not user.valid?
+          @user = user
+          flash.now[:alert] = "Please complete your details before proceeding!"
+          render :template => 'users/edit'
+        elsif oidreq
           session[:approvals] = [oidreq.trust_root]
           render_response(positive_response(oidreq, username))
         else
