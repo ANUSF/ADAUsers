@@ -9,7 +9,7 @@ class Undertaking < ActiveRecord::Base
     :uniq => true
 
   scope :agreed, where(:agreed => true)
-  scope :unprocessed, where(:processed => [nil, false])
+  scope :unprocessed, where('processed is NULL or processed = ?', false)
 
   validates_presence_of :user
 
