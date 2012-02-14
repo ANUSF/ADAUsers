@@ -3,7 +3,7 @@ class Email
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  DEFAULT_FROM = "ASSDA <assda@anu.edu.au>"
+  DEFAULT_FROM = "ADA <ada@anu.edu.au>"
 
   attr_accessor :from, :to, :subject, :body
 
