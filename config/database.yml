@@ -27,6 +27,8 @@ staff_nesstar:
   database: nesstar
 
 
+<% if ENV['use_palo'].blank? %>
+
 devs:
   adapter: sqlite3
   database: 'db/prod.db'
@@ -38,6 +40,26 @@ devs_logs:
 devs_nesstar:
   adapter: sqlite3
   database: 'db/prod_nesstar.db'
+
+<% else %>
+
+devs: &devs
+  adapter: mysql2
+  database: security
+  host: <%= Secrets::DEVS_DATABASE_HOST %>
+  username: <%= Secrets::DEVS_DATABASE_USERNAME %>
+  password: <%= Secrets::DEVS_DATABASE_PASSWORD %>
+
+devs_logs:
+  <<: *devs
+  database: logs
+
+devs_nesstar:
+  <<: *devs
+  database: nesstar
+
+<% end %>
+
 
 <% if ENV['use_mysql'].blank? %>
 
