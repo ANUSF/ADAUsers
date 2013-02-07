@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.19'
+gem 'rails', '3.0.20'
 
 gem 'mongrel', '~> 1.2.0.pre2'
 gem 'mysql2', '~> 0.2.7' # the 0.3.x versions need Rails 3.1
